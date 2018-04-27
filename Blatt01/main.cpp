@@ -127,34 +127,15 @@ void initCircle()
 	colors.reserve(nVertices);
 	indices.reserve(nVertices);
 
-	// Initial vertice (center point)
-	/*vertices.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
-	colors.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
-	indices.push_back(0);
-
-	for (int i = 1; i < nVertices; i++)
-	{
-		vertices.push_back(glm::vec3( cos( i * 2.f * M_PI / nSides ), sin( i * 2.f * M_PI / nSides ), 0.0f));
-		colors.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
-		indices.push_back(i);
-	}*/
-
 	for (int i = 1; i <= nSides; i++)
 	{
 		vertices.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
 		vertices.push_back(glm::vec3(radius * cos((i-1) * 2.f * M_PI / nSides), radius *  sin((i - 1) * 2.f * M_PI / nSides), 0.0f));
 		vertices.push_back(glm::vec3(radius * cos(i * 2.f * M_PI / nSides),     radius *  sin(i * 2.f * M_PI / nSides), 0.0f));
 
-		if (i % 2) {
-			colors.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
-			colors.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
-			colors.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
-		}
-		else {
-			colors.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
-			colors.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
-			colors.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
-		}
+		colors.push_back(glm::vec3( cos(i * 2.f * M_PI / nSides), sin(i * 2.f * M_PI / nSides), -cos(i * 2.f * M_PI / nSides)));
+		colors.push_back(glm::vec3(cos(i * 2.f * M_PI / nSides), sin(i * 2.f * M_PI / nSides), -cos(i * 2.f * M_PI / nSides)));
+		colors.push_back(glm::vec3(cos(i * 2.f * M_PI / nSides), sin(i * 2.f * M_PI / nSides), -cos(i * 2.f * M_PI / nSides)));
 		
 		indices.push_back(3 * i - 3);
 		indices.push_back(3 * i - 2);
@@ -325,8 +306,6 @@ bool init()
 	}
 
 	// Create objects.
-	//initTriangle();
-	//initQuad();
 	initCircle();
 
 	return true;
@@ -349,8 +328,6 @@ void releaseObject(Object& obj)
 void release()
 {
 	// Shader program will be released upon program termination.
-	//releaseObject(triangle);
-	//releaseObject(quad);
 	releaseObject(circle);
 }
 
@@ -361,8 +338,6 @@ void render()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	//renderTriangle();
-	//renderQuad();
 	renderCircle();
 }
 
