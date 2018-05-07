@@ -1,3 +1,4 @@
+#include <cmath>
 #include "ColorConverter.h"
 
 inline float sanitize(const float &in, const float &min, const float &max)
@@ -91,7 +92,18 @@ color hsv2rgb(const color &in)
 
 	float r, g, b, h, s, v;
 
-	h = sanitize(in.x, 0.f, 360.f);
+	h = in.x;
+
+	// 0 <= h < 360
+	if (std::fabs(h) >= 360.f)
+	{
+		h = std::fmodf(h,360);
+	}
+	if (h < 0)
+	{
+		h = 360.f + h;
+	}
+
 	s = sanitize(in.y, 0.f, 1.f);
 	v = sanitize(in.z, 0.f, 1.f);
 
