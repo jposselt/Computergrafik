@@ -2,8 +2,10 @@
 
 #include <algorithm>
 
+// Enum zur Kennzeichnung der Farbmodelle
 enum class colorModel { RGB, CMY, HSV };
 
+// Struktur zur Speicherung der Farbdaten (Modell + Werte)
 typedef struct color {
 	colorModel m;
 	float x, y, z;
