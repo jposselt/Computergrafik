@@ -1,4 +1,6 @@
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 #include <vector>
 
 #include <GL/glew.h>
@@ -9,6 +11,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_inverse.hpp>
 
+#include "ColorConverter.h"
 #include "GLSLProgram.h"
 #include "GLTools.h"
 
@@ -61,11 +64,12 @@ void renderQuad()
 	glBindVertexArray(0);
 }
 
-void initQuad()
+void initQuad(color clr)
 {
 	// Construct triangle. These vectors can go out of scope after we have send all data to the graphics card.
 	const std::vector<glm::vec3> vertices = { { -1.0f, 1.0f, 0.0f }, { -1.0, -1.0, 0.0 }, { 1.0f, -1.0f, 0.0f }, { 1.0f, 1.0f, 0.0f } };
-	const std::vector<glm::vec3> colors = { { 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0, 1.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.0f, 1.0f } };
+	//const std::vector<glm::vec3> colors = { { 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0, 1.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.0f, 1.0f } };
+	const std::vector<glm::vec3> colors = { { clr.x, clr.y, clr.z },{ clr.x, clr.y, clr.z },{ clr.x, clr.y, clr.z },{ clr.x, clr.y, clr.z } };
 	const std::vector<GLushort> indices = { 0, 1, 2, 0, 2, 3 };
 
 	GLuint programId = program.getHandle();
@@ -110,7 +114,7 @@ void initQuad()
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
  */
-bool init()
+bool init(color fillColor)
 {
 	// OpenGL: Set "background" color and enable depth testing.
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -142,7 +146,7 @@ bool init()
 	}
 
 	// Create objects.
-	initQuad();
+	initQuad(fillColor);
 
 	return true;
 }
@@ -256,9 +260,58 @@ int main(int argc, char** argv)
 
 	glutKeyboardFunc(glutKeyboard);
 
+	// Start Benutzereingabe
+	printf("Eingabefarbmodell angeben\n");
+	printf("1) RGB\n");
+	printf("2) CMY\n");
+	printf("3) HSV\n");
+	printf("Auswahl: ");
+
+	int modelIn;
+	scanf_s("%d", &modelIn);
+
+	// Feedback
+	switch (modelIn)
+	{
+	case 1:
+		printf("RGB Modell\n");
+		break;
+	case 2:
+		printf("CMY Modell\n");
+		break;
+	case 3:
+		printf("HSV Modell\n");
+		break;
+	default:
+		printf("ungueltige Auswahl\n");
+		return 0;
+	}
+
+	// Farbwerte eingeben
+	float x, y, z;
+
+	printf("Farbwerte eingeben (float Werte):\n");
+	scanf_s("%f %f %f", &x, &y, &z);
+	// Ende Benutzereingabe
+
+	// Farbe in RGB
+	color userColor;
+	if (modelIn == 1) // RGB
+	{
+		userColor = { colorModel::RGB, x, y, z };
+	}
+	else if (modelIn == 2) // CMY
+	{
+		userColor = cmy2rgb( { colorModel::CMY, x, y, z } );
+	}
+	else // HSV
+	{
+		userColor = hsv2rgb( { colorModel::HSV, x, y, z } );
+	}
+
 	// Init VAO.
 	{
-		GLCODE(bool result = init());
+		GLCODE(bool result = init(userColor));
 		if (!result) {
 			release();
 			return -2;
