@@ -313,11 +313,11 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 	  return;
 	  
 	case '+':
-		eye = eye + (0.1f, 0.1f, 0.1f);
+		eye = eye - (0.1f, 0.1f, 0.1f);
 		view = glm::lookAt(eye, center, up);
 		break;
 	case '-':
-		eye = eye - (0.1f, 0.1f, 0.1f);
+		eye = eye + (0.1f, 0.1f, 0.1f);
 		view = glm::lookAt(eye, center, up);
 		break;
 	case 'x':
