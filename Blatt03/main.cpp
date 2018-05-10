@@ -44,61 +44,48 @@ struct Object
 	glm::mat4x4 model;
 };
 
-Object triangle;
-Object quad;
+Object cube;
+Object axes;
 
-void renderCircle()
+void initCube()
 {
+	// Construct cube. These vectors can go out of scope after we have send all data to the graphics card.
+	const std::vector<glm::vec3> vertices = {
+		{  1.0f, -1.0f,  1.0f },{  1.0f,  1.0f,  1.0f },{ -1.0f,  1.0f,  1.0f },{ -1.0f, -1.0f,  1.0f }, // Front
+		{ -1.0f, -1.0f, -1.0f },{ -1.0f,  1.0f, -1.0f },{  1.0f,  1.0f, -1.0f },{  1.0f, -1.0f, -1.0f }, // Back
+		{  1.0f, -1.0f, -1.0f },{  1.0f,  1.0f, -1.0f },{  1.0f,  1.0f,  1.0f },{  1.0f, -1.0f,  1.0f }, // Right
+		{ -1.0f, -1.0f,  1.0f },{ -1.0f,  1.0f,  1.0f },{ -1.0f,  1.0f, -1.0f },{ -1.0f, -1.0f, -1.0f }, // Left
+		{  1.0f,  1.0f,  1.0f },{  1.0f,  1.0f, -1.0f },{ -1.0f,  1.0f, -1.0f },{ -1.0f,  1.0f,  1.0f }, // Top
+		{  1.0f, -1.0f, -1.0f },{  1.0f, -1.0f,  1.0f },{ -1.0f, -1.0f,  1.0f },{ -1.0f, -1.0f, -1.0f }  // Bottom
+	};
+	const std::vector<glm::vec3> colors = {
+		{ 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f }, // Front (rot)
+		{ 0.0f, 1.0f, 1.0f },{ 0.0f, 1.0f, 1.0f },{ 0.0f, 1.0f, 1.0f },{ 0.0f, 1.0f, 1.0f }, // Back (cyan)
+		{ 0.0f, 1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f }, // Right (green)
+		{ 1.0f, 0.0f, 1.0f },{ 1.0f, 0.0f, 1.0f },{ 1.0f, 0.0f, 1.0f },{ 1.0f, 0.0f, 1.0f }, // Left (magenta)
+		{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f, 1.0f }, // Top (blue)
+		{ 1.0f, 1.0f, 0.0f },{ 1.0f, 1.0f, 0.0f },{ 1.0f, 1.0f, 0.0f },{ 1.0f, 1.0f, 0.0f }  // Bottom (yellow)
+	};
 
-}
-
-void renderTriangle()
-{
-	// Create mvp.
-	glm::mat4x4 mvp = projection * view * triangle.model;
-
-	// Bind the shader program and set uniform(s).
-	program.use();
-	program.setUniform("mvp", mvp);
-
-	// Bind vertex array object so we can render the 1 triangle.
-	glBindVertexArray(triangle.vao);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0);
-	glBindVertexArray(0);
-}
-
-void renderQuad()
-{
-	// Create mvp.
-	glm::mat4x4 mvp = projection * view * quad.model;
-
-	// Bind the shader program and set uniform(s).
-	program.use();
-	program.setUniform("mvp", mvp);
-	
-	// Bind vertex array object so we can render the 2 triangles.
-	glBindVertexArray(quad.vao);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
-	glBindVertexArray(0);
-}
-
-void initTriangle()
-{
-	// Construct triangle. These vectors can go out of scope after we have send all data to the graphics card.
-	const std::vector<glm::vec3> vertices = { glm::vec3(-1.0f, 1.0f, 0.0f), glm::vec3(1.0f, -1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f) };
-	const std::vector<glm::vec3> colors = { glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f) };
-	const std::vector<GLushort> indices = { 0, 1, 2 };
+	const std::vector<GLushort> indices = {
+		 0,  1,  2,  0,  2,  3, // Front
+		 4,  5,  6,  4,  6,  7, // Back
+		 8,  9, 10,  8, 10, 11, // Right
+		12, 13, 14, 12, 14, 15, // Left
+	    16, 17, 18, 16, 18, 19, // Top
+		20, 21, 22, 20, 22, 23  // Bottom
+	};
 
 	GLuint programId = program.getHandle();
 	GLuint pos;
 
 	// Step 0: Create vertex array object.
-	glGenVertexArrays(1, &triangle.vao);
-	glBindVertexArray(triangle.vao);
+	glGenVertexArrays(1, &cube.vao);
+	glBindVertexArray(cube.vao);
 
 	// Step 1: Create vertex buffer object for position attribute and bind it to the associated "shader attribute".
-	glGenBuffers(1, &triangle.positionBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, triangle.positionBuffer);
+	glGenBuffers(1, &cube.positionBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, cube.positionBuffer);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), vertices.data(), GL_STATIC_DRAW);
 
 	// Bind it to position.
@@ -107,8 +94,8 @@ void initTriangle()
 	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 	// Step 2: Create vertex buffer object for color attribute and bind it to...
-	glGenBuffers(1, &triangle.colorBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, triangle.colorBuffer);
+	glGenBuffers(1, &cube.colorBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, cube.colorBuffer);
 	glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(glm::vec3), colors.data(), GL_STATIC_DRAW);
 
 	// Bind it to color.
@@ -117,61 +104,43 @@ void initTriangle()
 	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 	// Step 3: Create vertex buffer object for indices. No binding needed here.
-	glGenBuffers(1, &triangle.indexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangle.indexBuffer);
+	glGenBuffers(1, &cube.indexBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cube.indexBuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLushort), indices.data(), GL_STATIC_DRAW);
 
 	// Unbind vertex array object (back to default).
 	glBindVertexArray(0);
 
 	// Modify model matrix.
-	triangle.model = glm::translate(glm::mat4(1.0f), glm::vec3(-1.25f, 0.0f, 0.0f));
+	//cube.model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -1.0f));
 }
 
-void initQuad()
+void initAxes()
 {
-	// Construct triangle. These vectors can go out of scope after we have send all data to the graphics card.
-	const std::vector<glm::vec3> vertices = { { -1.0f, 1.0f, 0.0f }, { -1.0, -1.0, 0.0 }, { 1.0f, -1.0f, 0.0f }, { 1.0f, 1.0f, 0.0f } };
-	const std::vector<glm::vec3> colors = { { 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0, 1.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.0f, 1.0f } };
-	const std::vector<GLushort> indices = { 0, 1, 2, 0, 2, 3 };
 
-	GLuint programId = program.getHandle();
-	GLuint pos;
+}
 
-	// Step 0: Create vertex array object.
-	glGenVertexArrays(1, &quad.vao);
-	glBindVertexArray(quad.vao);
+void renderCube()
+{
+	// Create mvp.
+	glm::mat4x4 mvp = projection * view * cube.model;
 
-	// Step 1: Create vertex buffer object for position attribute and bind it to the associated "shader attribute".
-	glGenBuffers(1, &quad.positionBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, quad.positionBuffer);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), vertices.data(), GL_STATIC_DRAW);
+	// Bind the shader program and set uniform(s).
+	program.use();
+	program.setUniform("mvp", mvp);
 
-	// Bind it to position.
-	pos = glGetAttribLocation(programId, "position");
-	glEnableVertexAttribArray(pos);
-	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// Step 2: Create vertex buffer object for color attribute and bind it to...
-	glGenBuffers(1, &quad.colorBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, quad.colorBuffer);
-	glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(glm::vec3), colors.data(), GL_STATIC_DRAW);
-
-	// Bind it to color.
-	pos = glGetAttribLocation(programId, "color");
-	glEnableVertexAttribArray(pos);
-	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// Step 3: Create vertex buffer object for indices. No binding needed here.
-	glGenBuffers(1, &quad.indexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, quad.indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLushort), indices.data(), GL_STATIC_DRAW);
-
-	// Unbind vertex array object (back to default).
+	// Bind vertex array object so we can render the triangles.
+	glBindVertexArray(cube.vao);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cube.indexBuffer);
+	int size;
+	glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
+	glDrawElements(GL_TRIANGLES, size / sizeof(GLushort), GL_UNSIGNED_SHORT, 0);
 	glBindVertexArray(0);
+}
 
-	// Modify model matrix.
-	quad.model = glm::translate(glm::mat4(1.0f), glm::vec3(1.25f, 0.0f, 0.0f));
+void renderAxes()
+{
+
 }
 
 /*
@@ -183,7 +152,7 @@ bool init()
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
 	// Construct view matrix.
-	glm::vec3 eye(0.0f, 0.0f, 4.0f);
+	glm::vec3 eye(0.0f, 3.0f, 4.0f);
 	glm::vec3 center(0.0f, 0.0f, 0.0f);
 	glm::vec3 up(0.0f, 1.0f, 0.0f);
 
@@ -209,8 +178,8 @@ bool init()
 	}
 
 	// Create objects.
-	initTriangle();
-	initQuad();
+	initAxes();
+	initCube();
 
 	return true;
 }
@@ -232,8 +201,8 @@ void releaseObject(Object& obj)
 void release()
 {
 	// Shader program will be released upon program termination.
-	releaseObject(triangle);
-	releaseObject(quad);
+	releaseObject(axes);
+	releaseObject(cube);
 }
 
 /*
@@ -241,10 +210,10 @@ void release()
  */
 void render()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-	renderTriangle();
-	renderQuad();
+	renderAxes();
+	renderCube();
 }
 
 void glutDisplay ()
@@ -299,7 +268,7 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 int main(int argc, char** argv)
 {
 	// GLUT: Initialize freeglut library (window toolkit).
-    glutInitWindowSize    (WINDOW_WIDTH, WINDOW_HEIGHT);
+    glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	glutInitWindowPosition(40,40);
 	glutInit(&argc, argv);
 
@@ -334,6 +303,9 @@ int main(int argc, char** argv)
 			return -2;
 		}
 	}
+
+	// Enable depth test
+	glEnable(GL_DEPTH_TEST);
 
 	// GLUT: Loop until the user closes the window
 	// rendering & event handling
