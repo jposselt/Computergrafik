@@ -214,6 +214,7 @@ bool init()
 {
 	// OpenGL: Set "background" color and enable depth testing.
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+	glEnable(GL_DEPTH_TEST);
 
 	// Construct view matrix.
 	glm::vec3 eye(4.0f, 4.0f, 4.0f);
@@ -367,9 +368,6 @@ int main(int argc, char** argv)
 			return -2;
 		}
 	}
-
-	// Enable depth test
-	glEnable(GL_DEPTH_TEST);
 
 	// GLUT: Loop until the user closes the window
 	// rendering & event handling
