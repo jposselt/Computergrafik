@@ -59,7 +59,7 @@ void initCube()
 		{  1.0f, -1.0f, -1.0f },{  1.0f, -1.0f,  1.0f },{ -1.0f, -1.0f,  1.0f },{ -1.0f, -1.0f, -1.0f }  // Bottom
 	};
 	const std::vector<glm::vec3> colors = {
-		{ 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f }, // Front (rot)
+		{ 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f }, // Front (red)
 		{ 0.0f, 1.0f, 1.0f },{ 0.0f, 1.0f, 1.0f },{ 0.0f, 1.0f, 1.0f },{ 0.0f, 1.0f, 1.0f }, // Back (cyan)
 		{ 0.0f, 1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f }, // Right (green)
 		{ 1.0f, 0.0f, 1.0f },{ 1.0f, 0.0f, 1.0f },{ 1.0f, 0.0f, 1.0f },{ 1.0f, 0.0f, 1.0f }, // Left (magenta)
@@ -117,7 +117,58 @@ void initCube()
 
 void initAxes()
 {
+	// Construct axes. These vectors can go out of scope after we have send all data to the graphics card.
+	const std::vector<glm::vec3> vertices = {
+		{ 0.0f, 0.0f, 0.0f },{ 2.0f, 0.0f, 0.0f }, // x-Axis
+		{ 0.0f, 0.0f, 0.0f },{ 0.0f, 2.0f, 0.0f }, // y-Axis
+		{ 0.0f, 0.0f, 0.0f },{ 0.0f, 0.0f, 2.0f }  // z-Axis
+	};
+	const std::vector<glm::vec3> colors = {
+		{ 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f }, // x-Axis (red)
+		{ 0.0f, 1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f }, // y-Axis (green)
+		{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f, 1.0f }  // z-Axis (blue)
+	};
 
+	const std::vector<GLushort> indices = {
+		0,  1, // x-Axis
+		2,  3, // y-Axis
+		4,  5  // z-Axis
+	};
+
+	GLuint programId = program.getHandle();
+	GLuint pos;
+
+	// Step 0: Create vertex array object.
+	glGenVertexArrays(1, &axes.vao);
+	glBindVertexArray(axes.vao);
+
+	// Step 1: Create vertex buffer object for position attribute and bind it to the associated "shader attribute".
+	glGenBuffers(1, &axes.positionBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, axes.positionBuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), vertices.data(), GL_STATIC_DRAW);
+
+	// Bind it to position.
+	pos = glGetAttribLocation(programId, "position");
+	glEnableVertexAttribArray(pos);
+	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+	// Step 2: Create vertex buffer object for color attribute and bind it to...
+	glGenBuffers(1, &axes.colorBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, axes.colorBuffer);
+	glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(glm::vec3), colors.data(), GL_STATIC_DRAW);
+
+	// Bind it to color.
+	pos = glGetAttribLocation(programId, "color");
+	glEnableVertexAttribArray(pos);
+	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+	// Step 3: Create vertex buffer object for indices. No binding needed here.
+	glGenBuffers(1, &axes.indexBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, axes.indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLushort), indices.data(), GL_STATIC_DRAW);
+
+	// Unbind vertex array object (back to default).
+	glBindVertexArray(0);
 }
 
 void renderCube()
@@ -140,7 +191,20 @@ void renderCube()
 
 void renderAxes()
 {
+	// Create mvp.
+	glm::mat4x4 mvp = projection * view * axes.model;
 
+	// Bind the shader program and set uniform(s).
+	program.use();
+	program.setUniform("mvp", mvp);
+
+	// Bind vertex array object so we can render the triangles.
+	glBindVertexArray(axes.vao);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, axes.indexBuffer);
+	int size;
+	glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
+	glDrawElements(GL_LINES, size / sizeof(GLushort), GL_UNSIGNED_SHORT, 0);
+	glBindVertexArray(0);
 }
 
 /*
@@ -152,7 +216,7 @@ bool init()
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
 	// Construct view matrix.
-	glm::vec3 eye(0.0f, 3.0f, 4.0f);
+	glm::vec3 eye(4.0f, 4.0f, 4.0f);
 	glm::vec3 center(0.0f, 0.0f, 0.0f);
 	glm::vec3 up(0.0f, 1.0f, 0.0f);
 
