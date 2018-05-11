@@ -30,9 +30,7 @@ bool rotateY = false;
 bool rotateZ = false;
 
 // Angular velocities for animation in degree per millisecond
-float avelX = 15 / 1000.f; // 15° per second
-float avelY = 15 / 1000.f; // 15° per second
-float avelZ = 15 / 1000.f; // 15° per second
+float angularVelocity = 15 / 1000.f; // 15° per second
 
 cg::GLSLProgram program;
 
@@ -192,13 +190,51 @@ void initAxes()
 void renderCube()
 {
 	// Animate model
-	if (rotateX)
+	float angle = elapsedTime * angularVelocity; // angle of rotation (degree)
+	glm::mat4 anim;
+
+	if (rotateX && rotateY && rotateZ) // rotate XYZ
 	{
-		float angle = elapsedTime * avelX;
-		glm::vec3 axis(1, 0, 0);
-		glm::mat4 anim = glm::rotate(glm::mat4(1.0f), glm::radians(angle), axis);
-		cube.model = anim * cube.model;
+		glm::vec3 axis(1, 1, 1);
+		anim = glm::rotate(glm::mat4(1.0f), glm::radians(angle), axis);
 	}
+	else if (rotateX && rotateY) // rotate XY
+	{
+		glm::vec3 axis(1, 1, 0);
+		anim = glm::rotate(glm::mat4(1.0f), glm::radians(angle), axis);
+	}
+	else if (rotateX && rotateZ) // rotate XZ
+	{
+		glm::vec3 axis(1, 0, 1);
+		anim = glm::rotate(glm::mat4(1.0f), glm::radians(angle), axis);
+	}
+	else if (rotateY && rotateZ) // rotate YZ
+	{
+		glm::vec3 axis(0, 1, 1);
+		anim = glm::rotate(glm::mat4(1.0f), glm::radians(angle), axis);
+	}
+	else if (rotateX) // rotate X
+	{
+		glm::vec3 axis(1, 0, 0);
+		anim = glm::rotate(glm::mat4(1.0f), glm::radians(angle), axis);
+	}
+	else if (rotateY) // rotate Y
+	{
+		glm::vec3 axis(0, 1, 0);
+		anim = glm::rotate(glm::mat4(1.0f), glm::radians(angle), axis);
+	}
+	else if (rotateZ) // rotate Z
+	{
+		glm::vec3 axis(0, 0, 1);
+		anim = glm::rotate(glm::mat4(1.0f), glm::radians(angle), axis);
+	}
+	else // no rotation
+	{
+		anim = glm::mat4(1.0f);
+	}
+
+	// Apply animation matrix
+	cube.model = anim * cube.model;
 
 	// Create mvp.
 	glm::mat4x4 mvp = projection * view * cube.model;
@@ -350,19 +386,24 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 	
 		break;
 	case 'x':
-		// do something
 		rotateX = !rotateX;
 		break;
 	case 'y':
-		// do something
+		rotateY = !rotateY;
 		break;
 	case 'z':
+		rotateZ = !rotateZ;
+		break;
+	case 'a':
 		eye = eye - (0.0f, 0.0f, 0.1f);
 		view = glm::lookAt(eye, center, up);
 		break;
-	case 'u':
+	case 's':
 		eye = eye + (0.0f, 0.0f, 0.1f);
 		view = glm::lookAt(eye, center, up);
+		break;
+	case 'r':
+		cube.model = glm::mat4(1.0f);
 		break;
 	}
 	glutPostRedisplay();
