@@ -19,6 +19,21 @@ const int WINDOW_HEIGHT = 480;
 // GLUT window id/handle
 int glutID = 0;
 
+// Time of last render call in milliseconds
+int lastRenderTime = 0;
+// Elapsed time since last render call in milliseconds for animation
+int elapsedTime = 0;
+
+// Switches for rotation
+bool rotateX = false;
+bool rotateY = false;
+bool rotateZ = false;
+
+// Angular velocities for animation in degree per millisecond
+float avelX = 15 / 1000.f; // 15° per second
+float avelY = 15 / 1000.f; // 15° per second
+float avelZ = 15 / 1000.f; // 15° per second
+
 cg::GLSLProgram program;
 
 glm::mat4x4 view;
@@ -173,8 +188,18 @@ void initAxes()
 
 void renderCube()
 {
+	// Animate model
+	if (rotateX)
+	{
+		float angle = elapsedTime * avelX;
+		glm::vec3 axis(1, 0, 0);
+		glm::mat4 anim = glm::rotate(glm::mat4(1.0f), glm::radians(angle), axis);
+		cube.model = anim * cube.model;
+	}
+
 	// Create mvp.
 	glm::mat4x4 mvp = projection * view * cube.model;
+	
 
 	// Bind the shader program and set uniform(s).
 	program.use();
@@ -277,6 +302,12 @@ void render()
 {
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
+	// Calculate delta t since last render call
+	int currentTime = glutGet(GLUT_ELAPSED_TIME);
+	elapsedTime = currentTime - lastRenderTime;
+	// Update time of last render call
+	lastRenderTime = currentTime;
+
 	renderAxes();
 	renderCube();
 }
@@ -319,6 +350,7 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		break;
 	case 'x':
 		// do something
+		rotateX = !rotateX;
 		break;
 	case 'y':
 		// do something
@@ -356,7 +388,7 @@ int main(int argc, char** argv)
 	// GLUT: Set callbacks for events.
 	glutReshapeFunc(glutResize);
 	glutDisplayFunc(glutDisplay);
-	//glutIdleFunc   (glutDisplay); // redisplay when idle
+	glutIdleFunc   (glutDisplay); // redisplay when idle
 
 	glutKeyboardFunc(glutKeyboard);
 
