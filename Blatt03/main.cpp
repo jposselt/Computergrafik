@@ -41,7 +41,9 @@ glm::mat4x4 projection;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
-
+glm::vec3 eye(4.0f, 4.0f, 4.0f);
+glm::vec3 center(0.0f, 0.0f, 0.0f);
+glm::vec3 up(0.0f, 1.0f, 0.0f);
 /*
 Struct to hold data for object rendering.
 */
@@ -89,6 +91,7 @@ void initCube()
 		12, 13, 14, 12, 14, 15, // Left
 	    16, 17, 18, 16, 18, 19, // Top
 		20, 21, 22, 20, 22, 23  // Bottom
+	
 	};
 
 	GLuint programId = program.getHandle();
@@ -242,9 +245,7 @@ bool init()
 	glEnable(GL_DEPTH_TEST);
 
 	// Construct view matrix.
-	glm::vec3 eye(4.0f, 4.0f, 4.0f);
-	glm::vec3 center(0.0f, 0.0f, 0.0f);
-	glm::vec3 up(0.0f, 1.0f, 0.0f);
+
 
 	view = glm::lookAt(eye, center, up);
 
@@ -343,10 +344,10 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 	  return;
 	  
 	case '+':
-		// do something
+		
 		break;
 	case '-':
-		// do something
+	
 		break;
 	case 'x':
 		// do something
@@ -356,7 +357,12 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		// do something
 		break;
 	case 'z':
-		// do something
+		eye = eye - (0.0f, 0.0f, 0.1f);
+		view = glm::lookAt(eye, center, up);
+		break;
+	case 'u':
+		eye = eye + (0.0f, 0.0f, 0.1f);
+		view = glm::lookAt(eye, center, up);
 		break;
 	}
 	glutPostRedisplay();
