@@ -42,6 +42,7 @@ float zFar  = 100.0f;
 glm::vec3 eye(4.0f, 4.0f, 4.0f);
 glm::vec3 center(0.0f, 0.0f, 0.0f);
 glm::vec3 up(0.0f, 1.0f, 0.0f);
+glm::vec3 zoom(0.1f, 0.1f, 0.1f);
 /*
 Struct to hold data for object rendering.
 */
@@ -395,11 +396,11 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		rotateZ = !rotateZ;
 		break;
 	case 'a':
-		eye = eye - (0.0f, 0.0f, 0.1f);
+		eye = eye - zoom;
 		view = glm::lookAt(eye, center, up);
 		break;
 	case 's':
-		eye = eye + (0.0f, 0.0f, 0.1f);
+		eye = eye + zoom;
 		view = glm::lookAt(eye, center, up);
 		break;
 	case 'r':
