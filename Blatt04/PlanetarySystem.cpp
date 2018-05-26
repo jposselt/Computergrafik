@@ -1,8 +1,13 @@
 #include "PlanetarySystem.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/constants.hpp>
 
 PlanetarySystem::PlanetarySystem(cg::GLSLProgram *prog)
-	: program(prog), model(glm::mat4x4(1.0f))
+	: program(prog),
+	model(glm::mat4x4(1.0f)),
+	systemYOffset(0.0),
+	planet1YOffset(0.0),
+	planet2Tilt(45.0)
 {
 	sun = new UnitSphere(program);
 	planet = new UnitSphere(program);
@@ -27,27 +32,76 @@ void PlanetarySystem::init()
 
 void PlanetarySystem::draw()
 {
+	matrixStack.push(model);
+	model = glm::translate(model, glm::vec3(0.0f, systemYOffset, 0.0f)); // Y Offset
 	sun->draw(projection * view * model);
 
-	model = glm::translate(
-				glm::mat4(1.0f),
-				glm::vec3(6.0f, 0.0f, 0.0f)
-	);
-	planet->draw(projection * view * model);
+		/* 1st planet */
+		matrixStack.push(model);
+		model = glm::translate(model, glm::vec3(0.0f, planet1YOffset, 0.0f)); // Y Offset
+		model = glm::translate(model, glm::vec3(6.0f, 0.0f, 0.0f));
+		planet->draw(projection * view * model);
 
-	model = glm::translate(
-				model,
-				glm::vec3(1.0f, 0.0f, 0.0f)
-	);
-	moon->draw(projection * view * model);
+			/* 1st planet moons */
+			for (int i = 0; i < nMoonsPlanet1; i++)
+			{
+				matrixStack.push(model);
+				model = glm::rotate(model, glm::two_pi<float>()/ nMoonsPlanet1 * i, glm::vec3(0.0f, 1.0f, 0.0f));
+				model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
+				moon->draw(projection * view * model);
+				model = matrixStack.top();
+				matrixStack.pop();
+			}
 
-	model = glm::translate(
-				glm::mat4(1.0f),
-				glm::vec3(-12.0f, 0.0f, 0.0f)
-	);
-	planet->draw(projection * view * model);
+		model = matrixStack.top();
+		matrixStack.pop();
 
-	model = glm::mat4x4(1.0f);
+		/* 2nd planets */
+		matrixStack.push(model);
+		model = glm::translate(model, glm::vec3(-12.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians<float>(planet2Tilt), glm::vec3(0.0f, 0.0f, 1.0f)); // Planet tilt
+		planet->draw(projection * view * model);
+
+			/* 2nd planet upper moons */
+			for (int i = 0; i < nMoonsUpPlanet2; i++)
+			{
+				matrixStack.push(model);
+				model = glm::translate(model, glm::vec3(0.0f, planet2UpperMoonsOffset, 0.0f)); // Y Offset
+				model = glm::rotate(model, glm::two_pi<float>() / nMoonsUpPlanet2 * i, glm::vec3(0.0f, 1.0f, 0.0f));
+				model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
+				moon->draw(projection * view * model);
+				model = matrixStack.top();
+				matrixStack.pop();
+			}
+
+			/* 2nd planet lower moons */
+			for (int i = 0; i < nMoonsDownPlanet2; i++)
+			{
+				matrixStack.push(model);
+				model = glm::translate(model, glm::vec3(0.0f, planet2LowerMoonsOffset, 0.0f)); // Y Offset
+				model = glm::rotate(model, glm::two_pi<float>() / nMoonsDownPlanet2 * i, glm::vec3(0.0f, 1.0f, 0.0f));
+				model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
+				moon->draw(projection * view * model);
+				model = matrixStack.top();
+				matrixStack.pop();
+			}
+
+			/* 2nd planet center moons */
+			for (int i = 0; i < nMoonsCenterPlanet2; i++)
+			{
+				matrixStack.push(model);
+				model = glm::rotate(model, glm::two_pi<float>() / nMoonsCenterPlanet2 * i, glm::vec3(0.0f, 1.0f, 0.0f));
+				model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
+				moon->draw(projection * view * model);
+				model = matrixStack.top();
+				matrixStack.pop();
+			}
+
+		model = matrixStack.top();
+		matrixStack.pop();
+
+	model = matrixStack.top();
+	matrixStack.pop();
 }
 
 void PlanetarySystem::setView(glm::mat4x4 view)
