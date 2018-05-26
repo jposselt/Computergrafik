@@ -10,7 +10,7 @@ UnitSphere::~UnitSphere()
 	glDeleteBuffers(1, &positionBuffer);
 }
 
-void UnitSphere::init() {
+void UnitSphere::init(double radius) {
 	// Construct axes. These vectors can go out of scope after we have send all data to the graphics card.
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> colors;
@@ -45,8 +45,6 @@ void UnitSphere::init() {
 		indices.push_back(i + slices + 1);
 		indices.push_back(i + slices);
 		indices.push_back(i + slices + 1);
-		//indices.push_back(i);
-		//indices.push_back(i + 1);
 	}
 
 	GLuint programId = program->getHandle();

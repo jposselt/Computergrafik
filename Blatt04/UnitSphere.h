@@ -6,7 +6,7 @@ class UnitSphere
 public:
 	UnitSphere(cg::GLSLProgram *prog);
 	~UnitSphere();
-	void init();
+	void init(double radius = 1.0);
 	void draw(glm::mat4x4 mvp);
 private:
 	/* Program reference */
@@ -19,7 +19,6 @@ private:
 	GLuint indexBuffer;
 
 	/* Constants */
-	const double radius = 1.0;
 	const int stacks = 15;
 	const int slices = 15;
 };
