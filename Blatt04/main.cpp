@@ -12,7 +12,6 @@
 #include "GLSLProgram.h"
 #include "GLTools.h"
 
-//#include "UnitSphere.h"
 #include "PlanetarySystem.h"
 
 // Standard window width
@@ -34,7 +33,7 @@ glm::mat4x4 projection;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
-glm::vec3 eye(0.0f, 5.0f, 10.0f);
+glm::vec3 eye(0.0f, 15.0f, 15.0f);
 glm::vec3 center(0.0f, 0.0f, 0.0f);
 glm::vec3 up(0.0f, 1.0f, 0.0f);
 
@@ -185,7 +184,7 @@ int main(int argc, char** argv)
 	// GLUT: Set callbacks for events.
 	glutReshapeFunc(glutResize);
 	glutDisplayFunc(glutDisplay);
-	glutIdleFunc   (glutDisplay); // redisplay when idle
+	//glutIdleFunc   (glutDisplay); // redisplay when idle
 
 	glutKeyboardFunc(glutKeyboard);
 

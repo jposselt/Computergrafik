@@ -21,6 +21,8 @@ private:
 	glm::mat4x4 model;
 
 	/*  */
-	UnitSphere *sphere;
+	UnitSphere *sun;
+	UnitSphere *planet;
+	UnitSphere *moon;
 };
 
