@@ -12,7 +12,8 @@
 #include "GLSLProgram.h"
 #include "GLTools.h"
 
-#include "UnitSphere.h"
+//#include "UnitSphere.h"
+#include "PlanetarySystem.h"
 
 // Standard window width
 const int WINDOW_WIDTH  = 640;
@@ -33,12 +34,12 @@ glm::mat4x4 projection;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
-glm::vec3 eye(4.0f, 4.0f, 4.0f);
+glm::vec3 eye(0.0f, 5.0f, 10.0f);
 glm::vec3 center(0.0f, 0.0f, 0.0f);
 glm::vec3 up(0.0f, 1.0f, 0.0f);
 
-//UnitSphere sphere(program);
-UnitSphere *sphere = new UnitSphere(program);
+// Planetary System
+PlanetarySystem *planets = new PlanetarySystem(&program);
 
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
@@ -71,8 +72,11 @@ bool init()
 		return false;
 	}
 
-	// Create objects.
-	sphere->init();
+	// Initialize planetary system
+	planets->init();
+
+	// Set view matrix
+	planets->setView(view);
 
 	return true;
 }
@@ -83,7 +87,7 @@ bool init()
 void release()
 {
 	// Shader program will be released upon program termination.
-	delete sphere;
+	delete planets;
 }
 
 /*
@@ -99,7 +103,8 @@ void render()
 	// Update time of last render call
 	lastRenderTime = currentTime;
 
-	sphere->draw(projection * view * glm::mat4x4(1.0f));
+	// Draw the planetary system
+	planets->draw();
 }
 
 void glutDisplay ()
@@ -119,6 +124,8 @@ void glutResize (int width, int height)
 
 	// Construct projection matrix.
 	projection = glm::perspective(45.0f, (float) width / height, zNear, zFar);
+	// Set projection matrix
+	planets->setProjection(projection);
 }
 
 /*

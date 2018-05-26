@@ -1,10 +1,6 @@
 #include "UnitSphere.h"
 
-UnitSphere::UnitSphere(cg::GLSLProgram &program) : prog(program)
-{
-	
-}
-
+UnitSphere::UnitSphere(cg::GLSLProgram *prog) : program(prog) {}
 
 UnitSphere::~UnitSphere()
 {
@@ -53,7 +49,7 @@ void UnitSphere::init() {
 		//indices.push_back(i + 1);
 	}
 
-	GLuint programId = prog.getHandle();
+	GLuint programId = program->getHandle();
 	GLuint pos;
 
 	// Step 0: Create vertex array object.
@@ -92,8 +88,8 @@ void UnitSphere::init() {
 void UnitSphere::draw(glm::mat4x4 mvp) {
 	
 	// Bind the shader program and set uniform(s).
-	prog.use();
-	prog.setUniform("mvp", mvp);
+	program->use();
+	program->setUniform("mvp", mvp);
 
 	// Bind vertex array object so we can render the triangles.
 	glBindVertexArray(vao);
