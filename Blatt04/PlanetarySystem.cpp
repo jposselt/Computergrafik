@@ -106,8 +106,16 @@ void PlanetarySystem::decreasePlanet2Tilt()
 void PlanetarySystem::drawPlanet1(int currentTime)
 {
 	matrixStack.push(model);
-	model = glm::translate(model, glm::vec3(0.0f, planet1YOffset, 0.0f)); // Y Offset
-	model = glm::translate(model, glm::vec3(6.0f, 0.0f, 0.0f));
+
+	/* Adjustable Y offset*/
+	model = glm::translate(model, glm::vec3(0.0f, planet1YOffset, 0.0f));
+
+	/* Orbit position */
+	float angle = glm::radians<float>(currentTime * planet1OrbitSpeed + planet1StartAngle);
+	model = glm::translate(
+		model,
+		glm::vec3(planet1Distance * glm::cos(angle), 0.0f , -planet1Distance * glm::sin(angle))
+	);
 
 	/* Planet with rotation */
 	matrixStack.push(model);
@@ -145,8 +153,16 @@ void PlanetarySystem::drawPlanet1Moons(int currentTime)
 void PlanetarySystem::drawPlanet2(int currentTime)
 {
 	matrixStack.push(model);
-	model = glm::translate(model, glm::vec3(-12.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, glm::radians<float>(planet2Tilt), glm::vec3(0.0f, 0.0f, 1.0f)); // Planet tilt
+
+	/* Orbit position */
+	float angle = glm::radians<float>(currentTime * planet2OrbitSpeed + planet2StartAngle);
+	model = glm::translate(
+		model,
+		glm::vec3(planet2Distance * glm::cos(angle), 0.0f, -planet2Distance * glm::sin(angle))
+	);
+
+	/* Adjustable tilt */
+	model = glm::rotate(model, glm::radians<float>(planet2Tilt), glm::vec3(0.0f, 0.0f, 1.0f));
 
 	/* Planet with rotation */
 	matrixStack.push(model);

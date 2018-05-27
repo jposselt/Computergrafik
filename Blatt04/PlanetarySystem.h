@@ -58,7 +58,9 @@ private:
 	/* Planet 1 Constants */
 	int nMoonsPlanet1 = 3;
 	double planet1YOffsetStepsize = 0.2;
-	double planet1OrbitSpeed = 25.0 / 1000.0;        // 25° per second
+	double planet1Distance = 6.0;
+	double planet1StartAngle = 0.0; // degree
+	double planet1OrbitSpeed = 10.0 / 1000.0;        // 10° per second
 	double planet1RotationSpeed = 30.0 / 1000.0;     // 30° per second
 	double planet1MoonRotationSpeed = 20.0 / 1000.0; // 20° per second
 
@@ -71,7 +73,9 @@ private:
 	double planet2TiltStepsize = 1.0; // degree
 	double planet2MinTilt = 0.0;      // degree
 	double planet2MaxTilt = 360.0;    // degree
-	double planet2OrbitSpeed = 15.0 / 1000.0;        // 15° per second
+	double planet2Distance = 12.0;
+	double planet2StartAngle = 180.0; // degree
+	double planet2OrbitSpeed = 5.0 / 1000.0;         // 5° per second
 	double planet2RotationSpeed = 30.0 / 1000.0;     // 30° per second
 	double planet2MoonRotationSpeed = 20.0 / 1000.0; // 20° per second
 };
