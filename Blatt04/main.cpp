@@ -139,16 +139,22 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 	  return;
 	  
 	case 't':
+		planets->decreaseSystemYOffset();
 		break;
 	case 'T':
+		planets->increaseSystemYOffset();
 		break;
 	case 'l':
+		planets->decreasePlanet1YOffset();
 		break;
 	case 'L':
+		planets->increasePlanet1YOffset();
 		break;
 	case 'p':
+		planets->decreasePlanet2Tilt();
 		break;
 	case 'P':
+		planets->increasePlanet2Tilt();
 		break;
 	case 'w':
 		break;

@@ -113,3 +113,39 @@ void PlanetarySystem::setProjection(glm::mat4x4 projection)
 {
 	this->projection = projection;
 }
+
+void PlanetarySystem::increaseSystemYOffset()
+{
+	systemYOffset += systemYOffsetStepsize;
+}
+
+void PlanetarySystem::decreaseSystemYOffset()
+{
+	systemYOffset -= systemYOffsetStepsize;
+}
+
+void PlanetarySystem::increasePlanet1YOffset()
+{
+	planet1YOffset += planet1YOffsetStepsize;
+}
+
+void PlanetarySystem::decreasePlanet1YOffset()
+{
+		planet1YOffset -= planet1YOffsetStepsize;
+}
+
+void PlanetarySystem::increasePlanet2Tilt()
+{
+	if (planet2Tilt < planet2MaxTilt)
+	{
+		planet2Tilt += planet2TiltStepsize;
+	}
+}
+
+void PlanetarySystem::decreasePlanet2Tilt()
+{
+	if (planet2Tilt > planet2MinTilt)
+	{
+		planet2Tilt -= planet2TiltStepsize;
+	}
+}

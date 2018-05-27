@@ -12,6 +12,12 @@ public:
 	void draw();
 	void setView(glm::mat4x4 view);
 	void setProjection(glm::mat4x4 projection);
+	void increaseSystemYOffset();
+	void decreaseSystemYOffset();
+	void increasePlanet1YOffset();
+	void decreasePlanet1YOffset();
+	void increasePlanet2Tilt();
+	void decreasePlanet2Tilt();
 private:
 	/* Matrix stack */
 	std::stack <glm::mat4x4> matrixStack;
@@ -39,12 +45,18 @@ private:
 	double planetRadius = 0.5;
 	double moonRadius = 0.2;
 
+	double planet2UpperMoonsOffset = 1.0;
+	double planet2LowerMoonsOffset = -1.0;
+
+	double systemYOffsetStepsize = 0.2;
+	double planet1YOffsetStepsize = 0.2;
+	double planet2TiltStepsize = 1.0; // degree
+	double planet2MinTilt = 0.0; // degree
+	double planet2MaxTilt = 360.0; // degree
+
 	int nMoonsPlanet1 = 3;
 	int nMoonsCenterPlanet2 = 2;
 	int nMoonsUpPlanet2 = 4;
 	int nMoonsDownPlanet2 = 4;
-
-	double planet2UpperMoonsOffset = 1.0;
-	double planet2LowerMoonsOffset = -1.0;
 };
 
