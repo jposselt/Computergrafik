@@ -2,6 +2,7 @@
 #include <stack>
 #include "GLSLProgram.h"
 #include "UnitSphere.h"
+#include "PlanetsAxis.h"
 
 class PlanetarySystem
 {
@@ -34,6 +35,7 @@ private:
 	UnitSphere *sun;
 	UnitSphere *planet;
 	UnitSphere *moon;
+	PlanetsAxis *axis;
 
 	/* Adjustable values */
 	double systemYOffset;

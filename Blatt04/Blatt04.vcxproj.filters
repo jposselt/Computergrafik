@@ -27,7 +27,7 @@
     <ClCompile Include="PlanetarySystem.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="MatrixStack.cpp">
+    <ClCompile Include="PlanetsAxis.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,7 +44,7 @@
     <ClInclude Include="PlanetarySystem.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="MatrixStack.h">
+    <ClInclude Include="PlanetsAxis.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

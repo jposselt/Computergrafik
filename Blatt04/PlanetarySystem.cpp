@@ -12,6 +12,7 @@ PlanetarySystem::PlanetarySystem(cg::GLSLProgram *prog)
 	sun = new UnitSphere(program);
 	planet = new UnitSphere(program);
 	moon = new UnitSphere(program);
+	axis = new PlanetsAxis(program);
 }
 
 
@@ -20,6 +21,7 @@ PlanetarySystem::~PlanetarySystem()
 	delete sun;
 	delete planet;
 	delete moon;
+	delete axis;
 }
 
 
@@ -28,6 +30,7 @@ void PlanetarySystem::init()
 	sun->init();
 	planet->init(0.5);
 	moon->init(0.2);
+	axis->init();
 }
 
 void PlanetarySystem::draw()
@@ -35,12 +38,14 @@ void PlanetarySystem::draw()
 	matrixStack.push(model);
 	model = glm::translate(model, glm::vec3(0.0f, systemYOffset, 0.0f)); // Y Offset
 	sun->draw(projection * view * model);
+	axis->draw(projection * view * model);
 
 		/* 1st planet */
 		matrixStack.push(model);
 		model = glm::translate(model, glm::vec3(0.0f, planet1YOffset, 0.0f)); // Y Offset
 		model = glm::translate(model, glm::vec3(6.0f, 0.0f, 0.0f));
 		planet->draw(projection * view * model);
+		axis->draw(projection * view * model);
 
 			/* 1st planet moons */
 			for (int i = 0; i < nMoonsPlanet1; i++)
@@ -61,6 +66,7 @@ void PlanetarySystem::draw()
 		model = glm::translate(model, glm::vec3(-12.0f, 0.0f, 0.0f));
 		model = glm::rotate(model, glm::radians<float>(planet2Tilt), glm::vec3(0.0f, 0.0f, 1.0f)); // Planet tilt
 		planet->draw(projection * view * model);
+		axis->draw(projection * view * model);
 
 			/* 2nd planet upper moons */
 			for (int i = 0; i < nMoonsUpPlanet2; i++)

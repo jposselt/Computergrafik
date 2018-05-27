@@ -127,15 +127,15 @@
   <ItemGroup>
     <ClCompile Include="GLSLProgram.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MatrixStack.cpp" />
     <ClCompile Include="PlanetarySystem.cpp" />
+    <ClCompile Include="PlanetsAxis.cpp" />
     <ClCompile Include="UnitSphere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTools.h" />
-    <ClInclude Include="MatrixStack.h" />
     <ClInclude Include="PlanetarySystem.h" />
+    <ClInclude Include="PlanetsAxis.h" />
     <ClInclude Include="UnitSphere.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
