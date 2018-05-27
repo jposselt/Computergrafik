@@ -11,7 +11,7 @@ UnitSphere::~UnitSphere()
 }
 
 void UnitSphere::init(double radius) {
-	// Construct axes. These vectors can go out of scope after we have send all data to the graphics card.
+	// Construct sphere. These vectors can go out of scope after we have send all data to the graphics card.
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> colors;
 	std::vector<GLushort> indices;
