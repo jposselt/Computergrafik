@@ -1,6 +1,7 @@
 #include "PlanetarySystem.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/constants.hpp>
+#include <GL/freeglut.h>
 
 PlanetarySystem::PlanetarySystem(cg::GLSLProgram *prog)
 	: program(prog),
@@ -35,76 +36,22 @@ void PlanetarySystem::init()
 
 void PlanetarySystem::draw()
 {
+	/*  */
+	int currentTime = glutGet( GLUT_ELAPSED_TIME );
+
+	/* Build the scene */
 	matrixStack.push(model);
-	model = glm::translate(model, glm::vec3(0.0f, systemYOffset, 0.0f)); // Y Offset
-	sun->draw(projection * view * model);
-	axis->draw(projection * view * model);
+	model = glm::translate(model, glm::vec3(0.0f, systemYOffset, 0.0f)); // Global Y Offset
 
-		/* 1st planet */
-		matrixStack.push(model);
-		model = glm::translate(model, glm::vec3(0.0f, planet1YOffset, 0.0f)); // Y Offset
-		model = glm::translate(model, glm::vec3(6.0f, 0.0f, 0.0f));
-		planet->draw(projection * view * model);
+		/* Sun */
+		sun->draw(projection * view * model);
 		axis->draw(projection * view * model);
 
-			/* 1st planet moons */
-			for (int i = 0; i < nMoonsPlanet1; i++)
-			{
-				matrixStack.push(model);
-				model = glm::rotate(model, glm::two_pi<float>()/ nMoonsPlanet1 * i, glm::vec3(0.0f, 1.0f, 0.0f));
-				model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
-				moon->draw(projection * view * model);
-				model = matrixStack.top();
-				matrixStack.pop();
-			}
+		/* Planet 1 */
+		drawPlanet1(currentTime);
 
-		model = matrixStack.top();
-		matrixStack.pop();
-
-		/* 2nd planets */
-		matrixStack.push(model);
-		model = glm::translate(model, glm::vec3(-12.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, glm::radians<float>(planet2Tilt), glm::vec3(0.0f, 0.0f, 1.0f)); // Planet tilt
-		planet->draw(projection * view * model);
-		axis->draw(projection * view * model);
-
-			/* 2nd planet upper moons */
-			for (int i = 0; i < nMoonsUpPlanet2; i++)
-			{
-				matrixStack.push(model);
-				model = glm::translate(model, glm::vec3(0.0f, planet2UpperMoonsOffset, 0.0f)); // Y Offset
-				model = glm::rotate(model, glm::two_pi<float>() / nMoonsUpPlanet2 * i, glm::vec3(0.0f, 1.0f, 0.0f));
-				model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
-				moon->draw(projection * view * model);
-				model = matrixStack.top();
-				matrixStack.pop();
-			}
-
-			/* 2nd planet lower moons */
-			for (int i = 0; i < nMoonsDownPlanet2; i++)
-			{
-				matrixStack.push(model);
-				model = glm::translate(model, glm::vec3(0.0f, planet2LowerMoonsOffset, 0.0f)); // Y Offset
-				model = glm::rotate(model, glm::two_pi<float>() / nMoonsDownPlanet2 * i, glm::vec3(0.0f, 1.0f, 0.0f));
-				model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
-				moon->draw(projection * view * model);
-				model = matrixStack.top();
-				matrixStack.pop();
-			}
-
-			/* 2nd planet center moons */
-			for (int i = 0; i < nMoonsCenterPlanet2; i++)
-			{
-				matrixStack.push(model);
-				model = glm::rotate(model, glm::two_pi<float>() / nMoonsCenterPlanet2 * i, glm::vec3(0.0f, 1.0f, 0.0f));
-				model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
-				moon->draw(projection * view * model);
-				model = matrixStack.top();
-				matrixStack.pop();
-			}
-
-		model = matrixStack.top();
-		matrixStack.pop();
+		/* Planet 2 */
+		drawPlanet2(currentTime);
 
 	model = matrixStack.top();
 	matrixStack.pop();
@@ -153,5 +100,113 @@ void PlanetarySystem::decreasePlanet2Tilt()
 	if (planet2Tilt > planet2MinTilt)
 	{
 		planet2Tilt -= planet2TiltStepsize;
+	}
+}
+
+void PlanetarySystem::drawPlanet1(int currentTime)
+{
+	matrixStack.push(model);
+	model = glm::translate(model, glm::vec3(0.0f, planet1YOffset, 0.0f)); // Y Offset
+	model = glm::translate(model, glm::vec3(6.0f, 0.0f, 0.0f));
+
+	/* Planet with rotation */
+	matrixStack.push(model);
+	model = glm::rotate(model, glm::radians<float>(currentTime * planet1RotationSpeed), glm::vec3(0.0f, 1.0f, 0.0f));
+	planet->draw(projection * view * model);
+	model = matrixStack.top();
+	matrixStack.pop();
+
+	/* Axis */
+	axis->draw(projection * view * model);
+
+	/* Moons */
+	drawPlanet1Moons(currentTime);
+
+	model = matrixStack.top();
+	matrixStack.pop();
+}
+
+void PlanetarySystem::drawPlanet1Moons(int currentTime)
+{
+	for (int i = 0; i < nMoonsPlanet1; i++)
+	{
+		matrixStack.push(model);
+		model = glm::rotate(
+			model,
+			glm::radians<float>(currentTime * planet1MoonRotationSpeed) + glm::two_pi<float>() / nMoonsPlanet1 * i,
+			glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
+		moon->draw(projection * view * model);
+		model = matrixStack.top();
+		matrixStack.pop();
+	}
+}
+
+void PlanetarySystem::drawPlanet2(int currentTime)
+{
+	matrixStack.push(model);
+	model = glm::translate(model, glm::vec3(-12.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, glm::radians<float>(planet2Tilt), glm::vec3(0.0f, 0.0f, 1.0f)); // Planet tilt
+
+	/* Planet with rotation */
+	matrixStack.push(model);
+	model = glm::rotate(model, glm::radians<float>(currentTime * planet2RotationSpeed), glm::vec3(0.0f, 1.0f, 0.0f));
+	planet->draw(projection * view * model);
+	model = matrixStack.top();
+	matrixStack.pop();
+
+	/* Axis */
+	axis->draw(projection * view * model);
+
+	/* Moons */
+	drawPlanet2Moons(currentTime);
+
+	model = matrixStack.top();
+	matrixStack.pop();
+}
+
+void PlanetarySystem::drawPlanet2Moons(int currentTime)
+{
+	for (int i = 0; i < nMoonsUpPlanet2; i++)
+	{
+		matrixStack.push(model);
+		model = glm::translate(model, glm::vec3(0.0f, planet2UpperMoonsOffset, 0.0f)); // Y Offset
+		model = glm::rotate(
+			model,
+			glm::radians<float>(currentTime * planet2MoonRotationSpeed) + glm::two_pi<float>() / nMoonsUpPlanet2 * i,
+			glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
+		moon->draw(projection * view * model);
+		model = matrixStack.top();
+		matrixStack.pop();
+	}
+
+	/* Planet 2 lower moons */
+	for (int i = 0; i < nMoonsDownPlanet2; i++)
+	{
+		matrixStack.push(model);
+		model = glm::translate(model, glm::vec3(0.0f, planet2LowerMoonsOffset, 0.0f)); // Y Offset
+		model = glm::rotate(
+			model,
+			glm::radians<float>(currentTime * planet2MoonRotationSpeed) + glm::two_pi<float>() / nMoonsDownPlanet2 * i,
+			glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
+		moon->draw(projection * view * model);
+		model = matrixStack.top();
+		matrixStack.pop();
+	}
+
+	/* Planet 2 center moons */
+	for (int i = 0; i < nMoonsCenterPlanet2; i++)
+	{
+		matrixStack.push(model);
+		model = glm::rotate(
+			model,
+			glm::radians<float>(currentTime * planet2MoonRotationSpeed) + glm::two_pi<float>() / nMoonsCenterPlanet2 * i,
+			glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
+		moon->draw(projection * view * model);
+		model = matrixStack.top();
+		matrixStack.pop();
 	}
 }

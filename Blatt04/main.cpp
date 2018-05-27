@@ -21,11 +21,6 @@ const int WINDOW_HEIGHT = 480;
 // GLUT window id/handle
 int glutID = 0;
 
-// Time of last render call in milliseconds
-int lastRenderTime = 0;
-// Elapsed time since last render call in milliseconds for animation
-int elapsedTime = 0;
-
 cg::GLSLProgram program;
 
 glm::mat4x4 view;
@@ -95,12 +90,6 @@ void release()
 void render()
 {
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-
-	// Calculate delta t since last render call
-	int currentTime = glutGet(GLUT_ELAPSED_TIME);
-	elapsedTime = currentTime - lastRenderTime;
-	// Update time of last render call
-	lastRenderTime = currentTime;
 
 	// Draw the planetary system
 	planets->draw();
@@ -190,7 +179,7 @@ int main(int argc, char** argv)
 	// GLUT: Set callbacks for events.
 	glutReshapeFunc(glutResize);
 	glutDisplayFunc(glutDisplay);
-	//glutIdleFunc   (glutDisplay); // redisplay when idle
+	glutIdleFunc   (glutDisplay); // redisplay when idle
 
 	glutKeyboardFunc(glutKeyboard);
 
