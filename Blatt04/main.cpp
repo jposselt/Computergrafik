@@ -28,7 +28,7 @@ glm::mat4x4 projection;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
-glm::vec3 eye(0.0f, 15.0f, 15.0f);
+glm::vec3 eye(0.0f, 20.0f, 20.0f);
 glm::vec3 center(0.0f, 0.0f, 0.0f);
 glm::vec3 up(0.0f, 1.0f, 0.0f);
 
@@ -146,8 +146,10 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		planets->increasePlanet2Tilt();
 		break;
 	case 'w':
+		planets->decreaseSpeed();
 		break;
 	case 'W':
+		planets->increaseSpeed();
 		break;
 	}
 	glutPostRedisplay();

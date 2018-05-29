@@ -19,13 +19,15 @@ public:
 	void decreasePlanet1YOffset();
 	void increasePlanet2Tilt();
 	void decreasePlanet2Tilt();
+	void increaseSpeed();
+	void decreaseSpeed();
 
 private:
 	/* Helper functions for scene drawing */
-	void drawPlanet1(int currentTime);
-	void drawPlanet1Moons(int currentTime);
-	void drawPlanet2(int currentTime);
-	void drawPlanet2Moons(int currentTime);
+	void drawPlanet1(int elapsedTime);
+	void drawPlanet1Moons(int elapsedTime);
+	void drawPlanet2(int elapsedTime);
+	void drawPlanet2Moons(int elapsedTime);
 
 	/* Matrix stack */
 	std::stack <glm::mat4x4> matrixStack;
@@ -48,12 +50,18 @@ private:
 	double systemYOffset;
 	double planet1YOffset;
 	double planet2Tilt; // degree
+	double speedFactor;
+
+	/* Time variables*/
+	int lastRenderTime;
+	int elapsedTime;
 
 	/* General Constants */
 	double sunRadius = 1.0;
 	double planetRadius = 0.5;
 	double moonRadius = 0.2;
 	double systemYOffsetStepsize = 0.2;
+	double speedFactorStep = 0.2;
 
 	/* Planet 1 Constants */
 	int nMoonsPlanet1 = 3;
