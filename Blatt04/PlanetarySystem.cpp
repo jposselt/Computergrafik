@@ -138,7 +138,7 @@ void PlanetarySystem::drawPlanet1(int elapsedTime)
 	/* Planet with rotation */
 	matrixStack.push(model);
 	currentRotationAngle += glm::radians<float>(elapsedTime * speedFactor * planet1RotationSpeed);
-	model = glm::rotate(model, currentRotationAngle, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, currentRotationAngle, yAxis);
 	planet->draw(projection * view * model);
 	model = matrixStack.top();
 	matrixStack.pop();
@@ -164,8 +164,8 @@ void PlanetarySystem::drawPlanet1Moons(int elapsedTime)
 		model = glm::rotate(
 			model,
 			currentOrbitAngle + glm::two_pi<float>() / nMoonsPlanet1 * i,
-			glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
+			yAxis);
+		model = glm::translate(model, glm::vec3(planet1MoonDistance, 0.0f, 0.0f));
 		moon->draw(projection * view * model);
 		model = matrixStack.top();
 		matrixStack.pop();
@@ -187,12 +187,12 @@ void PlanetarySystem::drawPlanet2(int elapsedTime)
 	);
 
 	/* Adjustable tilt */
-	model = glm::rotate(model, glm::radians<float>(planet2Tilt), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::rotate(model, glm::radians<float>(planet2Tilt), zAxis);
 
 	/* Planet with rotation */
 	matrixStack.push(model);
 	currentRotationAngle += glm::radians<float>(elapsedTime * speedFactor * planet2RotationSpeed);
-	model = glm::rotate(model, currentRotationAngle, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, currentRotationAngle, yAxis);
 	planet->draw(projection * view * model);
 	model = matrixStack.top();
 	matrixStack.pop();
@@ -219,8 +219,8 @@ void PlanetarySystem::drawPlanet2Moons(int elapsedTime)
 		model = glm::rotate(
 			model,
 			currentOrbitAngle + glm::two_pi<float>() / nMoonsUpPlanet2 * i,
-			glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
+			yAxis);
+		model = glm::translate(model, glm::vec3(planet2MoonDistance, 0.0f, 0.0f));
 		moon->draw(projection * view * model);
 		model = matrixStack.top();
 		matrixStack.pop();
@@ -235,7 +235,7 @@ void PlanetarySystem::drawPlanet2Moons(int elapsedTime)
 			model,
 			currentOrbitAngle + glm::two_pi<float>() / nMoonsDownPlanet2 * i,
 			glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(planet2MoonDistance, 0.0f, 0.0f));
 		moon->draw(projection * view * model);
 		model = matrixStack.top();
 		matrixStack.pop();
@@ -248,8 +248,8 @@ void PlanetarySystem::drawPlanet2Moons(int elapsedTime)
 		model = glm::rotate(
 			model,
 			currentOrbitAngle + glm::two_pi<float>() / nMoonsCenterPlanet2 * i,
-			glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
+			yAxis);
+		model = glm::translate(model, glm::vec3(planet2MoonDistance, 0.0f, 0.0f));
 		moon->draw(projection * view * model);
 		model = matrixStack.top();
 		matrixStack.pop();

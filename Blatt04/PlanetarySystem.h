@@ -57,34 +57,38 @@ private:
 	int elapsedTime;
 
 	/* General Constants */
-	double sunRadius = 1.0;
-	double planetRadius = 0.5;
-	double moonRadius = 0.2;
-	double systemYOffsetStepsize = 0.2;
-	double speedFactorStep = 0.2;
+	const double sunRadius = 1.0;
+	const double planetRadius = 0.5;
+	const double moonRadius = 0.2;
+	const double systemYOffsetStepsize = 0.2;
+	const double speedFactorStep = 0.2;
+	const glm::vec3 yAxis = glm::vec3(0.0f, 1.0f, 0.0f);
+	const glm::vec3 zAxis = glm::vec3(0.0f, 0.0f, 1.0f);
 
 	/* Planet 1 Constants */
-	int nMoonsPlanet1 = 3;
-	double planet1YOffsetStepsize = 0.2;
-	double planet1Distance = 6.0;
-	double planet1StartAngle = 0.0; // degree
-	double planet1OrbitSpeed = 10.0 / 1000.0;        // 10° per second
-	double planet1RotationSpeed = 30.0 / 1000.0;     // 30° per second
-	double planet1MoonRotationSpeed = 20.0 / 1000.0; // 20° per second
+	const int nMoonsPlanet1 = 3;
+	const double planet1MoonDistance = 1.0;
+	const double planet1YOffsetStepsize = 0.2;
+	const double planet1Distance = 6.0;
+	const double planet1StartAngle = 0.0; // degree
+	const double planet1OrbitSpeed = 10.0 / 1000.0;        // 10° per second
+	const double planet1RotationSpeed = 30.0 / 1000.0;     // 30° per second
+	const double planet1MoonRotationSpeed = 20.0 / 1000.0; // 20° per second
 
 	/* Planet 2 Constants */
-	int nMoonsCenterPlanet2 = 2;
-	int nMoonsUpPlanet2 = 4;
-	int nMoonsDownPlanet2 = 4;
-	double planet2UpperMoonsOffset = 1.0;
-	double planet2LowerMoonsOffset = -1.0;
-	double planet2TiltStepsize = 1.0; // degree
-	double planet2MinTilt = 0.0;      // degree
-	double planet2MaxTilt = 360.0;    // degree
-	double planet2Distance = 12.0;
-	double planet2StartAngle = 180.0; // degree
-	double planet2OrbitSpeed = 5.0 / 1000.0;         // 5° per second
-	double planet2RotationSpeed = 30.0 / 1000.0;     // 30° per second
-	double planet2MoonRotationSpeed = 20.0 / 1000.0; // 20° per second
+	const int nMoonsCenterPlanet2 = 2;
+	const int nMoonsUpPlanet2 = 4;
+	const int nMoonsDownPlanet2 = 4;
+	const double planet2MoonDistance = 1.0;
+	const double planet2UpperMoonsOffset = 1.0;
+	const double planet2LowerMoonsOffset = -1.0;
+	const double planet2TiltStepsize = 1.0; // degree
+	const double planet2MinTilt = 0.0;      // degree
+	const double planet2MaxTilt = 360.0;    // degree
+	const double planet2Distance = 12.0;
+	const double planet2StartAngle = 180.0; // degree
+	const double planet2OrbitSpeed = 5.0 / 1000.0;         // 5° per second
+	const double planet2RotationSpeed = 30.0 / 1000.0;     // 30° per second
+	const double planet2MoonRotationSpeed = 20.0 / 1000.0; // 20° per second
 };
 
