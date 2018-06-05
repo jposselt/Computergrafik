@@ -21,13 +21,22 @@
     <ClCompile Include="main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="UnitSphere.cpp">
+    <ClCompile Include="VertexArrayObject.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="PlanetarySystem.cpp">
+    <ClCompile Include="WireSphere.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="PlanetsAxis.cpp">
+    <ClCompile Include="Circle.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Line.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CelestialObject.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CrazyPlanets.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,13 +47,25 @@
     <ClInclude Include="GLTools.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="UnitSphere.h">
+    <ClInclude Include="VertexArrayObject.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="PlanetarySystem.h">
+    <ClInclude Include="WireSphere.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="PlanetsAxis.h">
+    <ClInclude Include="Circle.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Line.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="CelestialObject.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="CrazyPlanets.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
