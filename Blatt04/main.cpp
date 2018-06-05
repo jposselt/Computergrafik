@@ -28,7 +28,7 @@ glm::mat4x4 projection;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
-glm::vec3 eye(0.0f, 20.0f, 20.0f);
+glm::vec3 eye(0.0f, 20.0f, 30.0f);
 glm::vec3 center(0.0f, 0.0f, 0.0f);
 glm::vec3 up(0.0f, 1.0f, 0.0f);
 

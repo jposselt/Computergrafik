@@ -73,7 +73,7 @@ namespace Constants {
 	/* Constants for the second planet */
 	namespace Planet_2 {
 		const double radius = 1.5;
-		const double distance = 15.0;
+		const double distance = 17.0;
 		const double orbitSpeed = 15.0 / 1000.0;    // 15° per second
 		const double rotationSpeed = 30.0 / 1000.0; // 30° per second
 		const double tilt = 45.0; // degree
@@ -87,13 +87,13 @@ namespace Constants {
 			const unsigned int nLower = 4;
 			const unsigned int nCenter = 2;
 			const double radius = 0.5;
-			const double distance = 1.0;
+			const double distance = 3.0;
 			const double orbitSpeed = 20.0 / 1000.0; // 20° per second
 			const double rotationSpeed = 0.0;
 			const double tilt = 0.0; // degree
 			const double centerOffset = 0.0;
-			const double upperOffset = 2.0;
-			const double lowerOffset = -2.0;
+			const double upperOffset = 2.5;
+			const double lowerOffset = -2.5;
 			const glm::vec3 color = glm::vec3(0.5f, 0.0f, 1.0f);
 		}
 	}
