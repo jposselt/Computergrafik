@@ -12,7 +12,7 @@
 #include "GLSLProgram.h"
 #include "GLTools.h"
 
-#include "PlanetarySystem.h"
+#include "CrazyPlanets.h"
 
 // Standard window width
 const int WINDOW_WIDTH  = 640;
@@ -33,7 +33,7 @@ glm::vec3 center(0.0f, 0.0f, 0.0f);
 glm::vec3 up(0.0f, 1.0f, 0.0f);
 
 // Planetary System
-PlanetarySystem *planets = new PlanetarySystem(&program);
+CrazyPlanets *planetSystem = new CrazyPlanets(&program);
 
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
@@ -41,7 +41,7 @@ PlanetarySystem *planets = new PlanetarySystem(&program);
 bool init()
 {
 	// OpenGL: Set "background" color and enable depth testing.
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 
 	// Construct view matrix.
@@ -67,10 +67,7 @@ bool init()
 	}
 
 	// Initialize planetary system
-	planets->init();
-
-	// Set view matrix
-	planets->setView(view);
+	planetSystem->init();
 
 	return true;
 }
@@ -81,7 +78,7 @@ bool init()
 void release()
 {
 	// Shader program will be released upon program termination.
-	delete planets;
+	delete planetSystem;
 }
 
 /*
@@ -92,7 +89,7 @@ void render()
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 	// Draw the planetary system
-	planets->draw();
+	planetSystem->draw(projection * view);
 }
 
 void glutDisplay ()
@@ -112,8 +109,6 @@ void glutResize (int width, int height)
 
 	// Construct projection matrix.
 	projection = glm::perspective(45.0f, (float) width / height, zNear, zFar);
-	// Set projection matrix
-	planets->setProjection(projection);
 }
 
 /*
@@ -128,28 +123,28 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 	  return;
 	  
 	case 't':
-		planets->decreaseSystemYOffset();
+		planetSystem->decreaseSystemYOffset();
 		break;
 	case 'T':
-		planets->increaseSystemYOffset();
+		planetSystem->increaseSystemYOffset();
 		break;
 	case 'l':
-		planets->decreasePlanet1YOffset();
+		planetSystem->decreasePlanet1YOffset();
 		break;
 	case 'L':
-		planets->increasePlanet1YOffset();
+		planetSystem->increasePlanet1YOffset();
 		break;
 	case 'p':
-		planets->decreasePlanet2Tilt();
+		planetSystem->decreasePlanet2Tilt();
 		break;
 	case 'P':
-		planets->increasePlanet2Tilt();
+		planetSystem->increasePlanet2Tilt();
 		break;
 	case 'w':
-		planets->decreaseSpeed();
+		planetSystem->decreaseSpeed();
 		break;
 	case 'W':
-		planets->increaseSpeed();
+		planetSystem->increaseSpeed();
 		break;
 	}
 	glutPostRedisplay();
