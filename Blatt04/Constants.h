@@ -46,8 +46,8 @@ namespace Constants {
 
 	/* Constants for the first planet */
 	namespace Planet_1 {
-		const double radius = 1.5;
-		const double distance = 5.0;
+		const double radius = 1.0;
+		const double distance = 7.0;
 		const double orbitSpeed = 30.0 / 1000.0;    // 30° per second;
 		const double rotationSpeed = 40.0 / 1000.0; // 40° per second
 		const double tilt = 0.0; // degree
@@ -70,8 +70,8 @@ namespace Constants {
 
 	/* Constants for the second planet */
 	namespace Planet_2 {
-		const double radius = 2.0;
-		const double distance = 10.0;
+		const double radius = 1.5;
+		const double distance = 15.0;
 		const double orbitSpeed = 15.0 / 1000.0;    // 15° per second
 		const double rotationSpeed = 30.0 / 1000.0; // 30° per second
 		const double tilt = 45.0; // degree
