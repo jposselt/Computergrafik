@@ -46,14 +46,22 @@ void CrazyPlanets::init()
 	planet_1->init();
 
 	/* Planet 1 Moons */
-	/*
 	for (int i = 0; i < Constants::Planet_1::Moons::nCenter; i++) {
-
+		CelestialObject *moon = new CelestialObject(program,
+			Constants::Planet_1::Moons::distance,
+			Constants::Planet_1::Moons::radius,
+			Constants::Planet_1::Moons::orbitSpeed,
+			Constants::Planet_1::Moons::rotationSpeed,
+			Constants::Planet_1::Moons::color,
+			Constants::Planet_1::Moons::tilt,
+			Constants::Planet_1::Moons::offset,
+			Constants::degreeCircle / Constants::Planet_1::Moons::nCenter * i);
+		moon->init();
+		moon->drawAxis(false);
+		planet_1->addSatellite(moon);
 	}
-	*/
 
 	/* Planet 2 */
-	
 	planet_2 = new CelestialObject(program,
 		Constants::Planet_2::distance,
 		Constants::Planet_2::radius,
@@ -67,19 +75,50 @@ void CrazyPlanets::init()
 	planet_2->init();
 
 	/* Planet 2 Moons */
-	/*
 	for (int i = 0; i < Constants::Planet_2::Moons::nUpper; i++) {
-
+		CelestialObject *moon = new CelestialObject(program,
+			Constants::Planet_2::Moons::distance,
+			Constants::Planet_2::Moons::radius,
+			Constants::Planet_2::Moons::orbitSpeed,
+			Constants::Planet_2::Moons::rotationSpeed,
+			Constants::Planet_2::Moons::color,
+			Constants::Planet_2::Moons::tilt,
+			Constants::Planet_2::Moons::upperOffset,
+			Constants::degreeCircle / Constants::Planet_2::Moons::nUpper * i);
+		moon->init();
+		moon->drawAxis(false);
+		planet_2->addSatellite(moon);
 	}
 
 	for (int i = 0; i < Constants::Planet_2::Moons::nCenter; i++) {
-
+		CelestialObject *moon = new CelestialObject(program,
+			Constants::Planet_2::Moons::distance,
+			Constants::Planet_2::Moons::radius,
+			Constants::Planet_2::Moons::orbitSpeed,
+			Constants::Planet_2::Moons::rotationSpeed,
+			Constants::Planet_2::Moons::color,
+			Constants::Planet_2::Moons::tilt,
+			Constants::Planet_2::Moons::centerOffset,
+			Constants::degreeCircle / Constants::Planet_2::Moons::nCenter * i);
+		moon->init();
+		moon->drawAxis(false);
+		planet_2->addSatellite(moon);
 	}
 
 	for (int i = 0; i < Constants::Planet_2::Moons::nLower; i++) {
-
+		CelestialObject *moon = new CelestialObject(program,
+			Constants::Planet_2::Moons::distance,
+			Constants::Planet_2::Moons::radius,
+			Constants::Planet_2::Moons::orbitSpeed,
+			Constants::Planet_2::Moons::rotationSpeed,
+			Constants::Planet_2::Moons::color,
+			Constants::Planet_2::Moons::tilt,
+			Constants::Planet_2::Moons::lowerOffset,
+			Constants::degreeCircle / Constants::Planet_2::Moons::nLower * i);
+		moon->init();
+		moon->drawAxis(false);
+		planet_2->addSatellite(moon);
 	}
-	*/
 
 	/* Add planets to system */
 	planetSystem->addSatellite(planet_1);

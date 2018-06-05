@@ -61,8 +61,10 @@ namespace Constants {
 			const unsigned int nLower = 0;
 			const unsigned int nCenter = 3;
 			const double radius = 0.5;
-			const double distance = 1.0;
-			const double orbitSpeed = 20.0 / 1000.0; // 20° per second
+			const double distance = 2.0;
+			const double orbitSpeed = 50.0 / 1000.0; // 50° per second
+			const double rotationSpeed = 0.0;
+			const double tilt = 0.0; // degree
 			const double offset = 0.0;
 			const glm::vec3 color = glm::vec3(1.0f, 0.5f, 0.0f);
 		}
@@ -87,7 +89,11 @@ namespace Constants {
 			const double radius = 0.5;
 			const double distance = 1.0;
 			const double orbitSpeed = 20.0 / 1000.0; // 20° per second
-			const double offset = 2.0;
+			const double rotationSpeed = 0.0;
+			const double tilt = 0.0; // degree
+			const double centerOffset = 0.0;
+			const double upperOffset = 2.0;
+			const double lowerOffset = -2.0;
 			const glm::vec3 color = glm::vec3(0.5f, 0.0f, 1.0f);
 		}
 	}
