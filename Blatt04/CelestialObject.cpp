@@ -4,7 +4,7 @@
 #include "CelestialObject.h"
 #include "Constants.h"
 
-CelestialObject::CelestialObject(cg::GLSLProgram *prog, double distance, double radius, double orbitSpeed, double rotationSpeed, glm::vec3 color, double axisTilt, double yOffset)
+CelestialObject::CelestialObject(cg::GLSLProgram *prog, double distance, double radius, double orbitSpeed, double rotationSpeed, glm::vec3 color, double axisTilt, double yOffset, double startAngle)
 	:	program(prog),
 		distance(distance),
 		radius(radius),
@@ -13,6 +13,8 @@ CelestialObject::CelestialObject(cg::GLSLProgram *prog, double distance, double 
 		color(color),
 		axisTilt(fmod(axisTilt, Constants::degreeCircle)),
 		yOffset(yOffset),
+		currentOrbitAngle(glm::radians<float>(startAngle)),
+		currentRotationAngle(0.0),
 		axis(true),
 		orbit(true)
 {
@@ -27,6 +29,10 @@ CelestialObject::~CelestialObject()
 	delete objectModel;
 	delete objectAxis;
 	delete objectOrbit;
+
+	for (CelestialObject *sat : satellites) {
+		delete sat;
+	}
 }
 
 void CelestialObject::init()
@@ -38,9 +44,6 @@ void CelestialObject::init()
 
 void CelestialObject::draw(glm::mat4x4 mvp, double time)
 {
-	static float currentOrbitAngle = 0.0f;    // radians
-	static float currentRotationAngle = 0.0f; // radians
-
 	/* Y-Offset */
 	mvp = glm::translate(mvp, glm::vec3(0.0f, yOffset, 0.0f));
 
@@ -55,6 +58,9 @@ void CelestialObject::draw(glm::mat4x4 mvp, double time)
 		mvp,
 		glm::vec3(distance * glm::cos(currentOrbitAngle), 0.0f, -distance * glm::sin(currentOrbitAngle))
 	);
+
+	/* Tilt the axis */
+	mvp = glm::rotate(mvp, glm::radians<float>(axisTilt), Constants::zAxis);
 
 	/* Draw all satelites */
 	for (CelestialObject *sat : satellites) {
@@ -81,12 +87,16 @@ void CelestialObject::addSatellite(CelestialObject *satellite)
 
 void CelestialObject::increaseAxisTilt(double value)
 {
-	axisTilt += value;
+	if (axisTilt < Constants::maxTilt) {
+		axisTilt += value;
+	}
 }
 
 void CelestialObject::decreaseAxisTilt(double value)
 {
-	axisTilt -= value;
+	if (axisTilt > Constants::minTilt) {
+		axisTilt -= value;
+	}
 }
 
 void CelestialObject::increaseYOffset(double value)

@@ -6,7 +6,7 @@
 class CelestialObject
 {
 public:
-	CelestialObject(cg::GLSLProgram *prog, double distance, double radius, double orbitSpeed, double rotationSpeed, glm::vec3 color, double axisTilt, double yOffset);
+	CelestialObject(cg::GLSLProgram *prog, double distance, double radius, double orbitSpeed, double rotationSpeed, glm::vec3 color, double axisTilt, double yOffset, double startAngle);
 	~CelestialObject();
 	void init();
 	void draw(glm::mat4x4 mvp, double time);
@@ -33,6 +33,10 @@ private:
 	double axisTilt;
 	double yOffset;
 	glm::vec3 color;
+
+	/* Instance Variables */
+	float currentOrbitAngle;
+	float currentRotationAngle;
 
 	/* Draw Options */
 	bool axis;
