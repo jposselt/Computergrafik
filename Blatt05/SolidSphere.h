@@ -19,7 +19,6 @@ protected:
 
 private:
 	double radius;
-	//glm::vec3 color;
 	unsigned int nStacks;
 	unsigned int nSlices;
 
@@ -27,7 +26,6 @@ private:
 	static const unsigned int nStacksDefault = 15;
 	static const unsigned int nSlicesDefault = 15;
 	static const double defaultRadius;
-	//static const glm::vec3 defaultColor;
 	static const GLenum primitive = GL_TRIANGLES;
 	static const bool defaultLighting = false;
 };
