@@ -74,7 +74,7 @@ void VertexArrayObject::init(const glm::vec3 & color, const glm::vec3 & material
 	// Step 4: Create vertex buffer object for indices. No binding needed here.
 	glGenBuffers(1, &indexBuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLushort), indices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
 
 	// Unbind vertex array object (back to default).
 	glBindVertexArray(0);
