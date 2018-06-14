@@ -4,13 +4,11 @@ class SolidSphere :
 	public VertexArrayObject
 {
 public:
-	SolidSphere(cg::GLSLProgram & prog, double radius, glm::vec3 color, unsigned int stacks, unsigned int slices, bool lighting);
-	SolidSphere(cg::GLSLProgram & prog, double radius, glm::vec3 color, bool lighting);
+	SolidSphere(cg::GLSLProgram & prog, double radius, unsigned int stacks, unsigned int slices, bool lighting);
+	SolidSphere(cg::GLSLProgram & prog, double radius, bool lighting);
 	SolidSphere(cg::GLSLProgram & prog, bool lighting);
 	SolidSphere(cg::GLSLProgram & prog);
 	~SolidSphere();
-
-	void init();
 
 protected:
 	std::vector<glm::vec3> setVertices();
@@ -20,7 +18,7 @@ protected:
 
 private:
 	double radius;
-	glm::vec3 color;
+	//glm::vec3 color;
 	unsigned int nStacks;
 	unsigned int nSlices;
 

@@ -7,23 +7,20 @@ const double SolidSphere::defaultRadius(1.0);
 SolidSphere::SolidSphere(
 							cg::GLSLProgram & prog,
 							double radius,
-							glm::vec3 color,
 							unsigned int stacks,
 							unsigned int slices,
 							bool lighting
 						)
 	: VertexArrayObject(prog, lighting, SolidSphere::primitive),
 	radius(radius),
-	color(color),
 	nStacks(stacks),
 	nSlices(slices)
 {
 }
 
-SolidSphere::SolidSphere(cg::GLSLProgram & prog, double radius, glm::vec3 color, bool lighting)
+SolidSphere::SolidSphere(cg::GLSLProgram & prog, double radius, bool lighting)
 	: VertexArrayObject(prog, lighting, SolidSphere::primitive),
 	radius(radius),
-	color(color),
 	nStacks(SolidSphere::nStacksDefault),
 	nSlices(SolidSphere::nSlicesDefault)
 {
@@ -32,7 +29,6 @@ SolidSphere::SolidSphere(cg::GLSLProgram & prog, double radius, glm::vec3 color,
 SolidSphere::SolidSphere(cg::GLSLProgram & prog, bool lighting)
 	: VertexArrayObject(prog, lighting, SolidSphere::primitive),
 	radius(SolidSphere::defaultRadius),
-	color(glm::vec3(1.0f, 0.0f, 0.0f)),
 	nStacks(SolidSphere::nStacksDefault),
 	nSlices(SolidSphere::nSlicesDefault)
 {
@@ -41,7 +37,6 @@ SolidSphere::SolidSphere(cg::GLSLProgram & prog, bool lighting)
 SolidSphere::SolidSphere(cg::GLSLProgram & prog)
 	: VertexArrayObject(prog, SolidSphere::defaultLighting, SolidSphere::primitive),
 	radius(SolidSphere::defaultRadius),
-	color(glm::vec3(1.0f, 0.0f, 0.0f)),
 	nStacks(SolidSphere::nStacksDefault),
 	nSlices(SolidSphere::nSlicesDefault)
 {
@@ -49,11 +44,6 @@ SolidSphere::SolidSphere(cg::GLSLProgram & prog)
 
 SolidSphere::~SolidSphere()
 {
-}
-
-void SolidSphere::init()
-{
-	VertexArrayObject::init(color);
 }
 
 std::vector<glm::vec3> SolidSphere::setVertices()
