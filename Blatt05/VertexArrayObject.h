@@ -4,9 +4,10 @@
 class VertexArrayObject
 {
 public:
-	VertexArrayObject(cg::GLSLProgram& prog, bool useNormals, GLenum mode);
+	VertexArrayObject(cg::GLSLProgram& prog, bool useLighting, GLenum mode);
 	~VertexArrayObject();
-	void init(const glm::vec3& color, const glm::vec3& material, GLuint shininess);
+	void init(const glm::vec3& color, const glm::vec3& material, int shininess);
+	void init(const glm::vec3& color);
 	void render(const glm::mat4x4& view, const glm::mat4x4& projection, const glm::mat4x4& model);
 
 protected:
@@ -34,8 +35,8 @@ private:
 	glm::vec3 material;
 	int shininess;
 
-	/* Object uses normals */
-	bool useNormals;
+	/* Object uses lighting */
+	bool useLighting;
 
 	/* Primitives to render */
 	GLenum mode;

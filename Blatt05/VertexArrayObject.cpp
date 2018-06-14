@@ -3,7 +3,7 @@
 #include "VertexArrayObject.h"
 
 VertexArrayObject::VertexArrayObject(cg::GLSLProgram& prog, bool useNormals, GLenum mode)
-	: program(prog), useNormals(useNormals), mode(mode)
+	: program(prog), useLighting(useNormals), mode(mode)
 {
 }
 
@@ -16,7 +16,7 @@ VertexArrayObject::~VertexArrayObject()
 	glDeleteBuffers(1, &positionBuffer);
 }
 
-void VertexArrayObject::init(const glm::vec3 & color, const glm::vec3 & material, GLuint shininess)
+void VertexArrayObject::init(const glm::vec3 & color, const glm::vec3 & material, int shininess)
 {
 	// Construct sphere. These vectors can go out of scope after we have send all data to the graphics card.
 	std::vector<glm::vec3> vertices = setVertices();
@@ -57,7 +57,7 @@ void VertexArrayObject::init(const glm::vec3 & color, const glm::vec3 & material
 	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 	// Objects with normals
-	if (useNormals) {
+	if (useLighting) {
 		// Step 3: Create vertex buffer object for normal attribute and bind it to...
 		glGenBuffers(1, &normalBuffer);
 		glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
@@ -78,12 +78,17 @@ void VertexArrayObject::init(const glm::vec3 & color, const glm::vec3 & material
 	glBindVertexArray(0);
 }
 
+void VertexArrayObject::init(const glm::vec3 & color)
+{
+	VertexArrayObject::init(color, glm::vec3(1.0f, 0.0f, 0.0f), 0);
+}
+
 void VertexArrayObject::render(const glm::mat4x4 & view, const glm::mat4x4 & projection, const glm::mat4x4 & model)
 {
 	// Bind the shader program and set uniform(s).
 	program.use();
 	program.setUniform("mvp", projection * view * model);
-	if (useNormals) {
+	if (useLighting) {
 		// Create normal matrix (nm) from model matrix.
 		glm::mat3 nm = glm::inverseTranspose(glm::mat3(model));
 		program.setUniform("nm", nm);
