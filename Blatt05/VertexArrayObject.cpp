@@ -2,6 +2,8 @@
 
 #include "VertexArrayObject.h"
 
+const glm::vec3 VertexArrayObject::defaultMaterial(1.0f, 0.0f, 0.0f);
+
 VertexArrayObject::VertexArrayObject(cg::GLSLProgram& prog, bool useNormals, GLenum mode)
 	: program(prog), useLighting(useNormals), mode(mode)
 {
@@ -80,7 +82,7 @@ void VertexArrayObject::init(const glm::vec3 & color, const glm::vec3 & material
 
 void VertexArrayObject::init(const glm::vec3 & color)
 {
-	VertexArrayObject::init(color, glm::vec3(1.0f, 0.0f, 0.0f), 0);
+	VertexArrayObject::init(color, VertexArrayObject::defaultMaterial, VertexArrayObject::defaultShininess);
 }
 
 void VertexArrayObject::render(const glm::mat4x4 & view, const glm::mat4x4 & projection, const glm::mat4x4 & model)

@@ -40,4 +40,8 @@ private:
 
 	/* Primitives to render */
 	GLenum mode;
+
+	/* Class constants */
+	static const glm::vec3 defaultMaterial;
+	static const int defaultShininess = 1;
 };
