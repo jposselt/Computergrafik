@@ -2,15 +2,13 @@
 
 const double SolidSphere::defaultRadius(1.0);
 
-//const glm::vec3 SolidSphere::defaultColor(1.0f, 0.0f, 0.0f); // Does not work for some reason
-
 SolidSphere::SolidSphere(
-							cg::GLSLProgram & prog,
-							double radius,
-							unsigned int stacks,
-							unsigned int slices,
-							bool lighting
-						)
+	cg::GLSLProgram & prog,
+	double radius,
+	unsigned int stacks,
+	unsigned int slices,
+	bool lighting
+)
 	: VertexArrayObject(prog, lighting, SolidSphere::primitive),
 	radius(radius),
 	nStacks(stacks),

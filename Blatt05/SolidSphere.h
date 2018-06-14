@@ -1,5 +1,6 @@
 #pragma once
 #include "VertexArrayObject.h"
+
 class SolidSphere :
 	public VertexArrayObject
 {
