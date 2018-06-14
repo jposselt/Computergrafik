@@ -1,7 +1,8 @@
 #include "SolidSphere.h"
 
-const glm::vec3 SolidSphere::defaultColor(0.8f, 0.8f, 0.8f);
 const double SolidSphere::defaultRadius(1.0);
+
+//const glm::vec3 SolidSphere::defaultColor(1.0f, 0.0f, 0.0f); // Does not work for some reason
 
 SolidSphere::SolidSphere(
 							cg::GLSLProgram & prog,
@@ -31,7 +32,7 @@ SolidSphere::SolidSphere(cg::GLSLProgram & prog, double radius, glm::vec3 color,
 SolidSphere::SolidSphere(cg::GLSLProgram & prog, bool lighting)
 	: VertexArrayObject(prog, lighting, SolidSphere::primitive),
 	radius(SolidSphere::defaultRadius),
-	color(SolidSphere::defaultColor),
+	color(glm::vec3(1.0f, 0.0f, 0.0f)),
 	nStacks(SolidSphere::nStacksDefault),
 	nSlices(SolidSphere::nSlicesDefault)
 {
@@ -40,7 +41,7 @@ SolidSphere::SolidSphere(cg::GLSLProgram & prog, bool lighting)
 SolidSphere::SolidSphere(cg::GLSLProgram & prog)
 	: VertexArrayObject(prog, SolidSphere::defaultLighting, SolidSphere::primitive),
 	radius(SolidSphere::defaultRadius),
-	color(SolidSphere::defaultColor),
+	color(glm::vec3(1.0f, 0.0f, 0.0f)),
 	nStacks(SolidSphere::nStacksDefault),
 	nSlices(SolidSphere::nSlicesDefault)
 {
@@ -48,6 +49,11 @@ SolidSphere::SolidSphere(cg::GLSLProgram & prog)
 
 SolidSphere::~SolidSphere()
 {
+}
+
+void SolidSphere::init()
+{
+	VertexArrayObject::init(color);
 }
 
 std::vector<glm::vec3> SolidSphere::setVertices()
@@ -79,7 +85,6 @@ std::vector<glm::vec3> SolidSphere::setVertices()
 std::vector<glm::vec3> SolidSphere::setColors(const glm::vec3 & color)
 {
 	std::vector<glm::vec3> colors;
-	std::vector<glm::vec3> vertices;
 	for (int i = 0; i <= nStacks; ++i) {
 		// Loop Through Slices
 		for (int j = 0; j <= nSlices; ++j) {

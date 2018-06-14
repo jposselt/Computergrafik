@@ -10,6 +10,8 @@ public:
 	SolidSphere(cg::GLSLProgram & prog);
 	~SolidSphere();
 
+	void init();
+
 protected:
 	std::vector<glm::vec3> setVertices();
 	std::vector<glm::vec3> setColors(const glm::vec3& color);
@@ -26,8 +28,7 @@ private:
 	static const unsigned int nStacksDefault = 15;
 	static const unsigned int nSlicesDefault = 15;
 	static const double defaultRadius;
-	static const glm::vec3 defaultColor;
+	//static const glm::vec3 defaultColor;
 	static const GLenum primitive = GL_TRIANGLES;
 	static const bool defaultLighting = false;
 };
-
