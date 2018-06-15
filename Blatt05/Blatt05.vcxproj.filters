@@ -48,4 +48,10 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\simple.frag" />
+    <None Include="shader\simple.vert" />
+    <None Include="shader\flat.frag" />
+    <None Include="shader\flat.vert" />
+  </ItemGroup>
 </Project>
