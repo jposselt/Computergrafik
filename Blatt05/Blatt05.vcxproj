@@ -130,15 +130,18 @@
     <ClCompile Include="GLSLProgram.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SolarBody.cpp" />
     <ClCompile Include="SolidSphere.cpp" />
     <ClCompile Include="VertexArrayObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Circle.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="FlatSphere.h" />
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTools.h" />
     <ClInclude Include="Line.h" />
+    <ClInclude Include="SolarBody.h" />
     <ClInclude Include="SolidSphere.h" />
     <ClInclude Include="VertexArrayObject.h" />
   </ItemGroup>

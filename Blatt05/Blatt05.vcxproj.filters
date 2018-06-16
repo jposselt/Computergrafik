@@ -36,6 +36,9 @@
     <ClCompile Include="Line.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="SolarBody.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLSLProgram.h">
@@ -57,6 +60,12 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Line.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SolarBody.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
