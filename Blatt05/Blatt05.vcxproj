@@ -126,6 +126,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="FlatSphere.cpp" />
     <ClCompile Include="GLSLProgram.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SolidSphere.cpp" />
@@ -133,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Circle.h" />
+    <ClInclude Include="FlatSphere.h" />
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTools.h" />
     <ClInclude Include="SolidSphere.h" />
