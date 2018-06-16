@@ -47,13 +47,13 @@ SolidSphere::~SolidSphere()
 std::vector<glm::vec3> SolidSphere::setVertices()
 {
 	std::vector<glm::vec3> vertices;
-	for (int i = 0; i <= nStacks; ++i) {
+	for (unsigned int i = 0; i <= nStacks; ++i) {
 
 		GLfloat V = i / (float)nStacks;
 		GLfloat phi = V * glm::pi <float>();
 
 		// Loop Through Slices
-		for (int j = 0; j <= nSlices; ++j) {
+		for (unsigned int j = 0; j <= nSlices; ++j) {
 
 			GLfloat U = j / (float)nSlices;
 			GLfloat theta = U * (glm::pi <float>() * 2);
@@ -73,9 +73,9 @@ std::vector<glm::vec3> SolidSphere::setVertices()
 std::vector<glm::vec3> SolidSphere::setColors(const glm::vec3 & color)
 {
 	std::vector<glm::vec3> colors;
-	for (int i = 0; i <= nStacks; ++i) {
+	for (unsigned int i = 0; i <= nStacks; ++i) {
 		// Loop Through Slices
-		for (int j = 0; j <= nSlices; ++j) {
+		for (unsigned int j = 0; j <= nSlices; ++j) {
 			colors.push_back(color);
 		}
 	}
@@ -85,13 +85,13 @@ std::vector<glm::vec3> SolidSphere::setColors(const glm::vec3 & color)
 std::vector<glm::vec3> SolidSphere::setNormals()
 {
 	std::vector<glm::vec3> normals;
-	for (int i = 0; i <= nStacks; ++i) {
+	for (unsigned int i = 0; i <= nStacks; ++i) {
 
 		GLfloat V = i / (float)nStacks;
 		GLfloat phi = V * glm::pi <float>();
 
 		// Loop Through Slices
-		for (int j = 0; j <= nSlices; ++j) {
+		for (unsigned int j = 0; j <= nSlices; ++j) {
 
 			GLfloat U = j / (float)nSlices;
 			GLfloat theta = U * (glm::pi <float>() * 2);
@@ -111,7 +111,7 @@ std::vector<glm::vec3> SolidSphere::setNormals()
 std::vector<GLuint> SolidSphere::setIndices()
 {
 	std::vector<GLuint> indices;
-	for (int i = 0; i < nSlices * nStacks + nSlices; ++i) {
+	for (unsigned int i = 0; i < nSlices * nStacks + nSlices; ++i) {
 
 		indices.push_back(i);
 		indices.push_back(i + nSlices + 1);

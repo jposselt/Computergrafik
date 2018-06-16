@@ -25,7 +25,7 @@ Circle::~Circle()
 std::vector<glm::vec3> Circle::setVertices()
 {
 	std::vector<glm::vec3> vertices;
-	for (int i = 0; i <= nEdges; ++i) {
+	for (unsigned int i = 0; i <= nEdges; ++i) {
 		GLfloat U = i / (float)nEdges;
 		GLfloat theta = U * (glm::pi <float>() * 2);
 		GLfloat x = cosf(theta);
@@ -38,7 +38,7 @@ std::vector<glm::vec3> Circle::setVertices()
 std::vector<glm::vec3> Circle::setColors(const glm::vec3& color)
 {
 	std::vector<glm::vec3> colors;
-	for (int i = 0; i <= nEdges; ++i) {
+	for (unsigned int i = 0; i <= nEdges; ++i) {
 		colors.push_back(color);
 	}
 	return colors;
@@ -47,7 +47,7 @@ std::vector<glm::vec3> Circle::setColors(const glm::vec3& color)
 std::vector<GLuint> Circle::setIndices()
 {
 	std::vector<GLuint> indices;
-	for (int i = 0; i < nEdges; ++i) {
+	for (unsigned int i = 0; i < nEdges; ++i) {
 		indices.push_back(i);
 		indices.push_back(i + 1);
 	}

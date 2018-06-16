@@ -47,7 +47,7 @@ FlatSphere::~FlatSphere()
 std::vector<glm::vec3> FlatSphere::setVertices()
 {
 	std::vector<glm::vec3> vertices;
-	for (int i = 0; i < nStacks; ++i) {
+	for (unsigned int i = 0; i < nStacks; ++i) {
 
 		GLfloat V0 = i / (float)nStacks;
 		GLfloat V1 = (i+1) / (float)nStacks;
@@ -55,7 +55,7 @@ std::vector<glm::vec3> FlatSphere::setVertices()
 		GLfloat phi1 = V1 * glm::pi <float>();
 
 		// Loop Through Slices
-		for (int j = 0; j <= nSlices; ++j) {
+		for (unsigned int j = 0; j <= nSlices; ++j) {
 
 			GLfloat U0 = j / (float)nSlices;
 			GLfloat U1 = (j+1) / (float)nSlices;
@@ -89,9 +89,9 @@ std::vector<glm::vec3> FlatSphere::setVertices()
 std::vector<glm::vec3> FlatSphere::setColors(const glm::vec3 & color)
 {
 	std::vector<glm::vec3> colors;
-	for (int i = 0; i < nStacks; ++i) {
+	for (unsigned int i = 0; i < nStacks; ++i) {
 		// Loop Through Slices
-		for (int j = 0; j <= nSlices; ++j) {
+		for (unsigned int j = 0; j <= nSlices; ++j) {
 			colors.push_back(color);
 			colors.push_back(color);
 			colors.push_back(color);
@@ -104,7 +104,7 @@ std::vector<glm::vec3> FlatSphere::setColors(const glm::vec3 & color)
 std::vector<glm::vec3> FlatSphere::setNormals()
 {
 	std::vector<glm::vec3> normals;
-	for (int i = 0; i < nStacks; ++i) {
+	for (unsigned int i = 0; i < nStacks; ++i) {
 
 		GLfloat V0 = i / (float)nStacks;
 		GLfloat V1 = (i + 1) / (float)nStacks;
@@ -112,7 +112,7 @@ std::vector<glm::vec3> FlatSphere::setNormals()
 		GLfloat phi1 = V1 * glm::pi <float>();
 
 		// Loop Through Slices
-		for (int j = 0; j <= nSlices; ++j) {
+		for (unsigned int j = 0; j <= nSlices; ++j) {
 
 			GLfloat U0 = j / (float)nSlices;
 			GLfloat U1 = (j + 1) / (float)nSlices;
@@ -150,7 +150,7 @@ std::vector<glm::vec3> FlatSphere::setNormals()
 std::vector<GLuint> FlatSphere::setIndices()
 {
 	std::vector<GLuint> indices;
-	for (int i = 0; i < 4 *(nStacks * nSlices + nSlices); i += 4) {
+	for (unsigned int i = 0; i < 4 *(nStacks * nSlices + nSlices); i += 4) {
 
 		indices.push_back(i);
 		indices.push_back(i + 1);
