@@ -128,6 +128,7 @@
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="FlatSphere.cpp" />
     <ClCompile Include="GLSLProgram.cpp" />
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SolidSphere.cpp" />
     <ClCompile Include="VertexArrayObject.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="FlatSphere.h" />
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTools.h" />
+    <ClInclude Include="Line.h" />
     <ClInclude Include="SolidSphere.h" />
     <ClInclude Include="VertexArrayObject.h" />
   </ItemGroup>
