@@ -2,8 +2,8 @@
 
 #include "VertexArrayObject.h"
 
-const glm::vec3 VertexArrayObject::defaultMaterial(1.0f, 0.0f, 0.0f);
-const float VertexArrayObject::defaultShininess(1.0f);
+const glm::vec3 VertexArrayObject::defaultMaterial(0.7f, 0.3f, 0.0f);
+const float VertexArrayObject::defaultShininess(32.0f);
 
 VertexArrayObject::VertexArrayObject(cg::GLSLProgram& prog, bool useNormals, GLenum mode)
 	: program(prog), useLighting(useNormals), mode(mode)
@@ -91,8 +91,8 @@ void VertexArrayObject::render(const glm::mat4x4 & view, const glm::mat4x4 & pro
 	// Bind the shader program and set uniform(s).
 	program.use();
 	program.setUniform("mvp", projection * view * model);
-	program.setUniform("model", model);
 	if (useLighting) {
+		program.setUniform("model", model);
 		// Create normal matrix (nm) from model matrix.
 		glm::mat3 nm = glm::inverseTranspose(glm::mat3(model));
 		program.setUniform("nm", nm);
