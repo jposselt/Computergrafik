@@ -3,6 +3,7 @@
 #include "VertexArrayObject.h"
 
 const glm::vec3 VertexArrayObject::defaultMaterial(1.0f, 0.0f, 0.0f);
+const float VertexArrayObject::defaultShininess(1.0f);
 
 VertexArrayObject::VertexArrayObject(cg::GLSLProgram& prog, bool useNormals, GLenum mode)
 	: program(prog), useLighting(useNormals), mode(mode)
@@ -18,7 +19,7 @@ VertexArrayObject::~VertexArrayObject()
 	glDeleteBuffers(1, &positionBuffer);
 }
 
-void VertexArrayObject::init(const glm::vec3 & color, const glm::vec3 & material, int shininess)
+void VertexArrayObject::init(const glm::vec3 & color, const glm::vec3 & material, float shininess)
 {
 	// Construct sphere. These vectors can go out of scope after we have send all data to the graphics card.
 	std::vector<glm::vec3> vertices = setVertices();
@@ -90,6 +91,7 @@ void VertexArrayObject::render(const glm::mat4x4 & view, const glm::mat4x4 & pro
 	// Bind the shader program and set uniform(s).
 	program.use();
 	program.setUniform("mvp", projection * view * model);
+	program.setUniform("model", model);
 	if (useLighting) {
 		// Create normal matrix (nm) from model matrix.
 		glm::mat3 nm = glm::inverseTranspose(glm::mat3(model));

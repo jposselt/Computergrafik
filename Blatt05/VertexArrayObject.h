@@ -6,7 +6,7 @@ class VertexArrayObject
 public:
 	VertexArrayObject(cg::GLSLProgram& prog, bool useLighting, GLenum mode);
 	~VertexArrayObject();
-	void init(const glm::vec3& color, const glm::vec3& material, int shininess);
+	void init(const glm::vec3& color, const glm::vec3& material, float shininess);
 	void init(const glm::vec3& color);
 	void render(const glm::mat4x4& view, const glm::mat4x4& projection, const glm::mat4x4& model);
 
@@ -33,7 +33,7 @@ private:
 
 	/* Material properties */
 	glm::vec3 material;
-	int shininess;
+	float shininess;
 
 	/* Object uses lighting */
 	bool useLighting;
@@ -43,5 +43,5 @@ private:
 
 	/* Class constants */
 	static const glm::vec3 defaultMaterial;
-	static const int defaultShininess = 1;
+	static const float defaultShininess;
 };
