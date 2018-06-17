@@ -92,7 +92,7 @@ void glutResize (int width, int height)
  */
 void glutKeyboard (unsigned char keycode, int x, int y)
 {
-	static bool positionLight = false;
+	static bool positionLight = true;
 	switch (keycode)
 	{
 	case 27: // ESC
