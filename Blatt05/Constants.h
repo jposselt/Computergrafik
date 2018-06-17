@@ -8,10 +8,10 @@ namespace Constants {
 	const std::string simpleFragmentShader = "shader/simple.frag";
 	//const std::string vertexShader = "shader/flat.ver";
 	//const std::string fragmentShader = "shader/flat.vert";
-	const std::string vertexShader = "shader/gouraud.vert";
-	const std::string fragmentShader = "shader/gouraud.frag";
-	//const std::string vertexShader = "shader/phong.vert";
-	//const std::string fragmentShader = "shader/phong.frag";
+	//const std::string vertexShader = "shader/gouraud.vert";
+	//const std::string fragmentShader = "shader/gouraud.frag";
+	const std::string vertexShader = "shader/phong.vert";
+	const std::string fragmentShader = "shader/phong.frag";
 
 	/* Initial viewpoint */
 	inline glm::vec3 const &eye() {
@@ -56,8 +56,8 @@ namespace Constants {
 	}
 
 	/* Number of stacks and slices for spheres */
-	const unsigned int stacks = 30;
-	const unsigned int slices = 30;
+	const unsigned int stacks = 60;
+	const unsigned int slices = 60;
 
 	/* Axes vectors */
 	inline glm::vec3 const &xAxis() {
