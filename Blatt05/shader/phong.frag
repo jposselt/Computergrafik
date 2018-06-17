@@ -27,7 +27,7 @@ void main()
 	}
 
 	vec3 v = normalize(surfacePos - cameraPosition);
-	vec3 r = reflect( surfaceToLight, n );
+	vec3 r = normalize(reflect( surfaceToLight, n ));
 
 	float sDotN = max( dot( surfaceToLight, n ), 0.0 );
 	vec3 diffuse = material.x * directLight * outColor * sDotN;
