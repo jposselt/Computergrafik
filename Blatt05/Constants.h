@@ -3,22 +3,70 @@
 
 namespace Constants {
 
+	/* Initial viewpoint */
+	inline glm::vec3 const &eye() {
+		static glm::vec3 eye = glm::vec3(0.0f, 0.0f, 5.0f);
+		return eye;
+	}
+
+	inline glm::vec3 const &center() {
+		static glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
+		return center;
+	}
+
+	inline glm::vec3 const &up() {
+		static glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+		return up;
+	}
+
+	/* */
+	const float zNear = 0.1f;
+	const float zFar = 100.0f;
+
+	/* Clear color */
+	inline glm::vec4 const &clearColor() {
+		static glm::vec4 clearColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+		return clearColor;
+	}
+
 	/* Global lighting settings */
-	const glm::vec3 directLight(1.0);  // white light
-	const glm::vec3 ambientLight(0.0); // no ambient light
-	const glm::vec4 lightDirection(0.0, 0.0, 1.0, 0.0);
+	inline glm::vec3 const &directLight() {
+		static glm::vec3 directLight = glm::vec3(1.0f, 1.0f, 1.0f); // white light
+		return directLight;
+	}
+
+	inline glm::vec3 const &ambientLight() {
+		static glm::vec3 ambientLight = glm::vec3(0.0f, 0.0f, 0.0f); // no ambient light
+		return ambientLight;
+	}
+	
+	inline glm::vec4 const &lightDirection() {
+		static glm::vec4 lightDirection = glm::vec4(0.0, 0.0, 1.0, 0.0);
+		return lightDirection;
+	}
 
 	/* Number of stacks and slices for spheres */
 	const unsigned int stacks = 30;
 	const unsigned int slices = 30;
 
 	/* Axes vectors */
-	const glm::vec3 xAxis = glm::vec3(1.0f, 0.0f, 0.0f);
-	const glm::vec3 yAxis = glm::vec3(0.0f, 1.0f, 0.0f);
-	const glm::vec3 zAxis = glm::vec3(0.0f, 0.0f, 1.0f);
+	inline glm::vec3 const &xAxis() {
+		static glm::vec3 xAxis = glm::vec3(1.0f, 0.0f, 0.0f);
+		return xAxis;
+	}
+
+	inline glm::vec3 const &yAxis() {
+		static glm::vec3 yAxis = glm::vec3(0.0f, 1.0f, 0.0f);
+		return yAxis;
+	}
+
+	inline glm::vec3 const &zAxis() {
+		static glm::vec3 zAxis = glm::vec3(0.0f, 0.0f, 1.0f);
+		return zAxis;
+	}
 
 	/* Scaling of rotation axis to radius */
-	const float axisScale = 3.0f;
+	const float axisScale = 2.0f;
 
 	/* Y-offset step size */
 	const double yStepSize = 0.2;
@@ -50,7 +98,10 @@ namespace Constants {
 		const double tilt = 0.0; // degree
 		const double offset = 0.0;
 		const double startAngle = 0.0;
-		const glm::vec3 color = glm::vec3(1.0f, 1.0f, 0.0f);
+		inline glm::vec3 const &color() {
+			static glm::vec3 color = glm::vec3(1.0f, 1.0f, 0.0f);
+			return color;
+		}
 	}
 
 	/* Constants for the first planet */
@@ -62,7 +113,10 @@ namespace Constants {
 		const double tilt = 0.0; // degree
 		const double offset = 0.0;
 		const double startAngle = 0.0;
-		const glm::vec3 color = glm::vec3(1.0f, 0.0f, 0.0f);
+		inline glm::vec3 const &color() {
+			static glm::vec3 color = glm::vec3(1.0f, 0.0f, 0.0f);
+			return color;
+		}
 
 		/* Constants for the first planets moons */
 		namespace Moons {
@@ -75,7 +129,10 @@ namespace Constants {
 			const double rotationSpeed = 0.0;
 			const double tilt = 0.0; // degree
 			const double offset = 0.0;
-			const glm::vec3 color = glm::vec3(1.0f, 0.5f, 0.0f);
+			inline glm::vec3 const &color() {
+				static glm::vec3 color = glm::vec3(1.0f, 0.5f, 0.0f);
+				return color;
+			}
 		}
 	}
 
@@ -88,7 +145,10 @@ namespace Constants {
 		const double tilt = 45.0; // degree
 		const double offset = 0.0;
 		const double startAngle = 180.0;
-		const glm::vec3 color = glm::vec3(0.0f, 0.0f, 1.0f);
+		inline glm::vec3 const &color() {
+			static glm::vec3 color = glm::vec3(0.0f, 0.0f, 1.0f);
+			return color;
+		}
 
 		/* Constants for the second planets moons */
 		namespace Moons {
@@ -103,7 +163,10 @@ namespace Constants {
 			const double centerOffset = 0.0;
 			const double upperOffset = 2.5;
 			const double lowerOffset = -2.5;
-			const glm::vec3 color = glm::vec3(0.5f, 0.0f, 1.0f);
+			inline glm::vec3 const &color() {
+				static glm::vec3 color = glm::vec3(0.5f, 0.0f, 1.0f);
+				return color;
+			}
 		}
 	}
 }

@@ -31,8 +31,7 @@ SolarBody::SolarBody(
 	orbit(true)
 {
 	objectModel = new SolidSphere(lightingShader, radius, Constants::stacks, Constants::slices, true);
-	objectAxis = new Line(simpleShader, -Constants::axisScale * (float)radius * Constants::yAxis, Constants::axisScale * (float)radius * Constants::yAxis
-	);
+	objectAxis = new Line(simpleShader, -Constants::axisScale * (float)radius * Constants::yAxis(), Constants::axisScale * (float)radius * Constants::yAxis());
 	objectOrbit = new Circle(simpleShader, distance);
 }
 
@@ -54,8 +53,42 @@ void SolarBody::init()
 	objectOrbit->init(color);
 }
 
-void SolarBody::render(glm::mat4x4 & model, glm::mat4x4 & view, glm::mat4x4 & projection, double time)
+void SolarBody::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projection, double time)
 {
+	/* Y-Offset */
+	model = glm::translate(model, glm::vec3(0.0f, yOffset, 0.0f));
+
+	/* Draw orbit */
+	if (orbit) {
+		objectOrbit->render(view, projection, model);
+	}
+
+	/* Translate to orbit position */
+	currentOrbitAngle += glm::radians<float>(time * orbitSpeed);
+	model = glm::translate(
+		model,
+		glm::vec3(distance * glm::cos(currentOrbitAngle), 0.0f, -distance * glm::sin(currentOrbitAngle))
+	);
+
+	/* Tilt the axis */
+	model = glm::rotate(model, glm::radians<float>(axisTilt), Constants::zAxis());
+
+	/* Draw all satelites */
+	for (SolarBody *sat : satellites) {
+		sat->render(model, view, projection, time);
+	}
+
+	/* Draw axis */
+	if (axis) {
+		objectAxis->render(view, projection, model);
+	}
+
+	/* Rotate Object */
+	currentRotationAngle += glm::radians<float>(time * rotationSpeed);
+	model = glm::rotate(model, currentRotationAngle, Constants::yAxis());
+
+	/* Draw the actual object */
+	objectModel->render(view, projection, model);
 }
 
 void SolarBody::addSatellite(SolarBody *satellite)

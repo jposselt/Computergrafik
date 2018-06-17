@@ -10,7 +10,7 @@ public:
 	SolarBody(cg::GLSLProgram & simple, cg::GLSLProgram & lighting, double distance, double radius, double orbitSpeed, double rotationSpeed, glm::vec3 color, double axisTilt, double yOffset, double startAngle);
 	~SolarBody();
 	void init();
-	void render(glm::mat4x4& model, glm::mat4x4& view, glm::mat4x4& projection, double time);
+	void render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projection, double time);
 	void addSatellite(SolarBody *satellite);
 
 	/* Adjust Parameters */
