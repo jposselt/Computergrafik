@@ -49,8 +49,5 @@ private:
 
 	/* List of Satellite Objects */
 	std::vector<SolarBody*> satellites;
-
-	/* Length of axis compared to radius */
-	float axisScale = 3.0f;
 };
 

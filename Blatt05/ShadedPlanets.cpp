@@ -26,16 +26,14 @@ void ShadedPlanets::init()
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 
-	// Construct view matrix.
-	view = glm::lookAt(eye, center, up);
-
 	// Compile shaders
 	initShader(programSimple, "shader/simple.vert", "shader/simple.frag");
 	initShader(programShaded, "shader/flat.vert", "shader/flat.frag");
 
 	// Set light position/direction
 	programShaded.use();
-	programShaded.setUniform("lightPosition", glm::vec4(eye, 1.0f));
+	//programShaded.setUniform("lightPosition", glm::vec4(eye, 1.0f));
+	programShaded.setUniform("lightPosition", glm::vec4(1.0f, 0.0f, 0.0f, 0.0f));
 	programShaded.setUniform("directLight", glm::vec3(1.0));  // white light
 	programShaded.setUniform("ambientLight", glm::vec3(0.0)); // no ambient light
 
@@ -159,24 +157,14 @@ void ShadedPlanets::init()
 	}
 
 	/* Add planets to system */
-	//planetSystem->addSatellite(planet_1);
-	//planetSystem->addSatellite(planet_2);
+	planetSystem->addSatellite(planet_1);
+	planetSystem->addSatellite(planet_2);
 }
 
-void ShadedPlanets::render()
+void ShadedPlanets::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projection)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	planetSystem->render(model, view, projection, timeScaleFactor * getElapsedTime());
-}
-
-void ShadedPlanets::resize(int width, int height)
-{
-	// Division by zero is bad...
-	height = height < 1 ? 1 : height;
-	glViewport(0, 0, width, height);
-
-	// Construct projection matrix.
-	projection = glm::perspective(45.0f, (float)width / height, zNear, zFar);
 }
 
 int ShadedPlanets::getElapsedTime()

@@ -11,8 +11,7 @@ public:
 	~ShadedPlanets();
 
 	void init();
-	void render();
-	void resize(int width, int height);
+	void render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projection);
 
 	void increaseSystemYOffset();
 	void decreaseSystemYOffset();
@@ -31,7 +30,6 @@ private:
 	cg::GLSLProgram programSimple;
 	SolarBody *planetSystem, *planet_1, *planet_2;
 	double timeScaleFactor;
-	glm::mat4x4 model, view, projection;
 	glm::vec3 eye, center, up;
 	float zNear, zFar;
 
