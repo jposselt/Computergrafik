@@ -25,12 +25,8 @@ void ShadedPlanets::init()
 	glDepthFunc(GL_LEQUAL);
 
 	// Compile shaders
-	initShader(programSimple, "shader/simple.vert", "shader/simple.frag");
-	initShader(programShaded, "shader/flat.vert", "shader/flat.frag");
-
-
-	// Set camera position
-	//programShaded.setUniform("cameraPosition", eye);
+	initShader(programSimple, Constants::simpleVertexShader, Constants::simpleFragmentShader);
+	initShader(programShaded, Constants::vertexShader, Constants::fragmentShader);
 
 	/* Sun */
 	planetSystem = new SolarBody(

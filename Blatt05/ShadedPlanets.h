@@ -25,7 +25,6 @@ public:
 	void decreaseSpeed();
 	//void zoomIn();
 	//void zoomOut();
-	//void toggleLight();
 
 private:
 	cg::GLSLProgram programShaded;

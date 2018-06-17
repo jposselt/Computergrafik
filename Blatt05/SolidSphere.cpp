@@ -113,13 +113,13 @@ std::vector<GLuint> SolidSphere::setIndices()
 	std::vector<GLuint> indices;
 	for (unsigned int i = 0; i < nSlices * nStacks + nSlices; ++i) {
 
+		indices.push_back(i + nSlices);
 		indices.push_back(i);
 		indices.push_back(i + nSlices + 1);
-		indices.push_back(i + nSlices);
-
-		indices.push_back(i + nSlices + 1);
+		
 		indices.push_back(i);
 		indices.push_back(i + 1);
+		indices.push_back(i + nSlices + 1);
 	}
 	return indices;
 }

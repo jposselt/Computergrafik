@@ -3,6 +3,16 @@
 
 namespace Constants {
 
+	/* Shaders */
+	const std::string simpleVertexShader = "shader/simple.vert";
+	const std::string simpleFragmentShader = "shader/simple.frag";
+	//const std::string vertexShader = "shader/flat.ver";
+	//const std::string fragmentShader = "shader/flat.vert";
+	const std::string vertexShader = "shader/gouraud.vert";
+	const std::string fragmentShader = "shader/gouraud.frag";
+	//const std::string vertexShader = "shader/phong.vert";
+	//const std::string fragmentShader = "shader/phong.frag";
+
 	/* Initial viewpoint */
 	inline glm::vec3 const &eye() {
 		static glm::vec3 eye = glm::vec3(0.0f, 0.0f, 30.0f);
@@ -41,7 +51,7 @@ namespace Constants {
 	}
 	
 	inline glm::vec4 const &lightDirection() {
-		static glm::vec4 lightDirection = glm::vec4(0.0, 0.0, 1.0, 0.0);
+		static glm::vec4 lightDirection = glm::vec4(1.0, 0.0, 0.0, 0.0);
 		return lightDirection;
 	}
 
