@@ -3,6 +3,7 @@
 #include "Circle.h"
 #include "SolidSphere.h"
 #include "FlatSphere.h"
+#include "Cube.h"
 
 class SolarBody
 {

@@ -30,7 +30,8 @@ SolarBody::SolarBody(
 	axis(true),
 	orbit(true)
 {
-	objectModel = new SolidSphere(lightingShader, radius, Constants::stacks, Constants::slices, true);
+	//objectModel = new SolidSphere(lightingShader, radius, Constants::stacks, Constants::slices, true);
+	objectModel = new Cube(lightingShader, true);
 	objectAxis = new Line(simpleShader, -Constants::axisScale * (float)radius * Constants::yAxis(), Constants::axisScale * (float)radius * Constants::yAxis());
 	objectOrbit = new Circle(simpleShader, distance);
 }
