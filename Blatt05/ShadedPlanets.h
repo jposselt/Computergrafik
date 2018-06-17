@@ -12,6 +12,8 @@ public:
 
 	void init();
 	void render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projection);
+	void setLight(glm::vec4 position, glm::vec3 direct, glm::vec3 ambient);
+	void setCamera(glm::vec3 camera);
 
 	void increaseSystemYOffset();
 	void decreaseSystemYOffset();
@@ -30,13 +32,9 @@ private:
 	cg::GLSLProgram programSimple;
 	SolarBody *planetSystem, *planet_1, *planet_2;
 	double timeScaleFactor;
-	glm::vec3 eye, center, up;
-	float zNear, zFar;
 
 	int getElapsedTime();
-	//void setPositionlight();
-	//void setDirectionLight();
-
+	
 	static void initShader(cg::GLSLProgram& program, const std::string& vert, const std::string& frag);
 	
 };

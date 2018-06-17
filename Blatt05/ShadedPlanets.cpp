@@ -8,9 +8,7 @@
 
 
 ShadedPlanets::ShadedPlanets()
-	: zNear(Constants::zNear), zFar(Constants::zFar),
-	eye(Constants::eye()), center(Constants::center()), up(Constants::up()),
-	timeScaleFactor(Constants::initialTimeScaleFactor)
+	: timeScaleFactor(Constants::initialTimeScaleFactor)
 {
 }
 
@@ -30,15 +28,9 @@ void ShadedPlanets::init()
 	initShader(programSimple, "shader/simple.vert", "shader/simple.frag");
 	initShader(programShaded, "shader/flat.vert", "shader/flat.frag");
 
-	// Set light position/direction
-	programShaded.use();
-	//programShaded.setUniform("lightPosition", glm::vec4(eye, 1.0f));
-	programShaded.setUniform("lightPosition", glm::vec4(1.0f, 0.0f, 0.0f, 0.0f));
-	programShaded.setUniform("directLight", glm::vec3(1.0));  // white light
-	programShaded.setUniform("ambientLight", glm::vec3(0.0)); // no ambient light
 
 	// Set camera position
-	programShaded.setUniform("cameraPosition", eye);
+	//programShaded.setUniform("cameraPosition", eye);
 
 	/* Sun */
 	planetSystem = new SolarBody(
@@ -174,6 +166,19 @@ int ShadedPlanets::getElapsedTime()
 	int elapsedTime = currentTime - previousTime;
 	previousTime = currentTime;
 	return elapsedTime;
+}
+
+void ShadedPlanets::setLight(glm::vec4 position, glm::vec3 direct, glm::vec3 ambient)
+{
+	programShaded.use();
+	programShaded.setUniform("lightPosition", position);
+	programShaded.setUniform("directLight", direct);
+	programShaded.setUniform("ambientLight", ambient);
+}
+
+void ShadedPlanets::setCamera(glm::vec3 camera) {
+	programShaded.use();
+	programShaded.setUniform("cameraPosition", camera);
 }
 
 void ShadedPlanets::increaseSpeed()

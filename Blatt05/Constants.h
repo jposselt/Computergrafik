@@ -5,7 +5,7 @@ namespace Constants {
 
 	/* Initial viewpoint */
 	inline glm::vec3 const &eye() {
-		static glm::vec3 eye = glm::vec3(0.0f, 0.0f, 5.0f);
+		static glm::vec3 eye = glm::vec3(0.0f, 0.0f, 30.0f);
 		return eye;
 	}
 

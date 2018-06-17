@@ -13,6 +13,7 @@
 #include "GLTools.h"
 
 #include "ShadedPlanets.h"
+#include "Constants.h"
 
 // Standard window width
 const int WINDOW_WIDTH  = 640;
@@ -29,12 +30,11 @@ glm::mat4x4 projection;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
-glm::vec3 eye(0.0f, 0.0f, 30.0f);
-glm::vec3 center(0.0f, 0.0f, 0.0f);
-glm::vec3 up(0.0f, 1.0f, 0.0f);
+glm::vec3 eye = Constants::eye();
+//glm::vec3 center(0.0f, 0.0f, 0.0f);
+//glm::vec3 up(0.0f, 1.0f, 0.0f);
 
 // Planetary System
-//SolarBody *planet = new SolarBody(simple, flat, 0.0, 1.0, 0.0, 0.0, glm::vec3(1.0f,1.0f,0.0f), 0.0, 0.0, 0.0);
 ShadedPlanets *planets = new ShadedPlanets();
 
 
@@ -43,67 +43,10 @@ ShadedPlanets *planets = new ShadedPlanets();
  */
 bool init()
 {
-	/*
-	// OpenGL: Set "background" color and enable depth testing.
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glEnable(GL_DEPTH_TEST);
-
-	// Construct view matrix.
-	view = glm::lookAt(eye, center, up);
-
-	// Create shader program with no lighting.
-	if (!simple.compileShaderFromFile("shader/simple.vert", cg::GLSLShader::VERTEX))
-	{
-		std::cerr << simple.log();
-		return false;
-	}
-
-	if (!simple.compileShaderFromFile("shader/simple.frag", cg::GLSLShader::FRAGMENT))
-	{
-		std::cerr << simple.log();
-		return false;
-	}
-	
-	if (!simple.link())
-	{
-		std::cerr << simple.log();
-		return false;
-	}
-
-	// Create a shader program with flat lighting.
-	if (!flat.compileShaderFromFile("shader/flat.vert", cg::GLSLShader::VERTEX))
-	{
-		std::cerr << flat.log();
-		return false;
-	}
-
-	if (!flat.compileShaderFromFile("shader/flat.frag", cg::GLSLShader::FRAGMENT))
-	{
-		std::cerr << flat.log();
-		return false;
-	}
-
-	if (!flat.link())
-	{
-		std::cerr << flat.log();
-		return false;
-	}
-
-	// Set light position/direction
-	flat.use();
-	//flat.setUniform("lightPosition", glm::normalize(glm::vec4(0.0f, 0.0f, 1.0f, 0.0f)));
-	flat.setUniform("lightPosition", glm::vec4(eye, 1.0f));
-	flat.setUniform("directLight", glm::vec3(1.0));  // white light
-	flat.setUniform("ambientLight", glm::vec3(0.0)); // no ambient light
-
-	// Set camera position
-	flat.setUniform("cameraPosition", eye);
-
-	// Initialize planetary system
-	planet->init();
-	*/
-	view = glm::lookAt(eye, center, up);
+	view = glm::lookAt(eye, Constants::center(), Constants::up());
 	planets->init();
+	planets->setCamera(eye);
+	planets->setLight(Constants::lightDirection(), Constants::directLight(), Constants::ambientLight());
 
 	return true;
 }
@@ -113,7 +56,6 @@ bool init()
  */
 void release()
 {
-	// Shader program will be released upon program termination.
 	delete planets;
 }
 
@@ -122,9 +64,6 @@ void release()
  */
 void render()
 {
-	//glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	//glDepthFunc(GL_LEQUAL);
-
 	// Draw the planetary system
 	planets->render(glm::mat4(1.0), view, projection);
 }
@@ -153,11 +92,26 @@ void glutResize (int width, int height)
  */
 void glutKeyboard (unsigned char keycode, int x, int y)
 {
+	static bool positionLight = false;
 	switch (keycode)
 	{
 	case 27: // ESC
 	  glutDestroyWindow ( glutID );
 	  return;
+	case '1':
+		if (positionLight) {
+			planets->setLight(glm::vec4(eye, 1.0), Constants::directLight(), Constants::ambientLight());
+			planets->setCamera(eye);
+		} else {
+			planets->setLight(Constants::lightDirection(), Constants::directLight(), Constants::ambientLight());
+			planets->setCamera(eye);
+		}
+		positionLight = !positionLight;
+		break;
+	case '+':
+		break;
+	case '-':
+		break;
 	}
 	glutPostRedisplay();
 }
