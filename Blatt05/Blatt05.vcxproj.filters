@@ -82,5 +82,7 @@
     <None Include="shader\flat.vert" />
     <None Include="shader\gouraud.frag" />
     <None Include="shader\gouraud.vert" />
+    <None Include="shader\phong.frag" />
+    <None Include="shader\phong.vert" />
   </ItemGroup>
 </Project>
