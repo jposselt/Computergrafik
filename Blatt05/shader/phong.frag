@@ -31,7 +31,7 @@ void main()
 
 	float sDotN = max( dot( surfaceToLight, n ), 0.0 );
 	vec3 diffuse = material.x * directLight * outColor * sDotN;
-	vec3 spec = material.y * directLight * outColor * pow( max( 0.0, dot(r,v) ), shininess );
+	vec3 spec = material.y * directLight * pow( max( 0.0, dot(r,v) ), shininess );
 	vec3 amb = material.z * ambientLight * outColor;
 
 	fragColor = diffuse + spec + amb;
