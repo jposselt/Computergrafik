@@ -2,7 +2,7 @@
 
 #include "VertexArrayObject.h"
 
-const glm::vec3 VertexArrayObject::defaultMaterial(0.1f, 0.9f, 0.0f);
+const glm::vec3 VertexArrayObject::defaultMaterial(0.5f, 0.5f, 0.0f);
 const float VertexArrayObject::defaultShininess(64.0f);
 
 VertexArrayObject::VertexArrayObject(cg::GLSLProgram& prog, bool useNormals, GLenum mode)
