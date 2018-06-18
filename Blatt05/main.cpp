@@ -92,25 +92,49 @@ void glutResize (int width, int height)
  */
 void glutKeyboard (unsigned char keycode, int x, int y)
 {
-	static bool positionLight = true;
+	static bool positionLightNext = true;
+	static float zoomFactor = 1.0;
+	static float zoomStep = 0.1;
+	static float minZoom = 0.4;
+	static float maxZoom = 3.0;
+
 	switch (keycode)
 	{
 	case 27: // ESC
 	  glutDestroyWindow ( glutID );
 	  return;
 	case '1':
-		if (positionLight) {
+		if (positionLightNext) {
 			planets->setLight(glm::vec4(eye, 1.0), Constants::directLight(), Constants::ambientLight());
 			planets->setCamera(eye);
-		} else {
+		} 
+		else {
 			planets->setLight(Constants::lightDirection(), Constants::directLight(), Constants::ambientLight());
 			planets->setCamera(eye);
 		}
-		positionLight = !positionLight;
+		positionLightNext = !positionLightNext;
 		break;
 	case '+':
+		if (zoomFactor > minZoom) {
+			zoomFactor -= zoomStep;
+			eye = zoomFactor * Constants::eye();
+			view = glm::lookAt(eye, Constants::center(), Constants::up());
+			if (!positionLightNext) {
+				planets->setLight(glm::vec4(eye, 1.0), Constants::directLight(), Constants::ambientLight());
+			}
+			planets->setCamera(eye);
+		}
 		break;
 	case '-':
+		if (zoomFactor < maxZoom) {
+			zoomFactor += zoomStep;
+			eye = zoomFactor * Constants::eye();
+			view = glm::lookAt(eye, Constants::center(), Constants::up());
+			if (!positionLightNext) {
+				planets->setLight(glm::vec4(eye, 1.0), Constants::directLight(), Constants::ambientLight());
+			}
+			planets->setCamera(eye);
+		}
 		break;
 	}
 	glutPostRedisplay();
