@@ -30,8 +30,8 @@ SolarBody::SolarBody(
 	axis(true),
 	orbit(true)
 {
-	//objectModel = new SolidSphere(lightingShader, radius, Constants::stacks, Constants::slices, true);
-	objectModel = new Cube(lightingShader, true);
+	objectModel = new SolidSphere(lightingShader, radius, Constants::stacks, Constants::slices, true);
+	//objectModel = new Cube(lightingShader, true);
 	objectAxis = new Line(simpleShader, -Constants::axisScale * (float)radius * Constants::yAxis(), Constants::axisScale * (float)radius * Constants::yAxis());
 	objectOrbit = new Circle(simpleShader, distance);
 }
@@ -65,7 +65,7 @@ void SolarBody::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projecti
 	}
 
 	/* Translate to orbit position */
-	currentOrbitAngle += glm::radians<float>(time * orbitSpeed);
+	currentOrbitAngle += glm::radians<float>(fmod(time * orbitSpeed, Constants::degreeCircle));
 	model = glm::translate(
 		model,
 		glm::vec3(distance * glm::cos(currentOrbitAngle), 0.0f, -distance * glm::sin(currentOrbitAngle))
@@ -85,7 +85,7 @@ void SolarBody::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projecti
 	}
 
 	/* Rotate Object */
-	currentRotationAngle += glm::radians<float>(time * rotationSpeed);
+	currentRotationAngle += glm::radians<float>(fmod(time * rotationSpeed, Constants::degreeCircle));
 	model = glm::rotate(model, currentRotationAngle, Constants::yAxis());
 
 	/* Draw the actual object */
