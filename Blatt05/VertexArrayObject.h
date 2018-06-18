@@ -1,6 +1,9 @@
 #pragma once
 #include "GLSLProgram.h"
 
+/// <summary>
+/// Abstract base class for rendering arbitrary objects
+/// </summary>
 class VertexArrayObject
 {
 public:

@@ -4,6 +4,9 @@
 #include "GLSLProgram.h"
 #include "SolarBody.h"
 
+/// <summary>
+/// A solar system with a sun, two planets and 13 moon
+/// </summary>
 class ShadedPlanets
 {
 public:
@@ -23,8 +26,6 @@ public:
 	void decreasePlanet2Tilt();
 	void increaseSpeed();
 	void decreaseSpeed();
-	//void zoomIn();
-	//void zoomOut();
 
 private:
 	cg::GLSLProgram programShaded;

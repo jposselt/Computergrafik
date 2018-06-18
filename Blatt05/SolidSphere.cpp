@@ -1,7 +1,18 @@
 #include "SolidSphere.h"
 
+/// <summary>
+/// The default radius of the sphere
+/// </summary>
 const double SolidSphere::defaultRadius(1.0);
 
+/// <summary>
+/// Initializes a new instance of the <see cref="SolidSphere"/> class.
+/// </summary>
+/// <param name="prog">The shader program to use for rendering.</param>
+/// <param name="radius">The radius of the sphere.</param>
+/// <param name="stacks">The number of vertical divisions to approximate a sphere.</param>
+/// <param name="slices">The number of horizontal divisions to approximate a sphere.</param>
+/// <param name="lighting">If set to <c>true</c> surface normals and material properties are passed to the shader.</param>
 SolidSphere::SolidSphere(
 	cg::GLSLProgram & prog,
 	double radius,
@@ -16,6 +27,12 @@ SolidSphere::SolidSphere(
 {
 }
 
+/// <summary>
+/// Initializes a new instance of the <see cref="SolidSphere"/> class.
+/// </summary>
+/// <param name="prog">The shader program to use for rendering.</param>
+/// <param name="radius">The radius of the sphere.</param>
+/// <param name="lighting">If set to <c>true</c> surface normals and material properties are passed to the shader.</param>
 SolidSphere::SolidSphere(cg::GLSLProgram & prog, double radius, bool lighting)
 	: VertexArrayObject(prog, lighting, SolidSphere::primitive),
 	radius(radius),
@@ -24,6 +41,11 @@ SolidSphere::SolidSphere(cg::GLSLProgram & prog, double radius, bool lighting)
 {
 }
 
+/// <summary>
+/// Initializes a new instance of the <see cref="SolidSphere"/> class.
+/// </summary>
+/// <param name="prog">The shader program to use for rendering.</param>
+/// <param name="lighting">If set to <c>true</c> surface normals and material properties are passed to the shader.</param>
 SolidSphere::SolidSphere(cg::GLSLProgram & prog, bool lighting)
 	: VertexArrayObject(prog, lighting, SolidSphere::primitive),
 	radius(SolidSphere::defaultRadius),
@@ -32,6 +54,10 @@ SolidSphere::SolidSphere(cg::GLSLProgram & prog, bool lighting)
 {
 }
 
+/// <summary>
+/// Initializes a new instance of the <see cref="SolidSphere"/> class.
+/// </summary>
+/// <param name="prog">The shader program to use for rendering.</param>
 SolidSphere::SolidSphere(cg::GLSLProgram & prog)
 	: VertexArrayObject(prog, SolidSphere::defaultLighting, SolidSphere::primitive),
 	radius(SolidSphere::defaultRadius),
@@ -40,10 +66,17 @@ SolidSphere::SolidSphere(cg::GLSLProgram & prog)
 {
 }
 
+/// <summary>
+/// Finalizes an instance of the <see cref="SolidSphere"/> class.
+/// </summary>
 SolidSphere::~SolidSphere()
 {
 }
 
+/// <summary>
+/// Sets the vertices.
+/// </summary>
+/// <returns></returns>
 std::vector<glm::vec3> SolidSphere::setVertices()
 {
 	std::vector<glm::vec3> vertices;
@@ -70,6 +103,11 @@ std::vector<glm::vec3> SolidSphere::setVertices()
 	return vertices;
 }
 
+/// <summary>
+/// Sets the colors.
+/// </summary>
+/// <param name="color">The color.</param>
+/// <returns></returns>
 std::vector<glm::vec3> SolidSphere::setColors(const glm::vec3 & color)
 {
 	std::vector<glm::vec3> colors;
@@ -82,6 +120,8 @@ std::vector<glm::vec3> SolidSphere::setColors(const glm::vec3 & color)
 	return colors;
 }
 
+/// <summary>Set the surface normals.</summary>
+/// <returns>Vector of surface normal vectors for each vertex</returns>
 std::vector<glm::vec3> SolidSphere::setNormals()
 {
 	std::vector<glm::vec3> normals;
@@ -108,6 +148,10 @@ std::vector<glm::vec3> SolidSphere::setNormals()
 	return normals;
 }
 
+/// <summary>
+/// Sets the order in which vertices are rendered.
+/// </summary>
+/// <returns></returns>
 std::vector<GLuint> SolidSphere::setIndices()
 {
 	std::vector<GLuint> indices;

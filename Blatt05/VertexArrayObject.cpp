@@ -2,14 +2,30 @@
 
 #include "VertexArrayObject.h"
 
+/// <summary>
+/// The default material coefficients (diffuse/specular/ambient reflectivity)
+/// </summary>
 const glm::vec3 VertexArrayObject::defaultMaterial(0.5f, 0.5f, 0.0f);
+
+/// <summary>
+/// The default shininess
+/// </summary>
 const float VertexArrayObject::defaultShininess(64.0f);
 
-VertexArrayObject::VertexArrayObject(cg::GLSLProgram& prog, bool useNormals, GLenum mode)
-	: program(prog), useLighting(useNormals), mode(mode)
+/// <summary>
+/// Initializes a new instance of the <see cref="VertexArrayObject"/> class.
+/// </summary>
+/// <param name="prog">The shader program to use for rendering.</param>
+/// <param name="useLighting">If set to <c>true</c> surface normals and material properties are passed to the shader. Use <c>false</c> if representing objects with no surface (e.g. lines)</param>
+/// <param name="mode">The kind of primitives to render (e.g. GL_TRIANGLES for triangles).</param>
+VertexArrayObject::VertexArrayObject(cg::GLSLProgram& prog, bool useLighting, GLenum mode)
+	: program(prog), useLighting(useLighting), mode(mode)
 {
 }
 
+/// <summary>
+/// Finalizes an instance of the <see cref="VertexArrayObject"/> class.
+/// </summary>
 VertexArrayObject::~VertexArrayObject()
 {
 	glDeleteVertexArrays(1, &vao);
@@ -19,6 +35,12 @@ VertexArrayObject::~VertexArrayObject()
 	glDeleteBuffers(1, &positionBuffer);
 }
 
+/// <summary>
+/// Initializes material properties of the object
+/// </summary>
+/// <param name="color">The object color</param>
+/// <param name="material">Material coefficients for Phong lighting (diffuse/specular/ambient)</param>
+/// <param name="shininess">The shininess of the material. Affects specular higlights</param>
 void VertexArrayObject::init(const glm::vec3 & color, const glm::vec3 & material, float shininess)
 {
 	// Construct sphere. These vectors can go out of scope after we have send all data to the graphics card.
@@ -81,11 +103,21 @@ void VertexArrayObject::init(const glm::vec3 & color, const glm::vec3 & material
 	glBindVertexArray(0);
 }
 
+/// <summary>
+/// Initializes color of the object.
+/// </summary>
+/// <param name="color">The color.</param>
 void VertexArrayObject::init(const glm::vec3 & color)
 {
 	VertexArrayObject::init(color, VertexArrayObject::defaultMaterial, VertexArrayObject::defaultShininess);
 }
 
+/// <summary>
+/// Renders the object using the specified matrices.
+/// </summary>
+/// <param name="view">The view matrix.</param>
+/// <param name="projection">The projection matrix.</param>
+/// <param name="model">The model matrix.</param>
 void VertexArrayObject::render(const glm::mat4x4 & view, const glm::mat4x4 & projection, const glm::mat4x4 & model)
 {
 	// Bind the shader program and set uniform(s).
@@ -110,6 +142,10 @@ void VertexArrayObject::render(const glm::mat4x4 & view, const glm::mat4x4 & pro
 	glBindVertexArray(0);
 }
 
+/// <summary>
+/// Default implementation for setting the normals.
+/// </summary>
+/// <returns>Empty vector of 3-vectors</returns>
 std::vector<glm::vec3> VertexArrayObject::setNormals()
 {
 	return std::vector<glm::vec3>();

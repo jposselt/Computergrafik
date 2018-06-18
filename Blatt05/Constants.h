@@ -1,6 +1,9 @@
 #pragma once
 #include <glm/glm.hpp>
 
+/// <summary>
+/// Collection of constants
+/// </summary>
 namespace Constants {
 
 	/* Shaders */

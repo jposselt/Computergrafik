@@ -7,16 +7,25 @@
 #include "Constants.h"
 
 
+/// <summary>
+/// Initializes a new instance of the <see cref="ShadedPlanets"/> class.
+/// </summary>
 ShadedPlanets::ShadedPlanets()
 	: timeScaleFactor(Constants::initialTimeScaleFactor)
 {
 }
 
+/// <summary>
+/// Finalizes an instance of the <see cref="ShadedPlanets"/> class.
+/// </summary>
 ShadedPlanets::~ShadedPlanets()
 {
 	delete planetSystem;
 }
 
+/// <summary>
+/// Initializes this instance.
+/// </summary>
 void ShadedPlanets::init()
 {
 	// OpenGL: Set "background" color and enable depth testing.
@@ -149,12 +158,22 @@ void ShadedPlanets::init()
 	planetSystem->addSatellite(planet_2);
 }
 
+/// <summary>
+/// Renders the solar system.
+/// </summary>
+/// <param name="model">The model matrix.</param>
+/// <param name="view">The view matrix.</param>
+/// <param name="projection">The projection matrix.</param>
 void ShadedPlanets::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projection)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	planetSystem->render(model, view, projection, timeScaleFactor * getElapsedTime());
 }
 
+/// <summary>
+/// Gets the elapsed time in milliseconds.
+/// </summary>
+/// <returns></returns>
 int ShadedPlanets::getElapsedTime()
 {
 	static int previousTime = 0;
@@ -164,6 +183,12 @@ int ShadedPlanets::getElapsedTime()
 	return elapsedTime;
 }
 
+/// <summary>
+/// Pass lighting information to the shader program.
+/// </summary>
+/// <param name="position">The position/direction of the light source.</param>
+/// <param name="direct">RGB color vector of the direct light.</param>
+/// <param name="ambient">RGB color vector of the ambient light.</param>
 void ShadedPlanets::setLight(glm::vec4 position, glm::vec3 direct, glm::vec3 ambient)
 {
 	programShaded.use();
@@ -172,51 +197,85 @@ void ShadedPlanets::setLight(glm::vec4 position, glm::vec3 direct, glm::vec3 amb
 	programShaded.setUniform("ambientLight", ambient);
 }
 
+/// <summary>
+/// Pass the camera position information to the shader program.
+/// </summary>
+/// <param name="camera">The camera.</param>
 void ShadedPlanets::setCamera(glm::vec3 camera) {
 	programShaded.use();
 	programShaded.setUniform("cameraPosition", camera);
 }
 
+/// <summary>
+/// Increases the animation speed.
+/// </summary>
 void ShadedPlanets::increaseSpeed()
 {
 	timeScaleFactor += Constants::timeScaleStepSize;
 }
 
+/// <summary>
+/// Decreases the animation speed.
+/// </summary>
 void ShadedPlanets::decreaseSpeed()
 {
 	timeScaleFactor -= Constants::timeScaleStepSize;
 }
 
+/// <summary>
+/// Increases the system y offset.
+/// </summary>
 void ShadedPlanets::increaseSystemYOffset()
 {
 	planetSystem->increaseYOffset(Constants::yStepSize);
 }
 
+/// <summary>
+/// Decreases the system y offset.
+/// </summary>
 void ShadedPlanets::decreaseSystemYOffset()
 {
 	planetSystem->decreaseYOffset(Constants::yStepSize);
 }
 
+/// <summary>
+/// Increases the y offset of the first planet.
+/// </summary>
 void ShadedPlanets::increasePlanet1YOffset()
 {
 	planet_1->increaseYOffset(Constants::yStepSize);
 }
 
+/// <summary>
+/// Decreases the y offset of the first planet.
+/// </summary>
 void ShadedPlanets::decreasePlanet1YOffset()
 {
 	planet_1->decreaseYOffset(Constants::yStepSize);
 }
 
+/// <summary>
+/// Increases the axis tilt of the second planet.
+/// </summary>
 void ShadedPlanets::increasePlanet2Tilt()
 {
 	planet_2->increaseAxisTilt(Constants::tiltStepSize);
 }
 
+/// <summary>
+/// Decreases the axis tilt of the second planet.
+/// </summary>
 void ShadedPlanets::decreasePlanet2Tilt()
 {
 	planet_2->decreaseAxisTilt(Constants::tiltStepSize);
 }
 
+/// <summary>
+/// Initializes the shader.
+/// </summary>
+/// <param name="program">The shader program to initialize.</param>
+/// <param name="vert">Vertex shader file.</param>
+/// <param name="frag">Fragment shader file.</param>
 void ShadedPlanets::initShader(cg::GLSLProgram & program, const std::string & vert, const std::string & frag)
 {
 	if (!program.compileShaderFromFile(vert.c_str(), cg::GLSLShader::VERTEX))

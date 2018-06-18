@@ -5,6 +5,9 @@
 #include "FlatSphere.h"
 #include "Cube.h"
 
+/// <summary>
+/// Recursive Representation of a solar object (e.g. a sun, planet or moon) with satellites
+/// </summary>
 class SolarBody
 {
 public:

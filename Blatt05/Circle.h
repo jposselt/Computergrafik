@@ -1,5 +1,10 @@
 #pragma once
 #include "VertexArrayObject.h"
+
+/// <summary>
+///  Class for rendering 1D circles
+/// </summary>
+/// <seealso cref="VertexArrayObject" />
 class Circle :
 	public VertexArrayObject
 {

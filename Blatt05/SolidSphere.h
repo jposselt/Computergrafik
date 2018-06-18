@@ -1,6 +1,10 @@
 #pragma once
 #include "VertexArrayObject.h"
 
+/// <summary>
+/// Class for rendering solid spheres
+/// </summary>
+/// <seealso cref="VertexArrayObject" />
 class SolidSphere :
 	public VertexArrayObject
 {

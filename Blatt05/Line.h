@@ -1,5 +1,10 @@
 #pragma once
 #include "VertexArrayObject.h"
+
+/// <summary>
+/// Class for rendering 1D lines
+/// </summary>
+/// <seealso cref="VertexArrayObject" />
 class Line :
 	public VertexArrayObject
 {
