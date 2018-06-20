@@ -1,7 +1,6 @@
 #pragma once
 
 #include "glm/glm.hpp"
-#include "Vector3f.h"
 
 class Vertex;
 class HalfEdge;

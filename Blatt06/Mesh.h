@@ -5,7 +5,6 @@
 #include "Vertex.h"
 #include "HalfEdge.h"
 #include "Face.h"
-#include "Vector3f.h"
 
 typedef struct {
 	float max_x;
