@@ -1,5 +1,6 @@
 #pragma once
 
+#include "glm/glm.hpp"
 #include "Vector3f.h"
 
 class HalfEdge;
@@ -11,10 +12,10 @@ public:
 	~Face();
 
 	void calculate_normal();
-	Vector3f centroid() const;
+	glm::vec3 centroid() const;
 
 	int id;
-	HalfEdge* e;     // One of the half-edges bordering the face
-	Vector3f normal; // Normal vector of this face
+	HalfEdge* e;      // One of the half-edges bordering the face
+	glm::vec3 normal; // Normal vector of this face
 };
 

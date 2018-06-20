@@ -1,6 +1,6 @@
 #include "HalfEdge.h"
 
-Vector3f HalfEdge::as_vector() const
+glm::vec3 HalfEdge::as_vector() const
 {
-	return Vector3f();
+	return glm::vec3(0.0);
 }

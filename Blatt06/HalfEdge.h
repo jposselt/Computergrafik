@@ -1,5 +1,6 @@
 #pragma once
 
+#include "glm/glm.hpp"
 #include "Vector3f.h"
 
 class Vertex;
@@ -9,7 +10,7 @@ class Face;
 class HalfEdge
 {
 public:
-	Vector3f as_vector() const;
+	glm::vec3 as_vector() const;
 
 	int id;
 	Vertex* vert;  // The vertex at the end of the half-edge
