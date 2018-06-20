@@ -12,8 +12,8 @@ public:
 	glm::vec3 as_vector() const;
 
 	int id;
-	Vertex* vert;  // The vertex at the end of the half-edge
-	Face* f;        // The face the half-edge borders
+	Vertex* vert;   // The vertex the half edge is starting at
+	Face* face;     // The face the half-edge borders
 	HalfEdge* next; // The next half-edge around the face
 	HalfEdge* pair; // The oppositely oriented adjacent half-edge
 };

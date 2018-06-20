@@ -14,7 +14,7 @@ public:
 	glm::vec3 centroid() const;
 
 	int id;
-	HalfEdge* e;      // One of the half-edges bordering the face
+	HalfEdge* edge;      // One of the half-edges bordering the face
 	glm::vec3 normal; // Normal vector of this face
 };
 
