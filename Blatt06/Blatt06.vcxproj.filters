@@ -18,9 +18,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="Vector3f.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="Face.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -33,11 +30,11 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="ObjParser.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Vector3f.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="Face.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -48,6 +45,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjParser.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
