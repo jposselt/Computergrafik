@@ -30,7 +30,27 @@ void MeshAnalyser::analyseVertices(Mesh & mesh, MeshStatistics & statistics)
 {
 	bool ok = true;
 	for (auto iter = mesh.vertices.begin(); iter != mesh.vertices.end(); ++iter) {
-		// TODO
+		unsigned int count = 0;
+		Vertex *vert = (*iter);
+		HalfEdge *edge = vert->edge;
+
+		do {
+			if (edge->vert != vert) {
+				ok = false;
+				cout << "Edge " << edge->id << " expected to connect to vertex " << vert->id << " but connects to vertex " << edge->vert->id << endl;
+				break;
+			}
+			count++;
+			edge = edge->pair->next;
+		} while ( edge != vert->edge );
+
+		map<unsigned int, unsigned int>::iterator it = statistics.vertexValence.find(count);
+		if (it == statistics.vertexValence.end()) {
+			statistics.vertexValence.insert(pair<unsigned int, unsigned int>(count, 1));
+		}
+		else {
+			it->second += 1;
+		}
 	}
 	statistics.nVertices = mesh.vertices.size();
 	
