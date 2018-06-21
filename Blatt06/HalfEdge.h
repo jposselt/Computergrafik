@@ -11,7 +11,7 @@ class HalfEdge
 public:
 	glm::vec3 as_vector() const;
 
-	int id;
+	unsigned int id;
 	Vertex* vert;   // The vertex the half edge is starting at
 	Face* face;     // The face the half-edge borders
 	HalfEdge* next; // The next half-edge around the face
