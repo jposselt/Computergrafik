@@ -11,10 +11,19 @@ ObjParser::ObjParser()
 {
 }
 
+/// <summary>
+/// Finalizes an instance of the <see cref="ObjParser"/> class.
+/// </summary>
 ObjParser::~ObjParser()
 {
 }
 
+/// <summary>
+/// Creates a hafledge mesh from an obj file
+/// </summary>
+/// <param name="filename">Path ot the obj file</param>
+/// <param name="mesh">Output Halfedge mesh</param>
+/// <returns></returns>
 bool ObjParser::load_mesh(const string & filename, Mesh & mesh)
 {
 	edgeMap.clear();
@@ -32,12 +41,17 @@ bool ObjParser::load_mesh(const string & filename, Mesh & mesh)
 	}
 
 	cout << "Loaded mesh: " << endl
-		<< "  " << mesh.verteces.size() << " verteces." << endl
+		<< "  " << mesh.vertices.size() << " verteces." << endl
 		<< "  " << mesh.edges.size() << " edges." << endl
 		<< "  " << mesh.faces.size() << " faces." << endl;
 	return true;
 }
 
+/// <summary>
+/// Parses a line from the obj file.
+/// </summary>
+/// <param name="objm">Halfedge mesh in which parsed information is stored.</param>
+/// <param name="line">The line to parse.</param>
 void ObjParser::parse_line(Mesh & objm, string line)
 {
 	if (line[0] == 'v' && line[1] == ' ') {
@@ -50,8 +64,8 @@ void ObjParser::parse_line(Mesh & objm, string line)
 
 		// Set vertex id, position and add to mesh
 		v->position = glm::vec3(x, y, z);
-		v->id = objm.verteces.size() + 1;
-		objm.verteces.push_back(v);
+		v->id = objm.vertices.size() + 1;
+		objm.vertices.push_back(v);
 	}
 	else if (line[0] == 'f' && line[1] == ' ') {
 		// Line is a face
@@ -79,11 +93,11 @@ void ObjParser::parse_line(Mesh & objm, string line)
 			unsigned int i2 = stoul(tokens[ (i % (tokens.size() -1)) + 1]);
 
 			// Set halfedge vertex
-			e->vert = objm.verteces.at(i1 - 1); // -1: ids not zero-based
+			e->vert = objm.vertices.at(i1 - 1); // -1: ids not zero-based
 
 			// Set references to the halfedge in the other structures
 			// This might be overwriting a previous value, but that's fine
-			objm.verteces.at(i1 - 1)->e = e;
+			objm.vertices.at(i1 - 1)->e = e;
 			f->edge = e;
 
 			// Connect halfedge pairs (with helper map)

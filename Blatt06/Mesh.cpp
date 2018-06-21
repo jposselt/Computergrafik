@@ -22,7 +22,7 @@ bounds Mesh::get_bounds() const
 	b.max_y = -INFINITY;
 	b.max_z = -INFINITY;
 
-	for (auto vit = verteces.begin(); vit != verteces.end(); vit++) {
+	for (auto vit = vertices.begin(); vit != vertices.end(); vit++) {
 		glm::vec3 loc = (*vit)->position;
 		if (loc.x < b.min_x) b.min_x = loc.x;
 		if (loc.x > b.max_x) b.max_x = loc.x;

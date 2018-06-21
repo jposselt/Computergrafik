@@ -24,7 +24,7 @@ public:
 	void calculate_normals();
 	bounds get_bounds() const;
 
-	std::vector<Vertex*> verteces;
+	std::vector<Vertex*> vertices;
 	std::vector<HalfEdge*> edges;
 	std::vector<Face*> faces;
 };
