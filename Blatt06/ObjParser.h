@@ -13,9 +13,9 @@ public:
 	ObjParser();
 	~ObjParser();
 
-	bool load_mesh(const std::string &filename, Mesh &mesh);
+	bool loadMesh(const std::string &filename, Mesh &mesh);
 private:
-	void parse_line(Mesh &objm, std::string line);
+	void parseLine(Mesh &objm, std::string line);
 
 	EdgeMap edgeMap;
 };

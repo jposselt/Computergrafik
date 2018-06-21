@@ -24,7 +24,7 @@ ObjParser::~ObjParser()
 /// <param name="filename">Path ot the obj file</param>
 /// <param name="mesh">Output Halfedge mesh</param>
 /// <returns></returns>
-bool ObjParser::load_mesh(const string & filename, Mesh & mesh)
+bool ObjParser::loadMesh(const string & filename, Mesh & mesh)
 {
 	edgeMap.clear();
 	ifstream input(filename);
@@ -37,7 +37,7 @@ bool ObjParser::load_mesh(const string & filename, Mesh & mesh)
 	string line;
 	while (input.good()) {
 		getline(input, line);
-		parse_line(mesh, line);
+		parseLine(mesh, line);
 	}
 
 	cout << "Loaded mesh: " << endl
@@ -52,7 +52,7 @@ bool ObjParser::load_mesh(const string & filename, Mesh & mesh)
 /// </summary>
 /// <param name="objm">Halfedge mesh in which parsed information is stored.</param>
 /// <param name="line">The line to parse.</param>
-void ObjParser::parse_line(Mesh & objm, string line)
+void ObjParser::parseLine(Mesh & objm, string line)
 {
 	if (line[0] == 'v' && line[1] == ' ') {
 		// Line is a verteces
