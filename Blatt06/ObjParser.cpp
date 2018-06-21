@@ -17,27 +17,28 @@ ObjParser::~ObjParser()
 
 bool ObjParser::load_mesh(const string & filename, Mesh & mesh)
 {
-	std::ifstream input(filename);
+	edgeMap.clear();
+	ifstream input(filename);
 
 	if (!input.good()) {
 		cout << "Could not read file." << endl;
 		return false;
 	}
 
-	std::string line;
+	string line;
 	while (input.good()) {
 		getline(input, line);
 		parse_line(mesh, line);
 	}
 
-	cout << "Loaded mesh: " << std::endl
+	cout << "Loaded mesh: " << endl
 		<< "  " << mesh.verteces.size() << " verteces." << endl
 		<< "  " << mesh.edges.size() << " edges." << endl
 		<< "  " << mesh.faces.size() << " faces." << endl;
 	return true;
 }
 
-void ObjParser::parse_line(Mesh & objm, std::string line)
+void ObjParser::parse_line(Mesh & objm, string line)
 {
 	if (line[0] == 'v' && line[1] == ' ') {
 		// Line is a verteces
@@ -55,6 +56,7 @@ void ObjParser::parse_line(Mesh & objm, std::string line)
 	else if (line[0] == 'f' && line[1] == ' ') {
 		// Line is a face
 		Face *f = new Face();
+		f->id = objm.faces.size() + 1;
 
 		/* Tokenize the line */
 		istringstream tokenizer(line);
@@ -69,6 +71,7 @@ void ObjParser::parse_line(Mesh & objm, std::string line)
 		// Iterate over face halfedges
 		for (unsigned int i = 1; i < tokens.size(); i++) {
 			HalfEdge *e = new HalfEdge();
+			e->id = objm.edges.size() + 1;
 			e->face = f;
 
 			// Vertex indices for the halfedge
@@ -83,10 +86,19 @@ void ObjParser::parse_line(Mesh & objm, std::string line)
 			objm.verteces.at(i1 - 1)->e = e;
 			f->edge = e;
 
-			// TODO: connect halfedge pairs (with helper map)
+			// Connect halfedge pairs (with helper map)
+			EdgeKey pairKey = make_pair(i2, i1);
+			EdgeMap::iterator it = edgeMap.find(pairKey);
+			if ( it != edgeMap.end() ) {
+				e->pair = it->second;
+				it->second->pair = e;
+				edgeMap.erase(it);
+			}
+			else {
+				edgeMap.insert( make_pair( make_pair(i1, i2), e) );
+			}
 
-			// Set id and add halfedge to mesh
-			e->id = objm.edges.size() + 1;
+			// Add halfedge to mesh
 			objm.edges.push_back(e);
 
 			// Add to edge list
@@ -98,10 +110,7 @@ void ObjParser::parse_line(Mesh & objm, std::string line)
 			edgeList.at(i)->next = edgeList.at( (i+1) % edgeList.size());
 		}
 
-		// ...
-
-		// Set id and add face to mesh
-		f->id = objm.faces.size() + 1;
+		// Add face to mesh
 		objm.faces.push_back(f);
 	}
 	else if (line[0] == 'v' && line[1] == 'n' && line[2] == ' ') {
