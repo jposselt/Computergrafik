@@ -97,7 +97,7 @@ void ObjParser::parse_line(Mesh & objm, string line)
 
 			// Set references to the halfedge in the other structures
 			// This might be overwriting a previous value, but that's fine
-			objm.vertices.at(i1 - 1)->e = e;
+			objm.vertices.at(i1 - 1)->edge = e;
 			f->edge = e;
 
 			// Connect halfedge pairs (with helper map)
