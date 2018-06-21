@@ -126,18 +126,25 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Face.cpp" />
+    <ClCompile Include="GLSLProgram.cpp" />
     <ClCompile Include="HalfEdge.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="ObjParser.cpp" />
     <ClCompile Include="Vertex.cpp" />
+    <ClCompile Include="VertexArrayObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Face.h" />
+    <ClInclude Include="GLSLProgram.h" />
+    <ClInclude Include="GLTools.h" />
     <ClInclude Include="HalfEdge.h" />
+    <ClInclude Include="LightInfo.h" />
+    <ClInclude Include="MaterialInfo.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="ObjParser.h" />
     <ClInclude Include="Vertex.h" />
+    <ClInclude Include="VertexArrayObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
