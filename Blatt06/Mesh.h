@@ -21,8 +21,8 @@ public:
 	Mesh();
 	~Mesh();
 
-	void calculate_normals();
-	bounds get_bounds() const;
+	void calculateNormals();
+	bounds getBounds() const;
 
 	std::vector<Vertex*> vertices;
 	std::vector<HalfEdge*> edges;

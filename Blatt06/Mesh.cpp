@@ -8,11 +8,24 @@ Mesh::~Mesh()
 {
 }
 
-void Mesh::calculate_normals()
+void Mesh::calculateNormals()
 {
+	for (auto iter = vertices.begin(); iter != vertices.end(); ++iter) {
+		Vertex *vert = (*iter);
+		HalfEdge *edge = vert->edge;
+
+		glm::vec3 vertexNormal(0.0f);
+		do {
+			glm::vec3 faceNormal = glm::cross(edge->pair->next->as_vector(), edge->as_vector());
+			edge->pair->next->face->normal = faceNormal;
+			vertexNormal += faceNormal;
+			edge = edge->pair->next;
+		} while (edge != vert->edge);
+		vert->normal = glm::normalize(vertexNormal);
+	}
 }
 
-bounds Mesh::get_bounds() const
+bounds Mesh::getBounds() const
 {
 	bounds b;
 	b.min_x = INFINITY;
