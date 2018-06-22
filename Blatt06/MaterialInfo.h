@@ -9,6 +9,6 @@ struct MaterialInfo
 	float Shininess;	//Specular shininess factor
 };
 
-namespace Material {
-	MaterialInfo DefaultMaterial;
-}
+//namespace Material {
+//	MaterialInfo DefaultMaterial;
+//}

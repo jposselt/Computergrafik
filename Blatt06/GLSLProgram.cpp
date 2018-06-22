@@ -319,6 +319,34 @@ void GLSLProgram::setUniform(const char* name, int size, const glm::mat4* value)
 	}
 }
 
+void GLSLProgram::setUniform(const char* name, int size, const glm::vec3* value)
+{
+	int location = getUniformLocation(name);
+
+	if (location < 0)
+	{
+		if (verbose)
+			std::cout << "Uniform \"" << name << "\" not found" << std::endl;
+	}
+	else {
+		glUniform3fv(location, size, glm::value_ptr(value[0]));
+	}
+}
+
+void cg::GLSLProgram::setUniform(const char* name, int size, float* value)
+{
+	int location = getUniformLocation(name);
+
+	if (location < 0)
+	{
+		if (verbose)
+			std::cout << "Uniform \"" << name << "\" not found" << std::endl;
+	}
+	else {
+		glUniform1fv(location, size, value);
+	}
+}
+
 void GLSLProgram::printActiveUniforms(void)
 {
 }

@@ -81,6 +81,8 @@ namespace cg
 		void setUniform(const char* name, int value);
 		void setUniform(const char* name, bool value);
 		void setUniform(const char* name, int size, const glm::mat4* value);
+		void setUniform(const char* name, int size, const glm::vec3* value);
+		void setUniform(const char* name, int size, float* value);
 		void printActiveUniforms(void);  // Get OpenGL state: uniform
 		void printActiveAttribs (void);  // Get OpenGL state: attrib
 

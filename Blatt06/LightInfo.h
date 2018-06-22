@@ -9,6 +9,6 @@ struct LightInfo
 	glm::vec3 Ls;		//Specular light intensity
 };
 
-namespace Light {
-	LightInfo DefaultLight;
-}
+//namespace Light {
+//	LightInfo DefaultLight;
+//}
