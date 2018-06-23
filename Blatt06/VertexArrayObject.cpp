@@ -1,7 +1,9 @@
 #include "VertexArrayObject.h"
+#include "Constants.h"
 
 VertexArrayObject::VertexArrayObject(cg::GLSLProgram& prog, bool useLighting, GLenum mode)
-	: program(prog), useLighting(useLighting), mode(mode), indexCount(0)
+	: program(prog), lighting(useLighting), mode(mode), indexCount(0),
+	material(Constants::defaultMaterial()), shininess(Constants::defaultShininess)
 {
 	glGenVertexArrays(1, &vao);
 }
@@ -20,12 +22,28 @@ VertexArrayObject::~VertexArrayObject()
 	glDeleteBuffers(1, &positionBuffer);
 }
 
+void VertexArrayObject::init(std::vector<glm::vec3>& vertices, std::vector<glm::vec3>& normals, std::vector<glm::vec3>& colors, std::vector<GLuint>& indices)
+{
+	setVertices(vertices);
+	setNormals(normals);
+	setColors(colors);
+	setIndices(indices);
+}
+
+void VertexArrayObject::init(std::vector<glm::vec3>& vertices, std::vector<glm::vec3>& normals, glm::vec3& color, std::vector<GLuint>& indices)
+{
+	setVertices(vertices);
+	setNormals(normals);
+	setUniColor(color, vertices.size());
+	setIndices(indices);
+}
+
 void VertexArrayObject::render(Transforms tf)
 {
 	// Bind the shader program and set uniform(s).
 	program.use();
 	program.setUniform("mvp", tf.mvp);
-	if (useLighting) {
+	if (lighting) {
 		program.setUniform("model", tf.model);
 		program.setUniform("nm", tf.nm);
 
@@ -42,9 +60,9 @@ void VertexArrayObject::render(Transforms tf)
 	glBindVertexArray(0);
 }
 
-void VertexArrayObject::lighting(bool lighting)
+void VertexArrayObject::useLighting(bool lighting)
 {
-	useLighting = lighting;
+	lighting = lighting;
 }
 
 void VertexArrayObject::setMode(GLenum mode)
@@ -52,12 +70,12 @@ void VertexArrayObject::setMode(GLenum mode)
 	VertexArrayObject::mode = mode;
 }
 
-inline void VertexArrayObject::setShader(cg::GLSLProgram & shader)
+void VertexArrayObject::setShader(cg::GLSLProgram & shader)
 {
 	program = shader;
 }
 
-inline void VertexArrayObject::setMaterial(glm::vec3 material, float shininess)
+void VertexArrayObject::setMaterial(glm::vec3 material, float shininess)
 {
 	this->material = material;
 	this->shininess = shininess;

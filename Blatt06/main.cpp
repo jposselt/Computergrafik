@@ -15,6 +15,7 @@
 #include "ObjParser.h"
 #include "MeshAnalyser.h"
 #include "VertexArrayObject.h"
+#include "GeometryObject.h"
 
 // Standard window width
 const int WINDOW_WIDTH = 640;
@@ -40,6 +41,8 @@ const char* objFile = "A4_testcube2_mitSpitze.obj";
 Mesh mesh;
 ObjParser parser;
 VertexArrayObject *vao;
+GeometryObject *geo;
+
 
 /*
 Initialization. Should return true if everything is ok and false if something went wrong.
@@ -50,7 +53,7 @@ bool init()
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 
-	// Create a shader program and set light direction.
+	// Create a shader program
 	if (!simple.compileShaderFromFile("shader/simple.vert", cg::GLSLShader::VERTEX))
 	{
 		std::cerr << simple.log();
@@ -69,12 +72,39 @@ bool init()
 		return false;
 	}
 
+	if (!flat.compileShaderFromFile("shader/flat.vert", cg::GLSLShader::VERTEX))
+	{
+		std::cerr << simple.log();
+		return false;
+	}
+
+	if (!flat.compileShaderFromFile("shader/flat.frag", cg::GLSLShader::FRAGMENT))
+	{
+		std::cerr << simple.log();
+		return false;
+	}
+
+	if (!flat.link())
+	{
+		std::cerr << simple.log();
+		return false;
+	}
+
 	view = glm::lookAt(eye, center, up);
 
 	vao = new VertexArrayObject(simple, false, GL_TRIANGLES);
 	vao->setVertices( { { 0.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 1.0f, 1.0f, 0.0f } });
 	vao->setUniColor( { 1.0f, 1.0f, 1.0f }, 3);
 	vao->setIndices({0,1,2});
+	//vao->lighting(true);
+
+	geo = new GeometryObject(vao);
+
+	flat.use();
+	flat.setUniform("lightPosition", glm::vec4(1.0f, 0.0f, 0.0f, 0.0f));
+	flat.setUniform("directLight", glm::vec3(1.0f, 1.0f, 1.0f));
+	flat.setUniform("ambientLight", glm::vec3(0.0f));
+	flat.setUniform("cameraPosition", eye);
 
 	return true;
 }
@@ -92,7 +122,8 @@ Rendering.
 void render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	vao->render({projection*view, glm::mat4x4(1.0f), glm::mat3x3(1.0f) });
+	//vao->render({projection*view, glm::mat4x4(1.0f), glm::mat3x3(1.0f) });
+	geo->render({ projection*view, glm::mat4x4(1.0f), glm::mat3x3(1.0f) });
 }
 
 void glutDisplay()
@@ -119,12 +150,6 @@ Callback for char input.
 */
 void glutKeyboard(unsigned char keycode, int x, int y)
 {
-	static bool positionLightNext = true;
-	static float zoomFactor = 1.0;
-	static float zoomStep = 0.1;
-	static float minZoom = 0.4;
-	static float maxZoom = 3.0;
-
 	switch (keycode)
 	{
 	case 27: // ESC

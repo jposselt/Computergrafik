@@ -15,9 +15,11 @@ public:
 	VertexArrayObject(cg::GLSLProgram& shader);
 	~VertexArrayObject();
 
+	void init(std::vector<glm::vec3>& vertices, std::vector<glm::vec3>& normals, std::vector<glm::vec3>& colors, std::vector<GLuint>& indices);
+	void init(std::vector<glm::vec3>& vertices, std::vector<glm::vec3>& normals, glm::vec3& color, std::vector<GLuint>& indices);
 	void render(Transforms tf);
 
-	void lighting(bool lighting);
+	void useLighting(bool lighting);
 	void setMode(GLenum mode);
 	void setShader(cg::GLSLProgram& shader);
 	void setMaterial(glm::vec3 material, float shininess);
@@ -45,7 +47,7 @@ private:
 	GLuint indexCount;
 
 	/* Object uses lighting */
-	bool useLighting;
+	bool lighting;
 
 	/* Material properties */
 	glm::vec3 material;

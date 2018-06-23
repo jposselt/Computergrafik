@@ -126,6 +126,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Face.cpp" />
+    <ClCompile Include="GeometryObject.cpp" />
     <ClCompile Include="GLSLProgram.cpp" />
     <ClCompile Include="HalfEdge.cpp" />
     <ClCompile Include="main.cpp" />
@@ -136,7 +137,9 @@
     <ClCompile Include="VertexArrayObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="Face.h" />
+    <ClInclude Include="GeometryObject.h" />
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTools.h" />
     <ClInclude Include="HalfEdge.h" />
