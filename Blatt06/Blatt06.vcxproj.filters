@@ -68,12 +68,6 @@
     <ClInclude Include="GLTools.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="LightInfo.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="MaterialInfo.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="MeshAnalyser.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>

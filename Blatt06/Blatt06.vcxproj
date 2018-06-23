@@ -140,8 +140,6 @@
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTools.h" />
     <ClInclude Include="HalfEdge.h" />
-    <ClInclude Include="LightInfo.h" />
-    <ClInclude Include="MaterialInfo.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshAnalyser.h" />
     <ClInclude Include="ObjParser.h" />

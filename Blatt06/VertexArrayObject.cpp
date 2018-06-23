@@ -29,9 +29,9 @@ void VertexArrayObject::render(Transforms tf)
 		program.setUniform("model", tf.model);
 		program.setUniform("nm", tf.nm);
 
-		// not sure if this works
-		program.setUniform("MaterialInfo", 10, &(material.Ka[0]));
-		program.setUniform("LightInfo", 4, &(light.Position));
+		// Set material properties
+		program.setUniform("material", material);
+		program.setUniform("shininess", shininess);
 	}
 
 	// Bind vertex array object so we can render the primitives.
@@ -57,14 +57,10 @@ inline void VertexArrayObject::setShader(cg::GLSLProgram & shader)
 	program = shader;
 }
 
-inline void VertexArrayObject::setLight(LightInfo light)
-{
-	this->light = light;
-}
-
-inline void VertexArrayObject::setMaterial(MaterialInfo material)
+inline void VertexArrayObject::setMaterial(glm::vec3 material, float shininess)
 {
 	this->material = material;
+	this->shininess = shininess;
 }
 
 void VertexArrayObject::setVertices(std::vector<glm::vec3> vertices)

@@ -1,8 +1,6 @@
 #pragma once
 
 #include "GLSLProgram.h"
-#include "LightInfo.h"
-#include "MaterialInfo.h"
 
 typedef struct {
 	glm::mat4x4 mvp;    // model matrix
@@ -22,8 +20,7 @@ public:
 	void lighting(bool lighting);
 	void setMode(GLenum mode);
 	void setShader(cg::GLSLProgram& shader);
-	void setLight(LightInfo light);
-	void setMaterial(MaterialInfo material);
+	void setMaterial(glm::vec3 material, float shininess);
 	void setVertices(std::vector<glm::vec3> vertices);
 	void setColors(std::vector<glm::vec3> colors);
 	void setUniColor(glm::vec3 color, size_t size);
@@ -50,9 +47,9 @@ private:
 	/* Object uses lighting */
 	bool useLighting;
 
-	/* Light and Material info */
-	MaterialInfo material;
-	LightInfo light;
+	/* Material properties */
+	glm::vec3 material;
+	float shininess;
 
 	/* Primitives to render */
 	GLenum mode;
