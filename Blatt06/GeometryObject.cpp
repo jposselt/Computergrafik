@@ -176,14 +176,24 @@ void GeometryObject::showBoundingBox(bool value)
 
 void GeometryObject::setGeometryShader(cg::GLSLProgram & shader)
 {
-	geometry->setShader(shader);
+	if (geometry) {
+		geometry->setShader(shader);
+	}
 }
 
 void GeometryObject::SetNormalShader(cg::GLSLProgram & shader)
 {
-	vNormals->setShader(shader);
-	fNormals->setShader(shader);
-	bounds->setShader(shader);
+	if (vNormals) {
+		vNormals->setShader(shader);
+	}
+
+	if (fNormals) {
+		fNormals->setShader(shader);
+	}
+
+	if (bounds) {
+		bounds->setShader(shader);
+	}
 }
 
 void GeometryObject::setGeometry(VertexArrayObject * geometry)
