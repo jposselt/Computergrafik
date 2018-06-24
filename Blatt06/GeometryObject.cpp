@@ -133,6 +133,15 @@ GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLPr
 
 GeometryObject::~GeometryObject()
 {
+	delete geometry;
+	delete vNormals;
+	delete fNormals;
+	delete bounds;
+
+	geometry = nullptr;
+	vNormals = nullptr;
+	fNormals = nullptr;
+	bounds   = nullptr;
 }
 
 void GeometryObject::render(Transforms tf)
