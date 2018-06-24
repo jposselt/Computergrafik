@@ -25,9 +25,9 @@ void Mesh::calculateNormals()
 	}
 }
 
-bounds Mesh::getBounds() const
+Bounds Mesh::getBounds() const
 {
-	bounds b;
+	Bounds b;
 	b.min_x = INFINITY;
 	b.min_y = INFINITY;
 	b.min_z = INFINITY;

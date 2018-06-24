@@ -13,7 +13,7 @@ typedef struct {
 	float min_x;
 	float min_y;
 	float min_z;
-} bounds;
+} Bounds;
 
 class Mesh
 {
@@ -22,7 +22,7 @@ public:
 	~Mesh();
 
 	void calculateNormals();
-	bounds getBounds() const;
+	Bounds getBounds() const;
 
 	std::vector<Vertex*> vertices;
 	std::vector<HalfEdge*> edges;
