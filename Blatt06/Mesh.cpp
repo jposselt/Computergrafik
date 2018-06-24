@@ -17,7 +17,7 @@ void Mesh::calculateNormals()
 		glm::vec3 vertexNormal(0.0f);
 		do {
 			glm::vec3 faceNormal = glm::cross(edge->pair->next->as_vector(), edge->as_vector());
-			edge->pair->next->face->normal = faceNormal;
+			edge->pair->next->face->normal = glm::normalize(faceNormal);
 			vertexNormal += faceNormal;
 			edge = edge->pair->next;
 		} while (edge != vert->edge);
