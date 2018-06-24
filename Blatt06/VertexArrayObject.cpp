@@ -99,7 +99,9 @@ void VertexArrayObject::setUniColor(glm::vec3 color, size_t size)
 
 void VertexArrayObject::setNormals(std::vector<glm::vec3> normals)
 {
-	createAndBindBuffer(normalBuffer, "normal", normals.data(), normals.size() * sizeof(glm::vec3));
+	if (normals.size() > 0) {
+		createAndBindBuffer(normalBuffer, "normal", normals.data(), normals.size() * sizeof(glm::vec3));
+	}
 }
 
 void VertexArrayObject::setIndices(std::vector<GLuint> indices)
