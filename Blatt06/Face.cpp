@@ -12,6 +12,13 @@ Face::~Face()
 
 void Face::calculate_normal()
 {
+	HalfEdge *e = this->edge;
+	this->normal = glm::vec3(0.0f);
+	do {
+		this->normal += glm::cross(this->edge->as_vector(), this->edge->next->as_vector());
+		e = e->next;
+	} while (e != this->edge);
+	this->normal = glm::normalize(this->normal);
 }
 
 glm::vec3 Face::centroid() const
