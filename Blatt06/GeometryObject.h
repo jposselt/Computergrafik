@@ -1,11 +1,13 @@
 #pragma once
 #include "VertexArrayObject.h"
+#include "Mesh.h"
 
 class GeometryObject
 {
 public:
 	GeometryObject(VertexArrayObject* geometry, VertexArrayObject* vNormals, VertexArrayObject* fNormals, VertexArrayObject* bounds);
 	GeometryObject(VertexArrayObject* geometry);
+	GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLProgram& normalShader);
 	~GeometryObject();
 
 	void render(Transforms tf);
@@ -21,6 +23,10 @@ public:
 	void setVertexNormals(VertexArrayObject* normals);
 	void setFaceNormals(VertexArrayObject* normals);
 	void setBoundingBox(VertexArrayObject* box);
+	//void setGeometryColor(glm::vec3 color);
+	//void setVertexNormalColor(glm::vec3 color);
+	//void setFaceNormalColor(glm::vec3 color);
+	//void setMaterial(glm::vec3 material, float shininess);
 	void useLighting(bool value);
 
 private:

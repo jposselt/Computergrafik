@@ -96,12 +96,22 @@ bool init()
 	vao->setVertices( { { 0.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 1.0f, 1.0f, 0.0f } });
 	vao->setUniColor( { 1.0f, 1.0f, 1.0f }, 3);
 	vao->setIndices({0,1,2});
-	//vao->lighting(true);
+	//vao->useLighting(true);
 
-	geo = new GeometryObject(vao);
+	VertexArrayObject *box = new VertexArrayObject(simple, false, GL_LINES);
+	box->setVertices({ { -1.0f, 0.0f, 0.0f },{ -1.0f, 1.0f, 0.0f },{ -2.0f, 1.0f, 0.0f } });
+	box->setUniColor({ 1.0f, 0.0f, 0.0f }, 3);
+	box->setIndices({ 0,1,1,2,2,0 });
+
+	//geo = new GeometryObject(vao);
+	//geo->setBoundingBox(box);
+	//geo->showBoundingBox(true);
+
+	geo = new GeometryObject(mesh, flat, simple);
+	geo->useLighting(true);
 
 	flat.use();
-	flat.setUniform("lightPosition", glm::vec4(1.0f, 0.0f, 0.0f, 0.0f));
+	flat.setUniform("lightPosition", glm::vec4(0.0f, 1.0f, 1.0f, 0.0f));
 	flat.setUniform("directLight", glm::vec3(1.0f, 1.0f, 1.0f));
 	flat.setUniform("ambientLight", glm::vec3(0.0f));
 	flat.setUniform("cameraPosition", eye);

@@ -1,4 +1,5 @@
 #include "GeometryObject.h"
+#include "Constants.h"
 
 GeometryObject::GeometryObject(VertexArrayObject* geometry, VertexArrayObject* vNormals, VertexArrayObject* fNormals, VertexArrayObject* bounds)
 	: geometry(geometry), vNormals(vNormals), fNormals(fNormals), bounds(bounds),
@@ -9,6 +10,49 @@ GeometryObject::GeometryObject(VertexArrayObject* geometry, VertexArrayObject* v
 GeometryObject::GeometryObject(VertexArrayObject * geometry)
 	: GeometryObject(geometry, nullptr, nullptr, nullptr)
 {
+}
+
+GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLProgram& normalShader)
+	: showGeo(true), showVN(false), showFN(false), showBox(false)
+{
+	std::vector<glm::vec3> geoVertices;
+	std::vector<glm::vec3> geoNormals;
+	std::vector<GLuint> geoIndices;
+	glm::vec3 geoColor = Constants::defaultColor();
+
+	//std::vector<glm::vec3> vNormals;
+	//std::vector<glm::vec3> fNormals;
+	//std::vector<glm::vec3> bounds;
+
+	for (auto iter = mesh.vertices.begin(); iter != mesh.vertices.end(); ++iter) {
+		geoVertices.push_back( (*iter)->position );
+		geoNormals.push_back( (*iter)->normal );
+		// ...
+	}
+
+	for (auto iter = mesh.faces.begin(); iter != mesh.faces.end(); ++iter) {
+		Face *face = (*iter);
+		HalfEdge *e = face->edge->next;
+
+		while (e->next != face->edge) {
+			geoIndices.push_back(e->vert->id - 1);
+			geoIndices.push_back(e->next->vert->id - 1);
+			geoIndices.push_back(face->edge->vert->id - 1);
+			e = e->next;
+		}
+
+		// ...
+	}
+
+	geometry = new VertexArrayObject(geoShader, true, GL_TRIANGLES);
+	geometry->init(geoVertices, geoNormals, geoColor, geoIndices);
+
+	vNormals = new VertexArrayObject(geoShader, false, GL_LINES);
+	// ...
+
+	fNormals = new VertexArrayObject(geoShader, false, GL_LINES);
+	// ...
+
 }
 
 GeometryObject::~GeometryObject()
