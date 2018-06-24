@@ -109,6 +109,9 @@ bool init()
 
 	geo = new GeometryObject(mesh, flat, simple);
 	geo->useLighting(true);
+	geo->showVertexNormals(true);
+	//geo->showFaceNormals(true);
+	//geo->showBoundingBox(true);
 
 	flat.use();
 	flat.setUniform("lightPosition", glm::vec4(0.0f, 1.0f, 1.0f, 0.0f));

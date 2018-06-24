@@ -20,14 +20,23 @@ GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLPr
 	std::vector<GLuint> geoIndices;
 	glm::vec3 geoColor = Constants::defaultColor();
 
-	//std::vector<glm::vec3> vNormals;
+	std::vector<glm::vec3> vnVertices;
+	std::vector<GLuint> vnIndices;
+	unsigned int vnCounter = 0;
+
 	//std::vector<glm::vec3> fNormals;
 	//std::vector<glm::vec3> bounds;
 
 	for (auto iter = mesh.vertices.begin(); iter != mesh.vertices.end(); ++iter) {
+		// Geometry vertices and normals
 		geoVertices.push_back( (*iter)->position );
 		geoNormals.push_back( (*iter)->normal );
-		// ...
+		
+		// Vertex normals
+		vnVertices.push_back( (*iter)->position );
+		vnIndices.push_back(vnCounter++);
+		vnVertices.push_back( (*iter)->position + (*iter)->normal );
+		vnIndices.push_back(vnCounter++);
 	}
 
 	for (auto iter = mesh.faces.begin(); iter != mesh.faces.end(); ++iter) {
@@ -47,10 +56,12 @@ GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLPr
 	geometry = new VertexArrayObject(geoShader, true, GL_TRIANGLES);
 	geometry->init(geoVertices, geoNormals, geoColor, geoIndices);
 
-	vNormals = new VertexArrayObject(geoShader, false, GL_LINES);
-	// ...
+	vNormals = new VertexArrayObject(normalShader, false, GL_LINES);
+	vNormals->setVertices(vnVertices);
+	vNormals->setIndices(vnIndices);
+	vNormals->setUniColor(Constants::defaultVNColor(), vnVertices.size());
 
-	fNormals = new VertexArrayObject(geoShader, false, GL_LINES);
+	fNormals = new VertexArrayObject(normalShader, false, GL_LINES);
 	// ...
 
 }

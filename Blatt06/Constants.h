@@ -9,6 +9,14 @@ namespace Constants {
 		static glm::vec3 color = glm::vec3(0.5f, 0.5f, 0.5f);
 		return color;
 	}
+	inline glm::vec3 const &defaultVNColor() {
+		static glm::vec3 color = glm::vec3(1.0f, 0.0f, 0.0f);
+		return color;
+	}
+	inline glm::vec3 const &defaultFNColor() {
+		static glm::vec3 color = glm::vec3(0.0f, 1.0f, 0.0f);
+		return color;
+	}
 
 	/* Default material properties */
 	inline glm::vec3 const &defaultMaterial() {
