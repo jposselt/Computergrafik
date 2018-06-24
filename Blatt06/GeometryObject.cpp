@@ -206,6 +206,11 @@ void GeometryObject::setBoundingBox(VertexArrayObject * box)
 	bounds = box;
 }
 
+void GeometryObject::setGeometryColor(glm::vec3 color)
+{
+	geometry->setUniColor(color);
+}
+
 void GeometryObject::setVertexNormalColor(glm::vec3 color)
 {
 	vertexNormalColor = color;
@@ -228,6 +233,11 @@ void GeometryObject::setBoundsColor(glm::vec3 color)
 	if (bounds) {
 		bounds->setUniColor(boundsColor);
 	}
+}
+
+void GeometryObject::setMaterial(glm::vec3 material, float shininess)
+{
+	geometry->setMaterial(material, shininess);
 }
 
 void GeometryObject::useLighting(bool value)
