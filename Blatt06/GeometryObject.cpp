@@ -24,7 +24,10 @@ GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLPr
 	std::vector<GLuint> vnIndices;
 	unsigned int vnCounter = 0;
 
-	//std::vector<glm::vec3> fNormals;
+	std::vector<glm::vec3> fnVertices;
+	std::vector<GLuint> fnIndices;
+	unsigned int fnCounter = 0;
+
 	//std::vector<glm::vec3> bounds;
 
 	for (auto iter = mesh.vertices.begin(); iter != mesh.vertices.end(); ++iter) {
@@ -43,14 +46,33 @@ GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLPr
 		Face *face = (*iter);
 		HalfEdge *e = face->edge->next;
 
+		// Face normal (first vertex)
+		fnVertices.push_back(face->edge->vert->position);
+		fnIndices.push_back(fnCounter++);
+		fnVertices.push_back(face->edge->vert->position + face->normal);
+		fnIndices.push_back(fnCounter++);
+
 		while (e->next != face->edge) {
+			// Geometry indices
 			geoIndices.push_back(e->vert->id - 1);
 			geoIndices.push_back(e->next->vert->id - 1);
 			geoIndices.push_back(face->edge->vert->id - 1);
+
+			// Face normals
+			fnVertices.push_back(e->vert->position);
+			fnIndices.push_back(fnCounter++);
+			fnVertices.push_back(e->vert->position + face->normal);
+			fnIndices.push_back(fnCounter++);
+
 			e = e->next;
 		}
 
-		// ...
+		// Face normal (last vertex)
+		fnVertices.push_back(e->vert->position);
+		fnIndices.push_back(fnCounter++);
+		fnVertices.push_back(e->vert->position + face->normal);
+		fnIndices.push_back(fnCounter++);
+
 	}
 
 	geometry = new VertexArrayObject(geoShader, true, GL_TRIANGLES);
@@ -62,6 +84,9 @@ GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLPr
 	vNormals->setUniColor(Constants::defaultVNColor(), vnVertices.size());
 
 	fNormals = new VertexArrayObject(normalShader, false, GL_LINES);
+	fNormals->setVertices(fnVertices);
+	fNormals->setIndices(fnIndices);
+	fNormals->setUniColor(Constants::defaultFNColor(), fnVertices.size());
 	// ...
 
 }

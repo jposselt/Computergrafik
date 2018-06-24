@@ -33,7 +33,7 @@ glm::mat4x4 projection;
 float zNear = 0.1f;
 float zFar = 100.0f;
 
-glm::vec3 eye(0.0f, 0.0f, 5.0f);
+glm::vec3 eye(-4.0f, 2.0f, 7.0f);
 glm::vec3 center(0.0f, 0.0f, 0.0f);
 glm::vec3 up(0.0f, 1.0f, 0.0f);
 
@@ -110,7 +110,7 @@ bool init()
 	geo = new GeometryObject(mesh, flat, simple);
 	geo->useLighting(true);
 	geo->showVertexNormals(true);
-	//geo->showFaceNormals(true);
+	geo->showFaceNormals(true);
 	//geo->showBoundingBox(true);
 
 	flat.use();
