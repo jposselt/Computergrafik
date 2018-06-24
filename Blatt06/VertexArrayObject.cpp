@@ -34,7 +34,7 @@ void VertexArrayObject::init(std::vector<glm::vec3>& vertices, std::vector<glm::
 {
 	setVertices(vertices);
 	setNormals(normals);
-	setUniColor(color, vertices.size());
+	setUniColor(color);
 	setIndices(indices);
 }
 
@@ -84,6 +84,7 @@ void VertexArrayObject::setMaterial(glm::vec3 material, float shininess)
 void VertexArrayObject::setVertices(std::vector<glm::vec3> vertices)
 {
 	createAndBindBuffer(positionBuffer, "position", vertices.data(), vertices.size() * sizeof(glm::vec3));
+	vertexCount = vertices.size();
 }
 
 void VertexArrayObject::setColors(std::vector<glm::vec3> colors)
@@ -91,9 +92,9 @@ void VertexArrayObject::setColors(std::vector<glm::vec3> colors)
 	createAndBindBuffer(colorBuffer, "color", colors.data(), colors.size() * sizeof(glm::vec3));
 }
 
-void VertexArrayObject::setUniColor(glm::vec3 color, size_t size)
+void VertexArrayObject::setUniColor(glm::vec3 color)
 {
-	std::vector<glm::vec3> colors(size, color);
+	std::vector<glm::vec3> colors(vertexCount, color);
 	createAndBindBuffer(colorBuffer, "color", colors.data(), colors.size() * sizeof(glm::vec3));
 }
 
@@ -117,6 +118,11 @@ void VertexArrayObject::setIndices(std::vector<GLuint> indices)
 	glBindVertexArray(0);
 
 	indexCount = indices.size();
+}
+
+GLint VertexArrayObject::getVertexCount()
+{
+	return vertexCount;
 }
 
 void VertexArrayObject::createAndBindBuffer(GLuint & buffer, const char * name, glm::vec3 * data, size_t size)

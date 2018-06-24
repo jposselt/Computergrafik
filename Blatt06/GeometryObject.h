@@ -26,6 +26,7 @@ public:
 	//void setGeometryColor(glm::vec3 color);
 	void setVertexNormalColor(glm::vec3 color);
 	void setFaceNormalColor(glm::vec3 color);
+	void setBoundsColor(glm::vec3 color);
 	//void setMaterial(glm::vec3 material, float shininess);
 	void useLighting(bool value);
 
@@ -42,6 +43,7 @@ private:
 
 	glm::vec3 vertexNormalColor;
 	glm::vec3 faceNormalColor;
+	glm::vec3 boundsColor;
 
 	unsigned int nVertexNormalIndices;
 	unsigned int nFaceNormalIndices;

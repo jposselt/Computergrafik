@@ -4,7 +4,7 @@
 GeometryObject::GeometryObject(VertexArrayObject* geometry, VertexArrayObject* vNormals, VertexArrayObject* fNormals, VertexArrayObject* bounds)
 	: geometry(geometry), vNormals(vNormals), fNormals(fNormals), bounds(bounds),
 	showGeo(true), showVN(false), showFN(false), showBox(false),
-	vertexNormalColor(Constants::defaultVNColor()), faceNormalColor(Constants::defaultFNColor())
+	vertexNormalColor(Constants::defaultVNColor()), faceNormalColor(Constants::defaultFNColor()), boundsColor(Constants::defaultColor())
 {
 }
 
@@ -15,7 +15,7 @@ GeometryObject::GeometryObject(VertexArrayObject * geometry)
 
 GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLProgram& normalShader)
 	: showGeo(true), showVN(false), showFN(false), showBox(false),
-	vertexNormalColor(Constants::defaultVNColor()), faceNormalColor(Constants::defaultFNColor())
+	vertexNormalColor(Constants::defaultVNColor()), faceNormalColor(Constants::defaultFNColor()), boundsColor(Constants::defaultColor())
 {
 	std::vector<glm::vec3> geoVertices;
 	std::vector<glm::vec3> geoNormals;
@@ -29,6 +29,9 @@ GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLPr
 	std::vector<glm::vec3> fnVertices;
 	std::vector<GLuint> fnIndices;
 	unsigned int fnCounter = 0;
+
+	std::vector<glm::vec3> bVertices;
+	std::vector<GLuint> bIndices;
 
 	//std::vector<glm::vec3> bounds;
 
@@ -81,19 +84,50 @@ GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLPr
 
 	nFaceNormalIndices = fnCounter;
 
+	// Bounding box
+	Bounds b = mesh.getBounds();
+	bVertices.push_back({ b.min_x, b.min_y, b.min_z });
+	bVertices.push_back({ b.min_x, b.min_y, b.max_z });
+	bVertices.push_back({ b.min_x, b.max_y, b.min_z });
+	bVertices.push_back({ b.min_x, b.max_y, b.max_z });
+	bVertices.push_back({ b.max_x, b.min_y, b.min_z });
+	bVertices.push_back({ b.max_x, b.min_y, b.max_z });
+	bVertices.push_back({ b.max_x, b.max_y, b.min_z });
+	bVertices.push_back({ b.max_x, b.max_y, b.max_z });
+
+	bIndices.push_back(0), bIndices.push_back(1);
+	bIndices.push_back(2), bIndices.push_back(3);
+	bIndices.push_back(4), bIndices.push_back(5);
+	bIndices.push_back(6), bIndices.push_back(7);
+
+	bIndices.push_back(0), bIndices.push_back(2);
+	bIndices.push_back(1), bIndices.push_back(3);
+	bIndices.push_back(4), bIndices.push_back(6);
+	bIndices.push_back(5), bIndices.push_back(7);
+
+	bIndices.push_back(0), bIndices.push_back(4);
+	bIndices.push_back(1), bIndices.push_back(5);
+	bIndices.push_back(2), bIndices.push_back(6);
+	bIndices.push_back(3), bIndices.push_back(7);
+
+
 	geometry = new VertexArrayObject(geoShader, true, GL_TRIANGLES);
 	geometry->init(geoVertices, geoNormals, geoColor, geoIndices);
 
 	vNormals = new VertexArrayObject(normalShader, false, GL_LINES);
 	vNormals->setVertices(vnVertices);
 	vNormals->setIndices(vnIndices);
-	vNormals->setUniColor(vertexNormalColor, vnVertices.size());
+	vNormals->setUniColor(vertexNormalColor);
 
 	fNormals = new VertexArrayObject(normalShader, false, GL_LINES);
 	fNormals->setVertices(fnVertices);
 	fNormals->setIndices(fnIndices);
-	fNormals->setUniColor(faceNormalColor, fnVertices.size());
-	// ...
+	fNormals->setUniColor(faceNormalColor);
+
+	bounds = new VertexArrayObject(normalShader, false, GL_LINES);
+	bounds->setVertices(bVertices);
+	bounds->setIndices(bIndices);
+	bounds->setUniColor(boundsColor);
 
 }
 
@@ -175,16 +209,24 @@ void GeometryObject::setBoundingBox(VertexArrayObject * box)
 void GeometryObject::setVertexNormalColor(glm::vec3 color)
 {
 	vertexNormalColor = color;
-	if (nVertexNormalIndices > 0) {
-		vNormals->setUniColor(vertexNormalColor, nVertexNormalIndices);
+	if (vNormals) {
+		vNormals->setUniColor(vertexNormalColor);
 	}
 }
 
 void GeometryObject::setFaceNormalColor(glm::vec3 color)
 {
 	faceNormalColor = color;
-	if (nFaceNormalIndices > 0) {
-		fNormals->setUniColor(faceNormalColor, nFaceNormalIndices);
+	if (fNormals) {
+		fNormals->setUniColor(faceNormalColor);
+	}
+}
+
+void GeometryObject::setBoundsColor(glm::vec3 color)
+{
+	boundsColor = color;
+	if (bounds) {
+		bounds->setUniColor(boundsColor);
 	}
 }
 

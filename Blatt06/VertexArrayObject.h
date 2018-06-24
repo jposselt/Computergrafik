@@ -25,9 +25,10 @@ public:
 	void setMaterial(glm::vec3 material, float shininess);
 	void setVertices(std::vector<glm::vec3> vertices);
 	void setColors(std::vector<glm::vec3> colors);
-	void setUniColor(glm::vec3 color, size_t size);
+	void setUniColor(glm::vec3 color);
 	void setNormals(std::vector<glm::vec3> normals);
 	void setIndices(std::vector<GLuint> indices);
+	GLint getVertexCount();
 
 protected:
 	/* Program reference */
@@ -43,8 +44,11 @@ private:
 	GLuint normalBuffer;
 	GLuint indexBuffer;
 
-	/* Number of Indices */
+	/* Number of indices */
 	GLuint indexCount;
+
+	/* Number of vertices */
+	GLuint vertexCount;
 
 	/* Object uses lighting */
 	bool lighting;
