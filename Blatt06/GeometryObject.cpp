@@ -3,7 +3,8 @@
 
 GeometryObject::GeometryObject(VertexArrayObject* geometry, VertexArrayObject* vNormals, VertexArrayObject* fNormals, VertexArrayObject* bounds)
 	: geometry(geometry), vNormals(vNormals), fNormals(fNormals), bounds(bounds),
-	showGeo(true), showVN(false), showFN(false), showBox(false)
+	showGeo(true), showVN(false), showFN(false), showBox(false),
+	vertexNormalColor(Constants::defaultVNColor()), faceNormalColor(Constants::defaultFNColor())
 {
 }
 
@@ -13,7 +14,8 @@ GeometryObject::GeometryObject(VertexArrayObject * geometry)
 }
 
 GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLProgram& normalShader)
-	: showGeo(true), showVN(false), showFN(false), showBox(false)
+	: showGeo(true), showVN(false), showFN(false), showBox(false),
+	vertexNormalColor(Constants::defaultVNColor()), faceNormalColor(Constants::defaultFNColor())
 {
 	std::vector<glm::vec3> geoVertices;
 	std::vector<glm::vec3> geoNormals;
@@ -41,6 +43,8 @@ GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLPr
 		vnVertices.push_back( (*iter)->position + (*iter)->normal );
 		vnIndices.push_back(vnCounter++);
 	}
+
+	nVertexNormalIndices = vnCounter;
 
 	for (auto iter = mesh.faces.begin(); iter != mesh.faces.end(); ++iter) {
 		Face *face = (*iter);
@@ -75,18 +79,20 @@ GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLPr
 
 	}
 
+	nFaceNormalIndices = fnCounter;
+
 	geometry = new VertexArrayObject(geoShader, true, GL_TRIANGLES);
 	geometry->init(geoVertices, geoNormals, geoColor, geoIndices);
 
 	vNormals = new VertexArrayObject(normalShader, false, GL_LINES);
 	vNormals->setVertices(vnVertices);
 	vNormals->setIndices(vnIndices);
-	vNormals->setUniColor(Constants::defaultVNColor(), vnVertices.size());
+	vNormals->setUniColor(vertexNormalColor, vnVertices.size());
 
 	fNormals = new VertexArrayObject(normalShader, false, GL_LINES);
 	fNormals->setVertices(fnVertices);
 	fNormals->setIndices(fnIndices);
-	fNormals->setUniColor(Constants::defaultFNColor(), fnVertices.size());
+	fNormals->setUniColor(faceNormalColor, fnVertices.size());
 	// ...
 
 }
@@ -164,6 +170,22 @@ void GeometryObject::setFaceNormals(VertexArrayObject * normals)
 void GeometryObject::setBoundingBox(VertexArrayObject * box)
 {
 	bounds = box;
+}
+
+void GeometryObject::setVertexNormalColor(glm::vec3 color)
+{
+	vertexNormalColor = color;
+	if (nVertexNormalIndices > 0) {
+		vNormals->setUniColor(vertexNormalColor, nVertexNormalIndices);
+	}
+}
+
+void GeometryObject::setFaceNormalColor(glm::vec3 color)
+{
+	faceNormalColor = color;
+	if (nFaceNormalIndices > 0) {
+		fNormals->setUniColor(faceNormalColor, nFaceNormalIndices);
+	}
 }
 
 void GeometryObject::useLighting(bool value)

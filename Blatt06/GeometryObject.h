@@ -24,8 +24,8 @@ public:
 	void setFaceNormals(VertexArrayObject* normals);
 	void setBoundingBox(VertexArrayObject* box);
 	//void setGeometryColor(glm::vec3 color);
-	//void setVertexNormalColor(glm::vec3 color);
-	//void setFaceNormalColor(glm::vec3 color);
+	void setVertexNormalColor(glm::vec3 color);
+	void setFaceNormalColor(glm::vec3 color);
 	//void setMaterial(glm::vec3 material, float shininess);
 	void useLighting(bool value);
 
@@ -39,5 +39,11 @@ private:
 	bool showVN;
 	bool showFN;
 	bool showBox;
+
+	glm::vec3 vertexNormalColor;
+	glm::vec3 faceNormalColor;
+
+	unsigned int nVertexNormalIndices;
+	unsigned int nFaceNormalIndices;
 };
 
