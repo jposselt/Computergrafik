@@ -10,7 +10,7 @@ public:
 	GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLProgram& normalShader);
 	~GeometryObject();
 
-	void render(Transforms tf);
+	void render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projection);
 
 	void showGeometry(bool value);
 	void showVertexNormals(bool value);

@@ -144,22 +144,22 @@ GeometryObject::~GeometryObject()
 	bounds   = nullptr;
 }
 
-void GeometryObject::render(Transforms tf)
+void GeometryObject::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projection)
 {
 	if (geometry && showGeo) {
-		geometry->render(tf);
+		geometry->render(model, view, projection);
 	}
 
 	if (vNormals && showVN) {
-		vNormals->render(tf);
+		vNormals->render(model, view, projection);
 	}
 
 	if (fNormals && showFN) {
-		fNormals->render(tf);
+		fNormals->render(model, view, projection);
 	}
 
 	if (bounds && showBox) {
-		bounds->render(tf);
+		bounds->render(model, view, projection);
 	}
 }
 

@@ -2,11 +2,13 @@
 
 #include "GLSLProgram.h"
 
+/*
 typedef struct {
 	glm::mat4x4 mvp;    // model matrix
 	glm::mat4x4 model;  // model matrix
 	glm::mat3x3 nm;		// normal matrix
 } Transforms;
+*/
 
 class VertexArrayObject
 {
@@ -17,7 +19,7 @@ public:
 
 	void init(std::vector<glm::vec3>& vertices, std::vector<glm::vec3>& normals, std::vector<glm::vec3>& colors, std::vector<GLuint>& indices);
 	void init(std::vector<glm::vec3>& vertices, std::vector<glm::vec3>& normals, glm::vec3& color, std::vector<GLuint>& indices);
-	void render(Transforms tf);
+	void render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projection);
 
 	void useLighting(bool lighting);
 	void setMode(GLenum mode);

@@ -1,3 +1,5 @@
+#include<glm\gtc\matrix_inverse.hpp>
+
 #include "VertexArrayObject.h"
 #include "Constants.h"
 
@@ -38,14 +40,14 @@ void VertexArrayObject::init(std::vector<glm::vec3>& vertices, std::vector<glm::
 	setIndices(indices);
 }
 
-void VertexArrayObject::render(Transforms tf)
+void VertexArrayObject::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projection)
 {
 	// Bind the shader program and set uniform(s).
 	program.use();
-	program.setUniform("mvp", tf.mvp);
+	program.setUniform("mvp", projection * view * model);
 	if (lighting) {
-		program.setUniform("model", tf.model);
-		program.setUniform("nm", tf.nm);
+		program.setUniform("model", model);
+		program.setUniform("nm", glm::inverseTranspose(model));
 
 		// Set material properties
 		program.setUniform("material", material);
