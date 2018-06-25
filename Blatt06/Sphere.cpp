@@ -2,21 +2,21 @@
 #include "Constants.h"
 
 Sphere::Sphere(cg::GLSLProgram & shader, double radius, unsigned int stacks, unsigned int slices, bool lighting)
-	: GeometryObject(nullptr, nullptr, nullptr, nullptr), radius(radius), nStacks(stacks), nSlices(slices)
+	: GeometryObject(nullptr, nullptr, nullptr, nullptr)
 {
-	VertexArrayObject* geometry = new VertexArrayObject(shader, lighting, GL_TRIANGLES);
+	geometry = new VertexArrayObject(shader, lighting, GL_TRIANGLES);
 
 	// Vertices
 	std::vector<glm::vec3> vertices;
-	for (unsigned int i = 0; i <= nStacks; ++i) {
+	for (unsigned int i = 0; i <= stacks; ++i) {
 
-		GLfloat V = i / (float)nStacks;
+		GLfloat V = i / (float) stacks;
 		GLfloat phi = V * glm::pi <float>();
 
 		// Loop Through Slices
-		for (unsigned int j = 0; j <= nSlices; ++j) {
+		for (unsigned int j = 0; j <= slices; ++j) {
 
-			GLfloat U = j / (float)nSlices;
+			GLfloat U = j / (float) slices;
 			GLfloat theta = U * (glm::pi <float>() * 2);
 
 			// Calc The Vertex Positions
@@ -32,15 +32,15 @@ Sphere::Sphere(cg::GLSLProgram & shader, double radius, unsigned int stacks, uns
 
 	// Normals
 	std::vector<glm::vec3> normals;
-	for (unsigned int i = 0; i <= nStacks; ++i) {
+	for (unsigned int i = 0; i <= stacks; ++i) {
 
-		GLfloat V = i / (float)nStacks;
+		GLfloat V = i / (float) stacks;
 		GLfloat phi = V * glm::pi <float>();
 
 		// Loop Through Slices
-		for (unsigned int j = 0; j <= nSlices; ++j) {
+		for (unsigned int j = 0; j <= slices; ++j) {
 
-			GLfloat U = j / (float)nSlices;
+			GLfloat U = j / (float) slices;
 			GLfloat theta = U * (glm::pi <float>() * 2);
 
 			// Calc The Vertex Positions
@@ -56,15 +56,15 @@ Sphere::Sphere(cg::GLSLProgram & shader, double radius, unsigned int stacks, uns
 
 	// Indices
 	std::vector<GLuint> indices;
-	for (unsigned int i = 0; i < nSlices * nStacks + nSlices; ++i) {
+	for (unsigned int i = 0; i < slices * stacks + slices; ++i) {
 
 		indices.push_back(i);
-		indices.push_back(i + nSlices + 1);
-		indices.push_back(i + nSlices);
+		indices.push_back(i + slices + 1);
+		indices.push_back(i + slices);
 
 		indices.push_back(i);
 		indices.push_back(i + 1);
-		indices.push_back(i + nSlices + 1);
+		indices.push_back(i + slices + 1);
 	}
 	geometry->setIndices(indices);
 
@@ -72,7 +72,17 @@ Sphere::Sphere(cg::GLSLProgram & shader, double radius, unsigned int stacks, uns
 	this->setGeometryColor(Constants::defaultColor());
 }
 
+Sphere::Sphere(cg::GLSLProgram & shader, double radius, bool lighting)
+	: Sphere(shader, radius, Constants::stacks, Constants::slices, lighting)
+{
+}
+
+Sphere::Sphere(cg::GLSLProgram & shader, bool lighting)
+	: Sphere(shader, Constants::radius, Constants::stacks, Constants::slices, lighting)
+{
+}
+
 Sphere::~Sphere()
 {
-
+	delete geometry;
 }
