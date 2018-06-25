@@ -125,10 +125,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Face.cpp" />
     <ClCompile Include="GeometryObject.cpp" />
     <ClCompile Include="GLSLProgram.cpp" />
     <ClCompile Include="HalfEdge.cpp" />
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshAnalyser.cpp" />
@@ -138,12 +140,14 @@
     <ClCompile Include="VertexArrayObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Circle.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Face.h" />
     <ClInclude Include="GeometryObject.h" />
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTools.h" />
     <ClInclude Include="HalfEdge.h" />
+    <ClInclude Include="Line.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshAnalyser.h" />
     <ClInclude Include="ObjParser.h" />

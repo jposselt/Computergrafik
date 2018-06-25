@@ -48,6 +48,12 @@
     <ClCompile Include="Sphere.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Circle.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Line.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Face.h">
@@ -84,6 +90,12 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Sphere.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Circle.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Line.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

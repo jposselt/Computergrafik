@@ -24,4 +24,15 @@ namespace Constants {
 		return mat;
 	}
 	const float defaultShininess = 64;
+
+	/* Number of edges for circle */
+	const unsigned int edges = 360;
+
+	/* Number of stacks and slices for spheres */
+	const unsigned int stacks = 30;
+	const unsigned int slices = 30;
+
+	/* Default radius */
+	const double radius = 1.0;
+
 }
