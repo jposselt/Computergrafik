@@ -47,7 +47,7 @@ void VertexArrayObject::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 
 	program.setUniform("mvp", projection * view * model);
 	if (lighting) {
 		program.setUniform("model", model);
-		program.setUniform("nm", glm::inverseTranspose(model));
+		program.setUniform("nm", glm::inverseTranspose(glm::mat3x3(model)));
 
 		// Set material properties
 		program.setUniform("material", material);
