@@ -10,9 +10,9 @@ public:
 
 	void render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projection, double time);
 	void addSatellite(SolarBody *satellite);
-	//void rotateX();
-	//void rotateY();
-	//void rotateZ();
+	void rotateX(float angle);
+	void rotateY(float angle);
+	void rotateZ(float angle);
 
 	/* Adjust Parameters */
 	void increaseAxisTilt(double value);
@@ -33,6 +33,9 @@ private:
 	/* Instance Variables */
 	float currentOrbitAngle;
 	float currentRotationAngle;
+
+	/* Matrix for manual rotation */
+	glm::mat4 manualRotation;
 
 	/* Draw Options */
 	bool axis;

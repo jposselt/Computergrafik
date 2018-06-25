@@ -14,7 +14,8 @@ SolarBody::SolarBody(GeometryObject* model, GeometryObject* axis, GeometryObject
 	currentOrbitAngle(glm::radians<float>(startAngle)),
 	currentRotationAngle(0.0),
 	axis(true),
-	orbit(true)
+	orbit(true),
+	angleX(0), angleY(0), angleZ(0), manualRotation(1.0f)
 {
 }
 
@@ -64,7 +65,7 @@ void SolarBody::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projecti
 	model = glm::rotate(model, currentRotationAngle, Constants::yAxis());
 
 	/* Draw the actual object */
-	objectModel->render(model, view, projection);
+	objectModel->render(model * manualRotation, view, projection);
 }
 
 /// <summary>
@@ -74,6 +75,21 @@ void SolarBody::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projecti
 void SolarBody::addSatellite(SolarBody *satellite)
 {
 	satellites.push_back(satellite);
+}
+
+void SolarBody::rotateX(float angle)
+{
+	manualRotation = glm::rotate(manualRotation, glm::radians<float>(angle), Constants::xAxis());
+}
+
+void SolarBody::rotateY(float angle)
+{
+	manualRotation = glm::rotate(manualRotation, glm::radians<float>(angle), Constants::yAxis());
+}
+
+void SolarBody::rotateZ(float angle)
+{
+	manualRotation = glm::rotate(manualRotation, glm::radians<float>(angle), Constants::zAxis());
 }
 
 /// <summary>
