@@ -1,10 +1,11 @@
+#include <glm/gtc/matrix_transform.hpp>
 #include "GeometryObject.h"
 #include "Constants.h"
 
 GeometryObject::GeometryObject(VertexArrayObject* geometry, VertexArrayObject* vNormals, VertexArrayObject* fNormals, VertexArrayObject* bounds)
 	: geometry(geometry), vNormals(vNormals), fNormals(fNormals), bounds(bounds),
 	showGeo(true), showVN(false), showFN(false), showBox(false),
-	vertexNormalColor(Constants::defaultVNColor()), faceNormalColor(Constants::defaultFNColor()), boundsColor(Constants::defaultColor())
+	vertexNormalColor(Constants::defaultVNColor()), faceNormalColor(Constants::defaultFNColor()), boundsColor(Constants::defaultColor()), scaleFactor(1.0f)
 {
 }
 
@@ -15,7 +16,7 @@ GeometryObject::GeometryObject(VertexArrayObject * geometry)
 
 GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLProgram& normalShader)
 	: showGeo(true), showVN(false), showFN(false), showBox(false),
-	vertexNormalColor(Constants::defaultVNColor()), faceNormalColor(Constants::defaultFNColor()), boundsColor(Constants::defaultColor())
+	vertexNormalColor(Constants::defaultVNColor()), faceNormalColor(Constants::defaultFNColor()), boundsColor(Constants::defaultColor()), scaleFactor(1.0f)
 {
 	std::vector<glm::vec3> geoVertices;
 	std::vector<glm::vec3> geoNormals;
@@ -146,6 +147,7 @@ GeometryObject::~GeometryObject()
 
 void GeometryObject::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projection)
 {
+	model = model * glm::scale( glm::mat4(1.0f), glm::vec3(scaleFactor));
 	if (geometry && showGeo) {
 		geometry->render(model, view, projection);
 	}
@@ -262,4 +264,9 @@ void GeometryObject::setMaterial(glm::vec3 material, float shininess)
 void GeometryObject::useLighting(bool value)
 {
 	geometry->useLighting(value);
+}
+
+void GeometryObject::scale(float value)
+{
+	scaleFactor = value;
 }

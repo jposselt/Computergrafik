@@ -29,6 +29,7 @@ public:
 	void setBoundsColor(glm::vec3 color);
 	void setMaterial(glm::vec3 material, float shininess);
 	void useLighting(bool value);
+	void scale(float value);
 
 private:
 	VertexArrayObject* geometry; // object geometry
@@ -47,5 +48,7 @@ private:
 
 	unsigned int nVertexNormalIndices;
 	unsigned int nFaceNormalIndices;
+
+	float scaleFactor;
 };
 
