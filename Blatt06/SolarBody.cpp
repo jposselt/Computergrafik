@@ -4,7 +4,7 @@
 #include "SolarBody.h"
 #include "Constants.h"
 
-SolarBody::SolarBody(GeometryObject* model, GeometryObject* axis, GeometryObject* orbit, double orbitSpeed, double rotationSpeed, double axisTilt, double yOffset, double startAngle)
+SolarBody::SolarBody(GeometryObject* model, GeometryObject* axis, GeometryObject* orbit, double distance, double orbitSpeed, double rotationSpeed, double axisTilt, double yOffset, double startAngle)
 	: objectModel(model), objectAxis(axis), objectOrbit(orbit),
 	distance(distance),
 	orbitSpeed(orbitSpeed),
@@ -15,7 +15,7 @@ SolarBody::SolarBody(GeometryObject* model, GeometryObject* axis, GeometryObject
 	currentRotationAngle(0.0),
 	axis(true),
 	orbit(true),
-	angleX(0), angleY(0), angleZ(0), manualRotation(1.0f)
+	manualRotation(1.0f)
 {
 }
 
@@ -148,4 +148,12 @@ void SolarBody::drawAxis(bool value)
 void SolarBody::drawOrbit(bool value)
 {
 	orbit = value;
+}
+
+void SolarBody::setShader(cg::GLSLProgram & shader)
+{
+	objectModel->setGeometryShader(shader);
+	for (SolarBody *sat : satellites) {
+		sat->setShader(shader);
+	}
 }

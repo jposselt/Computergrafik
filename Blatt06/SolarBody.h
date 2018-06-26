@@ -5,7 +5,7 @@
 class SolarBody
 {
 public:
-	SolarBody(GeometryObject* model, GeometryObject* axis, GeometryObject* orbit, double orbitSpeed, double rotationSpeed, double axisTilt, double yOffset, double startAngle);
+	SolarBody(GeometryObject* model, GeometryObject* axis, GeometryObject* orbit, double distance, double orbitSpeed, double rotationSpeed, double axisTilt, double yOffset, double startAngle);
 	~SolarBody();
 
 	void render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projection, double time);
@@ -21,6 +21,8 @@ public:
 	void decreaseYOffset(double value);
 	void drawAxis(bool value);
 	void drawOrbit(bool value);
+
+	void setShader(cg::GLSLProgram& shader);
 
 private:
 	/* Parameters */

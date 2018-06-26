@@ -33,8 +33,8 @@ public:
 	GLint getVertexCount();
 
 protected:
-	/* Program reference */
-	cg::GLSLProgram& program;
+	/* Shader program */
+	cg::GLSLProgram program;
 
 private:
 	void createAndBindBuffer(GLuint& buffer, const char* name, glm::vec3* data, size_t size);
