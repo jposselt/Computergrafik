@@ -90,11 +90,12 @@ void glutResize (int width, int height)
  */
 void glutKeyboard (unsigned char keycode, int x, int y)
 {
+	static bool vertexNormals = false;
+	static bool faceNormals = false;
+	static bool boundingBox = false;
 	static bool positionLightNext = true;
-	static float zoomFactor = 1.0;
-	static float zoomStep = 0.1;
-	static float minZoom = 0.4;
-	static float maxZoom = 3.0;
+	static float zoomFactor = Constants::initialZoomFactor;
+	static float scale = Constants::initialObjectScale;
 
 	switch (keycode)
 	{
@@ -115,9 +116,51 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 	case '2':
 		planets->switchShader();
 		break;
+	case 'b':
+		boundingBox = !boundingBox;
+		planets->showBoundingBox(boundingBox);
+		break;
+	case 'n':
+		vertexNormals = !vertexNormals;
+		planets->showVertexNormals(vertexNormals);
+		break;
+	case 'h':
+		faceNormals = !faceNormals;
+		planets->showFaceNormals(faceNormals);
+		break;
+	case 's':
+		if (scale > Constants::minSacling) {
+			scale -= Constants::scalingStep;
+			planets->scale(scale);
+		}
+		break;
+	case 'S':
+		if (scale < Constants::maxScaling) {
+			scale += Constants::scalingStep;
+			planets->scale(scale);
+		}
+		break;
+	case 'x':
+		planets->rotateX(Constants::manualRotationStep);
+		break;
+	case 'X':
+		planets->rotateX(-Constants::manualRotationStep);
+		break;
+	case 'y':
+		planets->rotateY(Constants::manualRotationStep);
+		break;
+	case 'Y':
+		planets->rotateY(-Constants::manualRotationStep);
+		break;
+	case 'z':
+		planets->rotateZ(Constants::manualRotationStep);
+		break;
+	case 'Z':
+		planets->rotateZ(-Constants::manualRotationStep);
+		break;
 	case '+':
-		if (zoomFactor > minZoom) {
-			zoomFactor -= zoomStep;
+		if (zoomFactor > Constants::minZoom) {
+			zoomFactor -= Constants::zoomStep;
 			eye = zoomFactor * Constants::eye();
 			view = glm::lookAt(eye, Constants::center(), Constants::up());
 			if (!positionLightNext) {
@@ -127,8 +170,8 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		}
 		break;
 	case '-':
-		if (zoomFactor < maxZoom) {
-			zoomFactor += zoomStep;
+		if (zoomFactor < Constants::maxZoom) {
+			zoomFactor += Constants::zoomStep;
 			eye = zoomFactor * Constants::eye();
 			view = glm::lookAt(eye, Constants::center(), Constants::up());
 			if (!positionLightNext) {

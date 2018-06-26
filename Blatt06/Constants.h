@@ -14,6 +14,15 @@ namespace Constants {
 	const std::string phongVertexShader = "shader/phong.vert";
 	const std::string phongFragmentShader = "shader/phong.frag";
 
+	/* Object file */
+	const std::string objFile = "obj/A4_testcube2_mitSpitze.obj";
+
+	/* Object scaling */
+	const float initialObjectScale = 1.0f;
+	const float scalingStep = 0.1f;
+	const float minSacling = 0.1f;
+	const float maxScaling = 10.0f;
+
 	/* Initial viewpoint */
 	inline glm::vec3 const &eye() {
 		static glm::vec3 eye = glm::vec3(0.0f, 0.0f, 30.0f);
@@ -29,6 +38,12 @@ namespace Constants {
 		static glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 		return up;
 	}
+
+	/* Zoom */
+	static float initialZoomFactor = 1.0;
+	static float zoomStep = 0.1;
+	static float minZoom = 0.1;
+	static float maxZoom = 3.0;
 
 	/* */
 	const float zNear = 0.1f;
@@ -71,6 +86,9 @@ namespace Constants {
 		static glm::vec3 zAxis = glm::vec3(0.0f, 0.0f, 1.0f);
 		return zAxis;
 	}
+
+	/* Manual rotation step */
+	const float manualRotationStep = 5.0f;
 
 	/* Default colors */
 	inline glm::vec3 const &defaultColor() {

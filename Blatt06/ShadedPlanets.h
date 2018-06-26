@@ -25,12 +25,13 @@ public:
 	void decreasePlanet2Tilt();
 	void increaseSpeed();
 	void decreaseSpeed();
-	//void rotateX(float value);
-	//void rotateY(float value);
-	//void rotateZ(float value);
-	//void showVertexNormals(bool value);
-	//void showFaceNormals(bool value);
-	//void showBoundingBox(bool value);
+	void rotateX(float value);
+	void rotateY(float value);
+	void rotateZ(float value);
+	void showVertexNormals(bool value);
+	void showFaceNormals(bool value);
+	void showBoundingBox(bool value);
+	void scale(float value);
 	void switchShader();
 
 private:

@@ -8,6 +8,8 @@
 #include "Line.h"
 #include "Sphere.h"
 #include "Constants.h"
+#include "ObjParser.h"
+#include "MeshAnalyser.h"
 
 
 /// <summary>
@@ -50,8 +52,23 @@ void ShadedPlanets::init()
 	// Temporary variables
 	GeometryObject *model, *axis, *orbit;
 
-	/* Sun */
-	model = new Sphere(*(shaders.at(0)), Constants::Sun::radius, Constants::stacks, Constants::slices, true);
+	// Sun
+	ObjParser parser;
+	Mesh objectMesh;
+	parser.loadMesh(Constants::objFile, objectMesh);
+	objectMesh.calculateNormals();
+	MeshAnalyser::analyse(objectMesh);
+	model = new GeometryObject(objectMesh, *(shaders.at(0)), simple);
+	axis = nullptr;
+	orbit = nullptr;
+	planetSystem = new SolarBody(
+		model,
+		axis,
+		orbit,
+		0, 0, 0, 0, 0, 0
+	);
+
+	/*model = new Sphere(*(shaders.at(0)), Constants::Sun::radius, Constants::stacks, Constants::slices, true);
 	axis  = new Line(simple, -Constants::axisScale * (float)Constants::Sun::radius * Constants::yAxis(), Constants::axisScale * (float)Constants::Sun::radius * Constants::yAxis());
 	orbit = new Circle(simple, Constants::Sun::distance);
 	planetSystem = new SolarBody(
@@ -68,9 +85,9 @@ void ShadedPlanets::init()
 	model->setGeometryColor(Constants::Sun::color());
 	axis->setGeometryColor(Constants::Sun::color());
 	orbit->setGeometryColor(Constants::Sun::color());
-	planetSystem->drawOrbit(false);
+	planetSystem->drawOrbit(false);*/
 
-	///* Planet 1 */
+	// Planet 1
 	model = new Sphere(*(shaders.at(0)), Constants::Planet_1::radius, Constants::stacks, Constants::slices, true);
 	axis = new Line(simple, -Constants::axisScale * (float)Constants::Planet_1::radius * Constants::yAxis(), Constants::axisScale * (float)Constants::Planet_1::radius * Constants::yAxis());
 	orbit = new Circle(simple, Constants::Planet_1::distance);
@@ -89,7 +106,7 @@ void ShadedPlanets::init()
 	axis->setGeometryColor(Constants::Planet_1::color());
 	orbit->setGeometryColor(Constants::Planet_1::color());
 
-	///* Planet 1 Moons */
+	// Planet 1 Moons
 	for (int i = 0; i < Constants::Planet_1::Moons::nCenter; i++) {
 		model = new Sphere(*(shaders.at(0)), Constants::Planet_1::Moons::radius, Constants::stacks, Constants::slices, true);
 		axis = new Line(simple, -Constants::axisScale * (float)Constants::Planet_1::Moons::radius * Constants::yAxis(), Constants::axisScale * (float)Constants::Planet_1::Moons::radius * Constants::yAxis());
@@ -112,7 +129,7 @@ void ShadedPlanets::init()
 		planet_1->addSatellite(moon);
 	}
 
-	///* Planet 2 */
+	// Planet 2
 	model = new Sphere(*(shaders.at(0)), Constants::Planet_2::radius, Constants::stacks, Constants::slices, true);
 	axis = new Line(simple, -Constants::axisScale * (float)Constants::Planet_2::radius * Constants::yAxis(), Constants::axisScale * (float)Constants::Planet_2::radius * Constants::yAxis());
 	orbit = new Circle(simple, Constants::Planet_1::distance);
@@ -131,7 +148,7 @@ void ShadedPlanets::init()
 	axis->setGeometryColor(Constants::Planet_2::color());
 	orbit->setGeometryColor(Constants::Planet_2::color());
 	
-	///* Planet 2 Moons */
+	// Planet 2 Moons
 	for (int i = 0; i < Constants::Planet_2::Moons::nUpper; i++) {
 		model = new Sphere(*(shaders.at(0)), Constants::Planet_2::Moons::radius, Constants::stacks, Constants::slices, true);
 		axis = new Line(simple, -Constants::axisScale * (float)Constants::Planet_2::Moons::radius * Constants::yAxis(), Constants::axisScale * (float)Constants::Planet_2::Moons::radius * Constants::yAxis());
@@ -198,7 +215,7 @@ void ShadedPlanets::init()
 		planet_2->addSatellite(moon);
 	}
 
-	///* Add planets to system */
+	// Add planets to system
 	planetSystem->addSatellite(planet_1);
 	planetSystem->addSatellite(planet_2);
 }
@@ -269,6 +286,69 @@ void ShadedPlanets::increaseSpeed()
 void ShadedPlanets::decreaseSpeed()
 {
 	timeScaleFactor -= Constants::timeScaleStepSize;
+}
+
+/// <summary>
+/// Rotate main object around its x-axis
+/// </summary>
+/// <param name="value">The value.</param>
+void ShadedPlanets::rotateX(float value)
+{
+	planetSystem->rotateX(value);
+}
+
+/// <summary>
+/// Rotate main object around its z-axis
+/// </summary>
+/// <param name="value">The value.</param>
+void ShadedPlanets::rotateY(float value)
+{
+	planetSystem->rotateY(value);
+}
+
+/// <summary>
+/// Rotate main object around its z-axis
+/// </summary>
+/// <param name="value">The value.</param>
+void ShadedPlanets::rotateZ(float value)
+{
+	planetSystem->rotateZ(value);
+}
+
+/// <summary>
+/// Shows the vertex normals.
+/// </summary>
+/// <param name="value">if set to <c>true</c> [value].</param>
+void ShadedPlanets::showVertexNormals(bool value)
+{
+	planetSystem->showVertexNormals(value);
+}
+
+/// <summary>
+/// Shows the face normals.
+/// </summary>
+/// <param name="value">if set to <c>true</c> [value].</param>
+void ShadedPlanets::showFaceNormals(bool value)
+{
+	planetSystem->showFaceNormals(value);
+}
+
+/// <summary>
+/// Shows the bounding box.
+/// </summary>
+/// <param name="value">if set to <c>true</c> [value].</param>
+void ShadedPlanets::showBoundingBox(bool value)
+{
+	planetSystem->showBoundingBox(value);
+}
+
+/// <summary>
+/// Scales the main object.
+/// </summary>
+/// <param name="value">The value.</param>
+void ShadedPlanets::scale(float value)
+{
+	planetSystem->scale(value);
 }
 
 /// <summary>

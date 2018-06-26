@@ -36,7 +36,7 @@ void SolarBody::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projecti
 	model = glm::translate(model, glm::vec3(0.0f, yOffset, 0.0f));
 
 	/* Draw orbit */
-	if (orbit) {
+	if (orbit && objectOrbit) {
 		objectOrbit->render(model, view, projection);
 	}
 
@@ -56,7 +56,7 @@ void SolarBody::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projecti
 	}
 
 	/* Draw axis */
-	if (axis) {
+	if (axis && objectAxis) {
 		objectAxis->render(model, view, projection);
 	}
 
@@ -150,10 +150,50 @@ void SolarBody::drawOrbit(bool value)
 	orbit = value;
 }
 
+/// <summary>
+/// Sets the shader.
+/// </summary>
+/// <param name="shader">The shader.</param>
 void SolarBody::setShader(cg::GLSLProgram & shader)
 {
 	objectModel->setGeometryShader(shader);
 	for (SolarBody *sat : satellites) {
 		sat->setShader(shader);
 	}
+}
+
+/// <summary>
+/// Scales the object.
+/// </summary>
+/// <param name="value">The value.</param>
+void SolarBody::scale(float value)
+{
+	objectModel->scale(value);
+}
+
+/// <summary>
+/// Shows the vertex normals.
+/// </summary>
+/// <param name="value">if set to <c>true</c> [value].</param>
+void SolarBody::showVertexNormals(bool value)
+{
+	objectModel->showVertexNormals(value);
+}
+
+/// <summary>
+/// Shows the face normals.
+/// </summary>
+/// <param name="value">if set to <c>true</c> [value].</param>
+void SolarBody::showFaceNormals(bool value)
+{
+	objectModel->showFaceNormals(value);
+}
+
+/// <summary>
+/// Shows the bounding box.
+/// </summary>
+/// <param name="value">if set to <c>true</c> [value].</param>
+void SolarBody::showBoundingBox(bool value)
+{
+	objectModel->showBoundingBox(value);
 }

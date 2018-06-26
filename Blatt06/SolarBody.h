@@ -23,6 +23,10 @@ public:
 	void drawOrbit(bool value);
 
 	void setShader(cg::GLSLProgram& shader);
+	void scale(float value);
+	void showVertexNormals(bool value);
+	void showFaceNormals(bool value);
+	void showBoundingBox(bool value);
 
 private:
 	/* Parameters */
