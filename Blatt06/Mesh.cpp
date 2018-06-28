@@ -8,23 +8,32 @@ Mesh::~Mesh()
 {
 }
 
+/// <summary>
+/// Calculates the normal of each vertex as the average of surrounding face normals overwriting existing values.
+/// </summary>
 void Mesh::calculateNormals()
 {
-	for (auto iter = vertices.begin(); iter != vertices.end(); ++iter) {
-		Vertex *vert = (*iter);
-		HalfEdge *edge = vert->edge;
-
+	for (auto iter = edges.begin(); iter != edges.end(); ++iter) {
 		glm::vec3 vertexNormal(0.0f);
+		
+		HalfEdge *edge = *iter;
+
 		do {
-			glm::vec3 faceNormal = glm::cross(edge->pair->next->as_vector(), edge->as_vector());
-			edge->pair->next->face->normal = glm::normalize(faceNormal);
+			glm::vec3 faceNormal = glm::normalize(glm::cross(edge->pair->next->as_vector(), edge->as_vector()));
 			vertexNormal += faceNormal;
+			edge->pair->next->face->normal = faceNormal;
 			edge = edge->pair->next;
-		} while (edge != vert->edge);
-		vert->normal = glm::normalize(vertexNormal);
+		} while (edge != *iter);
+
+		(*iter)->normal = glm::normalize(vertexNormal);
+
 	}
 }
 
+/// <summary>
+/// Gets the bounds.
+/// </summary>
+/// <returns></returns>
 Bounds Mesh::getBounds() const
 {
 	Bounds b;
