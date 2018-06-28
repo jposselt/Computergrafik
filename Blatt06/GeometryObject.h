@@ -46,9 +46,6 @@ private:
 	glm::vec3 faceNormalColor;
 	glm::vec3 boundsColor;
 
-	unsigned int nVertexNormalIndices;
-	unsigned int nFaceNormalIndices;
-
 	float scaleFactor;
 };
 

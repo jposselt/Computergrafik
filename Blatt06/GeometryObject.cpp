@@ -22,6 +22,7 @@ GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLPr
 	std::vector<glm::vec3> geoNormals;
 	std::vector<GLuint> geoIndices;
 	glm::vec3 geoColor = Constants::defaultColor();
+	unsigned int geoCounter = 0;
 
 	std::vector<glm::vec3> vnVertices;
 	std::vector<GLuint> vnIndices;
@@ -34,39 +35,32 @@ GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLPr
 	std::vector<glm::vec3> bVertices;
 	std::vector<GLuint> bIndices;
 
-	//std::vector<glm::vec3> bounds;
-
-	for (auto iter = mesh.vertices.begin(); iter != mesh.vertices.end(); ++iter) {
-		// Geometry vertices and normals
-		geoVertices.push_back( (*iter)->position );
-		geoNormals.push_back( (*iter)->normal );
-		
-		// Vertex normals
-		vnVertices.push_back( (*iter)->position );
-		vnIndices.push_back(vnCounter++);
-		vnVertices.push_back( (*iter)->position + (*iter)->normal );
-		vnIndices.push_back(vnCounter++);
-	}
-
-	nVertexNormalIndices = vnCounter;
-
 	for (auto iter = mesh.faces.begin(); iter != mesh.faces.end(); ++iter) {
 		Face *face = (*iter);
-		HalfEdge *e = face->edge->next;
+		HalfEdge *e = face->edge;
 
-		// Face normal (first vertex)
-		fnVertices.push_back(face->edge->vert->position);
-		fnIndices.push_back(fnCounter++);
-		fnVertices.push_back(face->edge->vert->position + face->normal);
-		fnIndices.push_back(fnCounter++);
+		unsigned int iStart = geoVertices.size();
+		unsigned int iNext = iStart + 1;
 
 		while (e->next != face->edge) {
-			// Geometry indices
-			geoIndices.push_back(e->vert->id - 1);
-			geoIndices.push_back(e->next->vert->id - 1);
-			geoIndices.push_back(face->edge->vert->id - 1);
+			// Add position and normal of the current vertex
+			geoVertices.push_back( e->vert->position );
+			geoNormals.push_back( e->normal );
 
-			// Face normals
+			// Add indices for triangle fan
+			if ( e->next->next != face->edge ) {
+				geoIndices.push_back(iNext++);
+				geoIndices.push_back(iNext);
+				geoIndices.push_back(iStart);
+			}
+
+			// Add start and endpoint of vertex normal to list
+			vnVertices.push_back(e->vert->position);
+			vnIndices.push_back(vnCounter++);
+			vnVertices.push_back(e->vert->position + e->normal);
+			vnIndices.push_back(vnCounter++);
+
+			// Add start and endpoint of face normal to list
 			fnVertices.push_back(e->vert->position);
 			fnIndices.push_back(fnCounter++);
 			fnVertices.push_back(e->vert->position + face->normal);
@@ -75,15 +69,23 @@ GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLPr
 			e = e->next;
 		}
 
-		// Face normal (last vertex)
+		// Add position and normal of the last vertex
+		geoVertices.push_back(e->vert->position);
+		geoNormals.push_back(e->normal);
+
+		// Add start and endpoint of last vertex normal to list
+		vnVertices.push_back(e->vert->position);
+		vnIndices.push_back(vnCounter++);
+		vnVertices.push_back(e->vert->position + e->normal);
+		vnIndices.push_back(vnCounter++);
+
+		// Add start and endpoint of last face normal to list
 		fnVertices.push_back(e->vert->position);
 		fnIndices.push_back(fnCounter++);
 		fnVertices.push_back(e->vert->position + face->normal);
 		fnIndices.push_back(fnCounter++);
 
 	}
-
-	nFaceNormalIndices = fnCounter;
 
 	// Bounding box
 	Bounds b = mesh.getBounds();
@@ -111,7 +113,7 @@ GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLPr
 	bIndices.push_back(2), bIndices.push_back(6);
 	bIndices.push_back(3), bIndices.push_back(7);
 
-
+	// Create vertex array objects
 	geometry = new VertexArrayObject(geoShader, true, GL_TRIANGLES);
 	geometry->init(geoVertices, geoNormals, geoColor, geoIndices);
 
