@@ -27,6 +27,8 @@ ObjParser::~ObjParser()
 bool ObjParser::loadMesh(const string & filename, Mesh & mesh)
 {
 	edgeMap.clear();
+	vNormals.clear();
+	tCoord.clear();
 	ifstream input(filename);
 
 	if (!input.good()) {
@@ -67,6 +69,28 @@ void ObjParser::parseLine(Mesh & objm, string line)
 		v->id = objm.vertices.size() + 1;
 		objm.vertices.push_back(v);
 	}
+	else if (line[0] == 'v' && line[1] == 'n' && line[2] == ' ') {
+		// Parse normal components from line
+		float x, y, z;
+		sscanf_s(line.c_str(), "vn %f %f %f", &x, &y, &z);
+
+		// Create new normal vector
+		glm::vec3 *normal = new glm::vec3(x, y, z);
+
+		// Add normal to list
+		vNormals.push_back(normal);
+	}
+	else if (line[0] == 'v' && line[1] == 't' && line[2] == ' ') {
+		// Parse texture coordinates from line
+		float x, y;
+		sscanf_s(line.c_str(), "vt %f %f", &x, &y);
+
+		// Create new texture coordinate vector
+		glm::vec2 *tex = new glm::vec2(x, y);
+
+		// Add texture coordinate vector to list
+		tCoord.push_back(tex);
+	}
 	else if (line[0] == 'f' && line[1] == ' ') {
 		// Line is a face
 		Face *f = new Face();
@@ -88,20 +112,40 @@ void ObjParser::parseLine(Mesh & objm, string line)
 			e->id = objm.edges.size() + 1;
 			e->face = f;
 
-			// Vertex indices for the halfedge
-			unsigned int i1 = stoul(tokens[i]);
-			unsigned int i2 = stoul(tokens[ (i % (tokens.size() -1)) + 1]);
+			// Indices (vertex, texture, normal)
+			unsigned int v1, vt1, vn1;
+			unsigned int v2, vt2, vn2;
+			
+			if ( sscanf_s(tokens[i].c_str(), "%d/%d/%d", &v1, &vt1, &vn1) == 3 ) {
+				sscanf_s(tokens[(i % (tokens.size() - 1)) + 1].c_str(), "%d/%d/%d", &v2, &vt2, &vn2);
+				e->normal = vNormals[vn1 - 1];
+				e->uv = tCoord[vt1 - 1];
+			}
+			else if ( sscanf_s(tokens[i].c_str(), "%d//%d", &v1, &vn1) == 2 ) {
+				sscanf_s(tokens[(i % (tokens.size() - 1)) + 1].c_str(), "%d//%d", &v2, &vn2);
+				e->normal = vNormals[vn1 -1];
+			}
+			else if ( sscanf_s(tokens[i].c_str(), "%d/%d", &v1, &vt1) == 2 ) {
+				sscanf_s(tokens[(i % (tokens.size() - 1)) + 1].c_str(), "%d/%d", &v2, &vt2);
+				e->uv = tCoord[vt1 - 1];
+			}
+			else if ( sscanf_s(tokens[i].c_str(), "%d", &v1) ==  1 ) {
+				sscanf_s(tokens[(i % (tokens.size() - 1)) + 1].c_str(), "%d", &v2);
+			}
+			else {
+				cout << "Could not parse token " << tokens[i] << " in line: " << line  << endl;
+			}
 
 			// Set halfedge vertex
-			e->vert = objm.vertices.at(i1 - 1); // -1: ids not zero-based
+			e->vert = objm.vertices.at(v1 - 1); // -1: ids not zero-based
 
 			// Set references to the halfedge in the other structures
 			// This might be overwriting a previous value, but that's fine
-			objm.vertices.at(i1 - 1)->edge = e;
+			objm.vertices.at(v1 - 1)->edge = e;
 			f->edge = e;
 
 			// Connect halfedge pairs (with helper map)
-			EdgeKey pairKey = make_pair(i2, i1);
+			EdgeKey pairKey = make_pair(v2, v1);
 			EdgeMap::iterator it = edgeMap.find(pairKey);
 			if ( it != edgeMap.end() ) {
 				e->pair = it->second;
@@ -109,7 +153,7 @@ void ObjParser::parseLine(Mesh & objm, string line)
 				edgeMap.erase(it);
 			}
 			else {
-				edgeMap.insert( make_pair( make_pair(i1, i2), e) );
+				edgeMap.insert( make_pair( make_pair(v1, v2), e) );
 			}
 
 			// Add halfedge to mesh
@@ -126,8 +170,5 @@ void ObjParser::parseLine(Mesh & objm, string line)
 
 		// Add face to mesh
 		objm.faces.push_back(f);
-	}
-	else if (line[0] == 'v' && line[1] == 'n' && line[2] == ' ') {
-		// Line is a normal
 	}
 }

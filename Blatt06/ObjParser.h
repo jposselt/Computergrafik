@@ -18,5 +18,7 @@ private:
 	void parseLine(Mesh &objm, std::string line);
 
 	EdgeMap edgeMap;
+	std::vector<glm::vec3*> vNormals;
+	std::vector<glm::vec2*> tCoord;
 };
 

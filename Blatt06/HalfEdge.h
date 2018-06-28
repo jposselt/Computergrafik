@@ -16,5 +16,8 @@ public:
 	Face* face;     // The face the half-edge borders
 	HalfEdge* next; // The next half-edge around the face
 	HalfEdge* pair; // The oppositely oriented adjacent half-edge
+
+	glm::vec3* normal; // The normal for this edge
+	glm::vec2* uv;     // Texture coordinate for this edge
 };
 
