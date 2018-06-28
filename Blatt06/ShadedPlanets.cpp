@@ -68,25 +68,6 @@ void ShadedPlanets::init()
 		0, 0, 0, 0, 0, 0
 	);
 
-	/*model = new Sphere(*(shaders.at(0)), Constants::Sun::radius, Constants::stacks, Constants::slices, true);
-	axis  = new Line(simple, -Constants::axisScale * (float)Constants::Sun::radius * Constants::yAxis(), Constants::axisScale * (float)Constants::Sun::radius * Constants::yAxis());
-	orbit = new Circle(simple, Constants::Sun::distance);
-	planetSystem = new SolarBody(
-		model,
-		axis,
-		orbit,
-		Constants::Sun::distance,
-		Constants::Sun::orbitSpeed,
-		Constants::Sun::rotationSpeed,
-		Constants::Sun::tilt,
-		Constants::Sun::offset,
-		Constants::Sun::startAngle
-	);
-	model->setGeometryColor(Constants::Sun::color());
-	axis->setGeometryColor(Constants::Sun::color());
-	orbit->setGeometryColor(Constants::Sun::color());
-	planetSystem->drawOrbit(false);*/
-
 	// Planet 1
 	model = new Sphere(*(shaders.at(0)), Constants::Planet_1::radius, Constants::stacks, Constants::slices, true);
 	axis = new Line(simple, -Constants::axisScale * (float)Constants::Planet_1::radius * Constants::yAxis(), Constants::axisScale * (float)Constants::Planet_1::radius * Constants::yAxis());
