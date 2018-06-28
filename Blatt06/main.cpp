@@ -140,6 +140,12 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 			planets->scale(scale);
 		}
 		break;
+	case 'f':
+		planets->decreaseShipSpeed();
+		break;
+	case 'F':
+		planets->increaseShipSpeed();
+		break;
 	case 'x':
 		planets->rotateX(Constants::manualRotationStep);
 		break;
