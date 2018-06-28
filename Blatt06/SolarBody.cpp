@@ -4,7 +4,7 @@
 #include "SolarBody.h"
 #include "Constants.h"
 
-SolarBody::SolarBody(GeometryObject* model, GeometryObject* axis, GeometryObject* orbit, double distance, double orbitSpeed, double rotationSpeed, double axisTilt, double yOffset, double startAngle)
+SolarBody::SolarBody(GeometryObject* model, GeometryObject* axis, GeometryObject* orbit, double distance, double orbitSpeed, double rotationSpeed, double axisTilt, double yOffset, double startAngle, double startRotation)
 	: objectModel(model), objectAxis(axis), objectOrbit(orbit),
 	distance(distance),
 	orbitSpeed(orbitSpeed),
@@ -12,7 +12,7 @@ SolarBody::SolarBody(GeometryObject* model, GeometryObject* axis, GeometryObject
 	axisTilt(fmod(axisTilt, Constants::degreeCircle)),
 	yOffset(yOffset),
 	currentOrbitAngle(glm::radians<float>(startAngle)),
-	currentRotationAngle(0.0),
+	currentRotationAngle(glm::radians<float>(startRotation)),
 	axis(true),
 	orbit(true),
 	manualRotation(1.0f)
