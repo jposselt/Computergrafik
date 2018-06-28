@@ -43,7 +43,7 @@ bool ObjParser::loadMesh(const string & filename, Mesh & mesh)
 	}
 
 	cout << "Loaded mesh: " << endl
-		<< "  " << mesh.vertices.size() << " verteces." << endl
+		<< "  " << mesh.vertices.size() << " vertices." << endl
 		<< "  " << mesh.edges.size() << " edges." << endl
 		<< "  " << mesh.faces.size() << " faces." << endl;
 	return true;
@@ -74,22 +74,16 @@ void ObjParser::parseLine(Mesh & objm, string line)
 		float x, y, z;
 		sscanf_s(line.c_str(), "vn %f %f %f", &x, &y, &z);
 
-		// Create new normal vector
-		glm::vec3 *normal = new glm::vec3(x, y, z);
-
 		// Add normal to list
-		vNormals.push_back(normal);
+		vNormals.push_back(glm::vec3(x, y, z));
 	}
 	else if (line[0] == 'v' && line[1] == 't' && line[2] == ' ') {
 		// Parse texture coordinates from line
 		float x, y;
 		sscanf_s(line.c_str(), "vt %f %f", &x, &y);
 
-		// Create new texture coordinate vector
-		glm::vec2 *tex = new glm::vec2(x, y);
-
 		// Add texture coordinate vector to list
-		tCoord.push_back(tex);
+		tCoord.push_back(glm::vec2(x, y));
 	}
 	else if (line[0] == 'f' && line[1] == ' ') {
 		// Line is a face
