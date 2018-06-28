@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace Constants {
 
@@ -16,6 +17,8 @@ namespace Constants {
 
 	/* Object file */
 	const std::string objFile = "obj/A4_testcube2_mitSpitze.obj";
+	//const std::string objFile = "obj/Spaceship.obj";
+	//const std::string objFile = "obj/stanford_bunny_closed.obj";
 
 	/* Object scaling */
 	const float initialObjectScale = 1.0f;
@@ -25,7 +28,7 @@ namespace Constants {
 
 	/* Initial viewpoint */
 	inline glm::vec3 const &eye() {
-		static glm::vec3 eye = glm::vec3(0.0f, 0.0f, 30.0f);
+		static glm::vec3 eye = glm::vec3(0.0f, 30.0f, 30.0f);
 		return eye;
 	}
 
@@ -40,10 +43,10 @@ namespace Constants {
 	}
 
 	/* Zoom */
-	static float initialZoomFactor = 1.0;
-	static float zoomStep = 0.1;
-	static float minZoom = 0.1;
-	static float maxZoom = 3.0;
+	static float initialZoomFactor = 1.0f;
+	static float zoomStep = 0.1f;
+	static float minZoom = 0.1f;
+	static float maxZoom = 3.0f;
 
 	/* */
 	const float zNear = 0.1f;
@@ -154,6 +157,7 @@ namespace Constants {
 		const double tilt = 0.0; // degree
 		const double offset = 0.0;
 		const double startAngle = 0.0;
+		const double startRotation = 0.0;
 		inline glm::vec3 const &color() {
 			static glm::vec3 color = glm::vec3(1.0f, 1.0f, 0.0f);
 			return color;
@@ -169,6 +173,7 @@ namespace Constants {
 		const double tilt = 0.0; // degree
 		const double offset = 0.0;
 		const double startAngle = 0.0;
+		const double startRotation = 0.0;
 		inline glm::vec3 const &color() {
 			static glm::vec3 color = glm::vec3(1.0f, 0.0f, 0.0f);
 			return color;
@@ -185,6 +190,7 @@ namespace Constants {
 			const double rotationSpeed = 0.0;
 			const double tilt = 0.0; // degree
 			const double offset = 0.0;
+			const double startRotation = 0.0;
 			inline glm::vec3 const &color() {
 				static glm::vec3 color = glm::vec3(1.0f, 0.5f, 0.0f);
 				return color;
@@ -201,6 +207,7 @@ namespace Constants {
 		const double tilt = 45.0; // degree
 		const double offset = 0.0;
 		const double startAngle = 180.0;
+		const double startRotation = 0.0;
 		inline glm::vec3 const &color() {
 			static glm::vec3 color = glm::vec3(0.0f, 0.0f, 1.0f);
 			return color;
@@ -219,11 +226,27 @@ namespace Constants {
 			const double centerOffset = 0.0;
 			const double upperOffset = 2.5;
 			const double lowerOffset = -2.5;
+			const double startRotation = 0.0;
 			inline glm::vec3 const &color() {
 				static glm::vec3 color = glm::vec3(0.5f, 0.0f, 1.0f);
 				return color;
 			}
 		}
+	}
+
+	/* Spaceship */
+	namespace ship {
+		const std::string objFile = "obj/Spaceship.obj";
+		const double distance = 12.0;
+		const double orbitSpeed = 25.0 / 1000.0;
+		const double rotationSpeed = orbitSpeed;
+		const double tilt = 0.0; // degree
+		const double offset = 0.0;
+		const double startAngle = 0.0;
+		const double startRotation = 180.0;
+		const double scaleFactor = 0.4;
+		const double timeScaleFactor = 1.0;
+		const double timeScaleStepSize = 0.5;
 	}
 
 }

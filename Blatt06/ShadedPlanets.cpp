@@ -16,7 +16,7 @@
 /// Initializes a new instance of the <see cref="ShadedPlanets"/> class.
 /// </summary>
 ShadedPlanets::ShadedPlanets()
-	: timeScaleFactor(Constants::initialTimeScaleFactor)
+	: timeScaleFactor(Constants::initialTimeScaleFactor), shipTimeScaleFactor(Constants::ship::timeScaleFactor)
 {
 }
 
@@ -52,8 +52,31 @@ void ShadedPlanets::init()
 	// Temporary variables
 	GeometryObject *model, *axis, *orbit;
 
-	// Sun
+	// Parser for obj files
 	ObjParser parser;
+
+	// Spaceship
+	Mesh shipMesh;
+	parser.loadMesh(Constants::ship::objFile, shipMesh);
+	MeshAnalyser::analyse(shipMesh);
+	model = new GeometryObject(shipMesh, *(shaders.at(0)), simple);
+	model->scale(Constants::ship::scaleFactor);
+	axis = nullptr;
+	orbit = new Circle(simple, Constants::ship::distance);
+	ship = new SolarBody(
+		model,
+		axis,
+		orbit,
+		Constants::ship::distance,
+		Constants::ship::orbitSpeed,
+		Constants::ship::rotationSpeed,
+		Constants::ship::tilt,
+		Constants::ship::offset,
+		Constants::ship::startAngle,
+		Constants::ship::startRotation
+	);
+
+	// Sun
 	Mesh objectMesh;
 	parser.loadMesh(Constants::objFile, objectMesh);
 	objectMesh.calculateNormals();
@@ -65,7 +88,13 @@ void ShadedPlanets::init()
 		model,
 		axis,
 		orbit,
-		0, 0, 0, 0, 0, 0
+		Constants::Sun::distance,
+		Constants::Sun::orbitSpeed,
+		Constants::Sun::rotationSpeed,
+		Constants::Sun::tilt,
+		Constants::Sun::offset,
+		Constants::Sun::startAngle,
+		Constants::Sun::startRotation
 	);
 
 	// Planet 1
@@ -81,7 +110,8 @@ void ShadedPlanets::init()
 		Constants::Planet_1::rotationSpeed,
 		Constants::Planet_1::tilt,
 		Constants::Planet_1::offset,
-		Constants::Planet_1::startAngle
+		Constants::Planet_1::startAngle,
+		Constants::Planet_1::startRotation
 	);
 	model->setGeometryColor(Constants::Planet_1::color());
 	axis->setGeometryColor(Constants::Planet_1::color());
@@ -101,7 +131,8 @@ void ShadedPlanets::init()
 			Constants::Planet_1::Moons::rotationSpeed,
 			Constants::Planet_1::Moons::tilt,
 			Constants::Planet_1::Moons::offset,
-			Constants::degreeCircle / Constants::Planet_1::Moons::nCenter * i
+			Constants::degreeCircle / Constants::Planet_1::Moons::nCenter * i,
+			Constants::Planet_1::Moons::startRotation
 		);
 		moon->drawAxis(false);
 		model->setGeometryColor(Constants::Planet_1::Moons::color());
@@ -113,7 +144,7 @@ void ShadedPlanets::init()
 	// Planet 2
 	model = new Sphere(*(shaders.at(0)), Constants::Planet_2::radius, Constants::stacks, Constants::slices, true);
 	axis = new Line(simple, -Constants::axisScale * (float)Constants::Planet_2::radius * Constants::yAxis(), Constants::axisScale * (float)Constants::Planet_2::radius * Constants::yAxis());
-	orbit = new Circle(simple, Constants::Planet_1::distance);
+	orbit = new Circle(simple, Constants::Planet_2::distance);
 	planet_2 = new SolarBody(
 		model,
 		axis,
@@ -123,7 +154,8 @@ void ShadedPlanets::init()
 		Constants::Planet_2::rotationSpeed,
 		Constants::Planet_2::tilt,
 		Constants::Planet_2::offset,
-		Constants::Planet_2::startAngle
+		Constants::Planet_2::startAngle,
+		Constants::Planet_2::startRotation
 	);
 	model->setGeometryColor(Constants::Planet_2::color());
 	axis->setGeometryColor(Constants::Planet_2::color());
@@ -143,7 +175,8 @@ void ShadedPlanets::init()
 			Constants::Planet_2::Moons::rotationSpeed,
 			Constants::Planet_2::Moons::tilt,
 			Constants::Planet_2::Moons::upperOffset,
-			Constants::degreeCircle / Constants::Planet_2::Moons::nUpper * i
+			Constants::degreeCircle / Constants::Planet_2::Moons::nUpper * i,
+			Constants::Planet_2::Moons::startRotation
 		);
 		moon->drawAxis(false);
 		model->setGeometryColor(Constants::Planet_2::Moons::color());
@@ -165,7 +198,8 @@ void ShadedPlanets::init()
 			Constants::Planet_2::Moons::rotationSpeed,
 			Constants::Planet_2::Moons::tilt,
 			Constants::Planet_2::Moons::centerOffset,
-			Constants::degreeCircle / Constants::Planet_2::Moons::nCenter * i
+			Constants::degreeCircle / Constants::Planet_2::Moons::nCenter * i,
+			Constants::Planet_2::Moons::startRotation
 		);
 		moon->drawAxis(false);
 		model->setGeometryColor(Constants::Planet_2::Moons::color());
@@ -187,7 +221,8 @@ void ShadedPlanets::init()
 			Constants::Planet_2::Moons::rotationSpeed,
 			Constants::Planet_2::Moons::tilt,
 			Constants::Planet_2::Moons::lowerOffset,
-			Constants::degreeCircle / Constants::Planet_2::Moons::nLower * i
+			Constants::degreeCircle / Constants::Planet_2::Moons::nLower * i,
+			Constants::Planet_2::Moons::startRotation
 		);
 		moon->drawAxis(false);
 		model->setGeometryColor(Constants::Planet_2::Moons::color());
@@ -199,6 +234,7 @@ void ShadedPlanets::init()
 	// Add planets to system
 	planetSystem->addSatellite(planet_1);
 	planetSystem->addSatellite(planet_2);
+
 }
 
 /// <summary>
@@ -210,7 +246,9 @@ void ShadedPlanets::init()
 void ShadedPlanets::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projection)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	planetSystem->render(model, view, projection, timeScaleFactor * getElapsedTime());
+	int elapsedTime = getElapsedTime();
+	planetSystem->render(model, view, projection, timeScaleFactor * elapsedTime);
+	ship->render(model, view, projection, timeScaleFactor * shipTimeScaleFactor * elapsedTime);
 }
 
 /// <summary>
@@ -267,6 +305,22 @@ void ShadedPlanets::increaseSpeed()
 void ShadedPlanets::decreaseSpeed()
 {
 	timeScaleFactor -= Constants::timeScaleStepSize;
+}
+
+/// <summary>
+/// Increases the ship speed.
+/// </summary>
+void ShadedPlanets::increaseShipSpeed()
+{
+	shipTimeScaleFactor += Constants::ship::timeScaleStepSize;
+}
+
+/// <summary>
+/// Decreases the ship speed.
+/// </summary>
+void ShadedPlanets::decreaseShipSpeed()
+{
+	shipTimeScaleFactor -= Constants::ship::timeScaleStepSize;
 }
 
 /// <summary>

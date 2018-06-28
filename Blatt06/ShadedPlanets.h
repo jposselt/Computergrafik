@@ -25,6 +25,8 @@ public:
 	void decreasePlanet2Tilt();
 	void increaseSpeed();
 	void decreaseSpeed();
+	void increaseShipSpeed();
+	void decreaseShipSpeed();
 	void rotateX(float value);
 	void rotateY(float value);
 	void rotateZ(float value);
@@ -38,8 +40,9 @@ private:
 	cg::GLSLProgram simple;
 	cg::GLSLProgram flat, gouraud, phong;
 	std::vector<cg::GLSLProgram*> shaders;
-	SolarBody *planetSystem, *planet_1, *planet_2;
+	SolarBody *planetSystem, *planet_1, *planet_2, *ship;
 	double timeScaleFactor;
+	double shipTimeScaleFactor;
 
 	int getElapsedTime();
 	
