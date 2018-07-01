@@ -403,6 +403,7 @@ void ShadedPlanets::switchShader()
 	static int index = 0;
 	index = (index + 1) % shaders.size();
 	planetSystem->setShader( *(shaders.at(index)) );
+	ship->setShader(*(shaders.at(index)));
 }
 
 /// <summary>
