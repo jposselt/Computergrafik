@@ -378,6 +378,15 @@ void ShadedPlanets::showBoundingBox(bool value)
 }
 
 /// <summary>
+/// Shows the ship normals.
+/// </summary>
+/// <param name="value">if set to <c>true</c> [value].</param>
+void ShadedPlanets::showShipNormals(bool value)
+{
+	ship->showVertexNormals(value);
+}
+
+/// <summary>
 /// Scales the main object.
 /// </summary>
 /// <param name="value">The value.</param>

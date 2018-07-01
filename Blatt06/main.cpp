@@ -93,6 +93,7 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 	static bool vertexNormals = false;
 	static bool faceNormals = false;
 	static bool boundingBox = false;
+	static bool shipNormals = false;
 	static bool positionLightNext = true;
 	static float zoomFactor = Constants::initialZoomFactor;
 	static float scale = Constants::initialObjectScale;
@@ -145,6 +146,10 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		break;
 	case 'F':
 		planets->increaseShipSpeed();
+		break;
+	case 'g':
+		shipNormals = !shipNormals;
+		planets->showShipNormals(shipNormals);
 		break;
 	case 'x':
 		planets->rotateX(Constants::manualRotationStep);

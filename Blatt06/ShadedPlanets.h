@@ -33,6 +33,7 @@ public:
 	void showVertexNormals(bool value);
 	void showFaceNormals(bool value);
 	void showBoundingBox(bool value);
+	void showShipNormals(bool value);
 	void scale(float value);
 	void switchShader();
 
