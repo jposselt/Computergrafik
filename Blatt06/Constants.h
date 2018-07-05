@@ -244,7 +244,7 @@ namespace Constants {
 		const double offset = 0.0;
 		const double startAngle = 0.0;
 		const double startRotation = 180.0;
-		const double scaleFactor = 0.4;
+		const double scaleFactor = 1.0;
 		const double timeScaleFactor = 1.0;
 		const double timeScaleStepSize = 0.5;
 	}

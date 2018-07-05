@@ -7,6 +7,8 @@ GeometryObject::GeometryObject(VertexArrayObject* geometry, VertexArrayObject* v
 	showGeo(true), showVN(false), showFN(false), showBox(false),
 	vertexNormalColor(Constants::defaultVNColor()), faceNormalColor(Constants::defaultFNColor()), boundsColor(Constants::defaultColor()), scaleFactor(1.0f)
 {
+	initOffset = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f));
+	initScale = glm::mat4(1.0f);
 }
 
 GeometryObject::GeometryObject(VertexArrayObject * geometry)
@@ -113,6 +115,10 @@ GeometryObject::GeometryObject(Mesh& mesh, cg::GLSLProgram& geoShader, cg::GLSLP
 	bIndices.push_back(2), bIndices.push_back(6);
 	bIndices.push_back(3), bIndices.push_back(7);
 
+	// Initial offset and scale
+	initOffset = glm::translate(glm::mat4(1.0f), glm::vec3(-(b.min_x + b.max_x) / 2.0f, -(b.min_y + b.max_y) / 2.0f, -(b.min_z + b.max_z) / 2.0f));
+	initScale = glm::scale(glm::mat4(1.0f), glm::vec3(4.0f / std::fmaxf(b.max_x - b.min_x, std::fmaxf(b.max_y - b.min_y, b.max_z - b.min_z))));
+
 	// Create vertex array objects
 	geometry = new VertexArrayObject(geoShader, true, GL_TRIANGLES);
 	geometry->init(geoVertices, geoNormals, geoColor, geoIndices);
@@ -149,7 +155,7 @@ GeometryObject::~GeometryObject()
 
 void GeometryObject::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projection)
 {
-	model = model * glm::scale( glm::mat4(1.0f), glm::vec3(scaleFactor));
+	model = model * glm::scale( glm::mat4(1.0f), glm::vec3(scaleFactor)) * initScale * initOffset;
 	if (geometry && showGeo) {
 		geometry->render(model, view, projection);
 	}

@@ -46,6 +46,9 @@ private:
 	glm::vec3 faceNormalColor;
 	glm::vec3 boundsColor;
 
+	glm::mat4 initOffset;
+	glm::mat4 initScale;
+
 	float scaleFactor;
 };
 
