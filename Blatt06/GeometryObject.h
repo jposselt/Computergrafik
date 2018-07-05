@@ -7,7 +7,7 @@ class GeometryObject
 public:
 	GeometryObject(VertexArrayObject* geometry, VertexArrayObject* vNormals, VertexArrayObject* fNormals, VertexArrayObject* bounds);
 	GeometryObject(VertexArrayObject* geometry);
-	GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLProgram& normalShader);
+	GeometryObject(Mesh& mesh, cg::GLSLProgram& geoShader, cg::GLSLProgram& normalShader);
 	~GeometryObject();
 
 	void render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 projection);

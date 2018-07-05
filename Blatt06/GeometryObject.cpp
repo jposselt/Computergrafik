@@ -14,7 +14,7 @@ GeometryObject::GeometryObject(VertexArrayObject * geometry)
 {
 }
 
-GeometryObject::GeometryObject(Mesh mesh, cg::GLSLProgram& geoShader, cg::GLSLProgram& normalShader)
+GeometryObject::GeometryObject(Mesh& mesh, cg::GLSLProgram& geoShader, cg::GLSLProgram& normalShader)
 	: showGeo(true), showVN(false), showFN(false), showBox(false),
 	vertexNormalColor(Constants::defaultVNColor()), faceNormalColor(Constants::defaultFNColor()), boundsColor(Constants::defaultColor()), scaleFactor(1.0f)
 {
