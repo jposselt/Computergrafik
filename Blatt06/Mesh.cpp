@@ -4,8 +4,31 @@ Mesh::Mesh()
 {
 }
 
+/// <summary>
+/// Finalizes an instance of the <see cref="Mesh"/> class.
+/// </summary>
 Mesh::~Mesh()
 {
+	for (int i = 0; i < vertices.size(); i++) {
+		if (vertices.at(i)) {
+			delete vertices.at(i);
+			vertices.at(i) = nullptr;
+		}
+	}
+
+	for (int i = 0; i < edges.size(); i++) {
+		if (edges.at(i)) {
+			delete edges.at(i);
+			edges.at(i) = nullptr;
+		}
+	}
+
+	for (int i = 0; i < faces.size(); i++) {
+		if (faces.at(i)) {
+			delete faces.at(i);
+			faces.at(i) = nullptr;
+		}
+	}
 }
 
 /// <summary>
