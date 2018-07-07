@@ -4,7 +4,7 @@
 #include "Constants.h"
 
 VertexArrayObject::VertexArrayObject(cg::GLSLProgram& prog, bool useLighting, GLenum mode)
-	: program(prog), lighting(useLighting), mode(mode), indexCount(0),
+	: program(prog), lighting(useLighting), mode(mode), indexCount(0), texture(false),
 	material(Constants::defaultMaterial()), shininess(Constants::defaultShininess)
 {
 	glGenVertexArrays(1, &vao);
@@ -24,19 +24,21 @@ VertexArrayObject::~VertexArrayObject()
 	glDeleteBuffers(1, &positionBuffer);
 }
 
-void VertexArrayObject::init(std::vector<glm::vec3>& vertices, std::vector<glm::vec3>& normals, std::vector<glm::vec3>& colors, std::vector<GLuint>& indices)
+void VertexArrayObject::init(std::vector<glm::vec3>& vertices, std::vector<glm::vec3>& normals, std::vector<glm::vec3>& colors, std::vector<glm::vec2>& texCoords, std::vector<GLuint>& indices)
 {
 	setVertices(vertices);
 	setNormals(normals);
 	setColors(colors);
+	setTextures(texCoords);
 	setIndices(indices);
 }
 
-void VertexArrayObject::init(std::vector<glm::vec3>& vertices, std::vector<glm::vec3>& normals, glm::vec3& color, std::vector<GLuint>& indices)
+void VertexArrayObject::init(std::vector<glm::vec3>& vertices, std::vector<glm::vec3>& normals, glm::vec3& color, std::vector<glm::vec2>& texCoords, std::vector<GLuint>& indices)
 {
 	setVertices(vertices);
 	setNormals(normals);
 	setUniColor(color);
+	setTextures(texCoords);
 	setIndices(indices);
 }
 
@@ -54,6 +56,10 @@ void VertexArrayObject::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 
 		program.setUniform("shininess", shininess);
 	}
 
+	if (texture) {
+		program.setUniform("useTexture", false);
+	}
+
 	// Bind vertex array object so we can render the primitives.
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
@@ -64,7 +70,12 @@ void VertexArrayObject::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 
 
 void VertexArrayObject::useLighting(bool lighting)
 {
-	lighting = lighting;
+	VertexArrayObject::lighting = lighting;
+}
+
+void VertexArrayObject::useTexture(bool value)
+{
+	VertexArrayObject::texture = value;
 }
 
 void VertexArrayObject::setMode(GLenum mode)
@@ -107,6 +118,13 @@ void VertexArrayObject::setNormals(std::vector<glm::vec3> normals)
 	}
 }
 
+void VertexArrayObject::setTextures(std::vector<glm::vec2> texCoords)
+{
+	if (texCoords.size() > 0) {
+		createAndBindBuffer(textureBuffer, "texCoord", texCoords.data(), texCoords.size() * sizeof(glm::vec2));
+	}
+}
+
 void VertexArrayObject::setIndices(std::vector<GLuint> indices)
 {
 	glBindVertexArray(vao);
@@ -144,6 +162,28 @@ void VertexArrayObject::createAndBindBuffer(GLuint & buffer, const char * name, 
 	pos = glGetAttribLocation(programId, name);
 	glEnableVertexAttribArray(pos);
 	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+	// Unbind vertex array object (back to default).
+	glBindVertexArray(0);
+}
+
+void VertexArrayObject::createAndBindBuffer(GLuint & buffer, const char * name, glm::vec2 * data, size_t size)
+{
+	GLuint programId = program.getHandle();
+	GLuint pos;
+
+	// Bind vertex array object
+	glBindVertexArray(vao);
+
+	// Create vertex buffer object
+	glGenBuffers(1, &buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, buffer);
+	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+
+	// Bind it
+	pos = glGetAttribLocation(programId, name);
+	glEnableVertexAttribArray(pos);
+	glVertexAttribPointer(pos, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 	// Unbind vertex array object (back to default).
 	glBindVertexArray(0);

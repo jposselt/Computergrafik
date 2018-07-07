@@ -22,6 +22,7 @@ GeometryObject::GeometryObject(Mesh& mesh, cg::GLSLProgram& geoShader, cg::GLSLP
 {
 	std::vector<glm::vec3> geoVertices;
 	std::vector<glm::vec3> geoNormals;
+	std::vector<glm::vec2> texCoords;
 	std::vector<GLuint> geoIndices;
 	glm::vec3 geoColor = Constants::defaultColor();
 	unsigned int geoCounter = 0;
@@ -48,6 +49,7 @@ GeometryObject::GeometryObject(Mesh& mesh, cg::GLSLProgram& geoShader, cg::GLSLP
 			// Add position and normal of the current vertex
 			geoVertices.push_back( e->vert->position );
 			geoNormals.push_back( e->normal );
+			texCoords.push_back( e->uv );
 
 			// Add indices for triangle fan
 			if ( e->next->next != face->edge ) {
@@ -74,6 +76,7 @@ GeometryObject::GeometryObject(Mesh& mesh, cg::GLSLProgram& geoShader, cg::GLSLP
 		// Add position and normal of the last vertex
 		geoVertices.push_back(e->vert->position);
 		geoNormals.push_back(e->normal);
+		texCoords.push_back(e->uv);
 
 		// Add start and endpoint of last vertex normal to list
 		vnVertices.push_back(e->vert->position);
@@ -121,7 +124,7 @@ GeometryObject::GeometryObject(Mesh& mesh, cg::GLSLProgram& geoShader, cg::GLSLP
 
 	// Create vertex array objects
 	geometry = new VertexArrayObject(geoShader, true, GL_TRIANGLES);
-	geometry->init(geoVertices, geoNormals, geoColor, geoIndices);
+	geometry->init(geoVertices, geoNormals, geoColor, texCoords, geoIndices);
 
 	vNormals = new VertexArrayObject(normalShader, false, GL_LINES);
 	vNormals->setVertices(vnVertices);
