@@ -60,6 +60,9 @@
     <ClCompile Include="ShadedPlanets.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="TextureObject.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Face.h">
@@ -108,6 +111,12 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="ShadedPlanets.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureObject.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
