@@ -17,6 +17,10 @@ uniform vec3 material;      // Specular/diffuse/ambient reflection constants for
 uniform float shininess;    // shininess constant for the material
 uniform bool useTexture;    // Object uses a texture
 
+uniform vec3 origin;
+uniform vec3 centerAxis;
+uniform bool calcTC;
+
 flat out vec3 fragmentColor;
 out vec3 diffuseColor;
 out vec2 fragTexCoord;
@@ -52,6 +56,11 @@ void main()
 	}
 	
 	diffuseColor = directLight * color * sDotN;
-	fragTexCoord = texCoord;
 	gl_Position = mvp * vec4(position,  1.0);
+
+	if (calcTC) {
+		fragTexCoord = vec3(origin + centerAxis).xy; // Dummy
+	} else {
+		fragTexCoord = texCoord;
+	}
 }

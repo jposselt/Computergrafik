@@ -4,7 +4,7 @@
 #include "Constants.h"
 
 VertexArrayObject::VertexArrayObject(cg::GLSLProgram& prog, bool useLighting, GLenum mode)
-	: program(prog), lighting(useLighting), mode(mode), indexCount(0), texture(false),
+	: program(prog), lighting(useLighting), mode(mode), indexCount(0), texture(false), calculateTexCoords(false),
 	material(Constants::defaultMaterial()), shininess(Constants::defaultShininess)
 {
 	glGenVertexArrays(1, &vao);
@@ -61,6 +61,16 @@ void VertexArrayObject::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 
 	// Bind texture object to unit GL_TEXTURE0
 	if (texture) {
 		textureObj.use();
+	}
+
+	// Use cylinder projection for texture coordinates
+	if (calculateTexCoords) {
+		program.setUniform("calcTC", true);
+		program.setUniform("origin", origin);
+		program.setUniform("centerAxis", centerAxis);
+	}
+	else {
+		program.setUniform("calcTC", false);
 	}
 
 	// Bind vertex array object so we can render the primitives.
@@ -154,6 +164,17 @@ void VertexArrayObject::setTexture(std::string texFile)
 	textureObj.initTexture(texFile);
 	program.use();
 	program.setUniform("imgTexture", 0);
+}
+
+void VertexArrayObject::setProjectionCylinder(glm::vec3 origin, glm::vec3 centerAxis)
+{
+	this->origin = origin;
+	this->centerAxis = centerAxis;
+}
+
+void VertexArrayObject::calcTexCoords(bool value)
+{
+	calculateTexCoords = value;
 }
 
 GLint VertexArrayObject::getVertexCount()

@@ -26,6 +26,8 @@ public:
 	void setTexCoords(std::vector<glm::vec2> texCoords);
 	void setIndices(std::vector<GLuint> indices);
 	void setTexture(std::string texFile);
+	void setProjectionCylinder(glm::vec3 origin, glm::vec3 centerAxis);
+	void calcTexCoords(bool value);
 	GLint getVertexCount();
 
 protected:
@@ -57,6 +59,10 @@ private:
 
 	/* Object uses texture */
 	bool texture;
+
+	/* Texture coordinates by cylinder projection */
+	bool calculateTexCoords;
+	glm::vec3 origin, centerAxis;
 
 	/* Material properties */
 	glm::vec3 material;

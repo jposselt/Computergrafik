@@ -5,12 +5,13 @@ in vec3 color;
 
 uniform mat4 mvp;
 uniform bool useTexture;
+uniform bool calcTC;
 
 out vec3 fragmentColor;
 
 void main()
 {
-	if(!useTexture) {
+	if(!useTexture && !calcTC) {
 		fragmentColor = color;
 		gl_Position   = mvp * vec4(position,  1.0);
 	}

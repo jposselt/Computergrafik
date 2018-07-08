@@ -30,6 +30,7 @@ public:
 	void setMaterial(glm::vec3 material, float shininess);
 	void useLighting(bool value);
 	void useTexture(std::string texFile);
+	void calcTexCoords(glm::vec3 origin, glm::vec3 centerAxis);
 	void scale(float value);
 
 private:

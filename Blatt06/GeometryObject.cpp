@@ -283,6 +283,12 @@ void GeometryObject::useTexture(std::string texFile)
 	geometry->setTexture(texFile);
 }
 
+void GeometryObject::calcTexCoords(glm::vec3 origin, glm::vec3 centerAxis)
+{
+	geometry->calcTexCoords(true);
+	geometry->setProjectionCylinder(origin, centerAxis);
+}
+
 void GeometryObject::scale(float value)
 {
 	scaleFactor = value;
