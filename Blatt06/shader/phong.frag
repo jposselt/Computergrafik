@@ -3,6 +3,10 @@
 in vec3 outColor;
 smooth in vec3 n;
 smooth in vec3 surfacePos;
+in vec2 fragTexCoord;
+
+uniform sampler2D imgTexture;
+uniform bool useTexture;
 
 uniform vec4 lightPosition;  // Position/Direction of the light source
 uniform vec3 ambientLight;   // Intensities of the ambient light
@@ -30,7 +34,15 @@ void main()
 	vec3 r = normalize(reflect( surfaceToLight, n ));
 
 	float sDotN = max( dot( surfaceToLight, n ), 0.0 );
-	vec3 diffuse = material.x * directLight * outColor * sDotN;
+
+	vec3 diffuse;
+	if(useTexture) {
+		diffuse = texture(imgTexture, fragTexCoord).xyz * directLight * outColor * sDotN;
+	}
+	else {
+		diffuse = material.y * directLight * outColor * sDotN;
+	}
+
 	vec3 spec = material.y * directLight * pow( max( 0.0, dot(r,v) ), shininess );
 	vec3 amb = material.z * ambientLight * outColor;
 

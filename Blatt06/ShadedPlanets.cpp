@@ -45,9 +45,9 @@ void ShadedPlanets::init()
 	initShader(phong, Constants::phongVertexShader, Constants::phongFragmentShader);
 
 	// List of available shaders
-	//shaders.push_back(&flat);
+	shaders.push_back(&flat);
 	shaders.push_back(&gouraud);
-	//shaders.push_back(&phong);
+	shaders.push_back(&phong);
 
 	// Temporary variables
 	GeometryObject *model, *axis, *orbit;
