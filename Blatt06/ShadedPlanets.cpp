@@ -61,6 +61,7 @@ void ShadedPlanets::init()
 	//MeshAnalyser::analyse(shipMesh);
 	model = new GeometryObject(shipMesh, *(shaders.at(0)), simple);
 	model->scale(Constants::ship::scaleFactor);
+	model->useTexture(Constants::ship::texture);
 	axis = nullptr;
 	orbit = new Circle(simple, Constants::ship::distance);
 	ship = new SolarBody(
@@ -233,8 +234,8 @@ void ShadedPlanets::init()
 	}
 
 	// Add planets to system
-	//planetSystem->addSatellite(planet_1);
-	//planetSystem->addSatellite(planet_2);
+	planetSystem->addSatellite(planet_1);
+	planetSystem->addSatellite(planet_2);
 
 }
 
@@ -249,7 +250,7 @@ void ShadedPlanets::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 proj
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	int elapsedTime = getElapsedTime();
 	planetSystem->render(model, view, projection, timeScaleFactor * elapsedTime);
-	//ship->render(model, view, projection, timeScaleFactor * shipTimeScaleFactor * elapsedTime);
+	ship->render(model, view, projection, timeScaleFactor * shipTimeScaleFactor * elapsedTime);
 }
 
 /// <summary>

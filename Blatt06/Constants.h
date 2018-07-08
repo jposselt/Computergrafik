@@ -248,6 +248,7 @@ namespace Constants {
 		const double scaleFactor = 1.0;
 		const double timeScaleFactor = 1.0;
 		const double timeScaleStepSize = 0.5;
+		const std::string texture = "texture/chessboard.jpg";
 	}
 
 }
