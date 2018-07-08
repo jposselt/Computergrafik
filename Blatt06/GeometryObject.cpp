@@ -277,6 +277,12 @@ void GeometryObject::useLighting(bool value)
 	geometry->useLighting(value);
 }
 
+void GeometryObject::useTexture(std::string texFile)
+{
+	geometry->useTexture(true);
+	geometry->setTexture(texFile);
+}
+
 void GeometryObject::scale(float value)
 {
 	scaleFactor = value;

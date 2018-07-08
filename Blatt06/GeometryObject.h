@@ -29,6 +29,7 @@ public:
 	void setBoundsColor(glm::vec3 color);
 	void setMaterial(glm::vec3 material, float shininess);
 	void useLighting(bool value);
+	void useTexture(std::string texFile);
 	void scale(float value);
 
 private:

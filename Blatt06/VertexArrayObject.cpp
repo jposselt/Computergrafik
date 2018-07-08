@@ -29,7 +29,7 @@ void VertexArrayObject::init(std::vector<glm::vec3>& vertices, std::vector<glm::
 	setVertices(vertices);
 	setNormals(normals);
 	setColors(colors);
-	setTextures(texCoords);
+	setTexCoords(texCoords);
 	setIndices(indices);
 }
 
@@ -38,7 +38,7 @@ void VertexArrayObject::init(std::vector<glm::vec3>& vertices, std::vector<glm::
 	setVertices(vertices);
 	setNormals(normals);
 	setUniColor(color);
-	setTextures(texCoords);
+	setTexCoords(texCoords);
 	setIndices(indices);
 }
 
@@ -56,8 +56,11 @@ void VertexArrayObject::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 
 		program.setUniform("shininess", shininess);
 	}
 
+	program.setUniform("useTexture", texture);
+
+	// Bind texture object to unit GL_TEXTURE0
 	if (texture) {
-		program.setUniform("useTexture", false);
+		textureObj.use();
 	}
 
 	// Bind vertex array object so we can render the primitives.
@@ -66,6 +69,12 @@ void VertexArrayObject::render(glm::mat4x4 model, glm::mat4x4 view, glm::mat4x4 
 
 	glDrawElements(mode, indexCount, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+
+	// Unbind texture object to unit GL_TEXTURE0
+	if (texture) {
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 }
 
 void VertexArrayObject::useLighting(bool lighting)
@@ -118,7 +127,7 @@ void VertexArrayObject::setNormals(std::vector<glm::vec3> normals)
 	}
 }
 
-void VertexArrayObject::setTextures(std::vector<glm::vec2> texCoords)
+void VertexArrayObject::setTexCoords(std::vector<glm::vec2> texCoords)
 {
 	if (texCoords.size() > 0) {
 		createAndBindBuffer(textureBuffer, "texCoord", texCoords.data(), texCoords.size() * sizeof(glm::vec2));
@@ -138,6 +147,13 @@ void VertexArrayObject::setIndices(std::vector<GLuint> indices)
 	glBindVertexArray(0);
 
 	indexCount = indices.size();
+}
+
+void VertexArrayObject::setTexture(std::string texFile)
+{
+	textureObj.initTexture(texFile);
+	program.use();
+	program.setUniform("imgTexture", 0);
 }
 
 GLint VertexArrayObject::getVertexCount()

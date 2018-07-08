@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GLSLProgram.h"
+#include "TextureObject.h"
 
 class VertexArrayObject
 {
@@ -22,13 +23,16 @@ public:
 	void setColors(std::vector<glm::vec3> colors);
 	void setUniColor(glm::vec3 color);
 	void setNormals(std::vector<glm::vec3> normals);
-	void setTextures(std::vector<glm::vec2> texCoords);
+	void setTexCoords(std::vector<glm::vec2> texCoords);
 	void setIndices(std::vector<GLuint> indices);
+	void setTexture(std::string texFile);
 	GLint getVertexCount();
 
 protected:
 	/* Shader program */
 	cg::GLSLProgram program;
+
+	TextureObject textureObj;
 
 private:
 	void createAndBindBuffer(GLuint& buffer, const char* name, glm::vec3* data, size_t size);

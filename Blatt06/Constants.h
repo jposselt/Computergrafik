@@ -16,8 +16,8 @@ namespace Constants {
 	const std::string phongFragmentShader = "shader/phong.frag";
 
 	/* Object file */
-	const std::string objFile = "obj/A4_testcube2_mitSpitze.obj";
-	//const std::string objFile = "obj/Spaceship.obj";
+	//const std::string objFile = "obj/A4_testcube2_mitSpitze.obj";
+	const std::string objFile = "obj/Spaceship.obj";
 	//const std::string objFile = "obj/stanford_bunny_closed.obj";
 
 	/* Object scaling */
@@ -162,6 +162,7 @@ namespace Constants {
 			static glm::vec3 color = glm::vec3(1.0f, 1.0f, 0.0f);
 			return color;
 		}
+		const std::string texture = "texture/chessboard.jpg";
 	}
 
 	/* Constants for the first planet */
