@@ -28,7 +28,7 @@ namespace Constants {
 
 	/* Initial viewpoint */
 	inline glm::vec3 const &eye() {
-		static glm::vec3 eye = glm::vec3(0.0f, 30.0f, 30.0f);
+		static glm::vec3 eye = glm::vec3(0.0f, 0.0f, 30.0f);
 		return eye;
 	}
 
@@ -162,13 +162,14 @@ namespace Constants {
 			static glm::vec3 color = glm::vec3(1.0f, 1.0f, 0.0f);
 			return color;
 		}
-		const std::string texture = "texture/chessboard.jpg";
+		//const std::string texture = "texture/chessboard.jpg";
+		const std::string texture = "texture/cocauv.jpg";
 		inline glm::vec3 const &projCylinderOrigin() {
-			static glm::vec3 origin = glm::vec3(0.0f, 0.0f, 0.0f);
+			static glm::vec3 origin = glm::vec3(0.0f, -2.0f, 0.0f);
 			return origin;
 		}
 		inline glm::vec3 const &projCylinderCenterAxis() {
-			static glm::vec3 centerAxis = glm::vec3(1.0f, 0.0f, 0.0f);
+			static glm::vec3 centerAxis = glm::vec3(0.0f, 4.0f, 0.0f);
 			return centerAxis;
 		}
 	}
