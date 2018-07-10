@@ -18,6 +18,7 @@ uniform float shininess;    // shininess constant for the material
 uniform bool useTexture;    // Object uses a texture
 
 out vec3 fragmentColor;
+out vec3 fragmentPosition;
 out vec3 diffuseColor;
 out vec2 fragTexCoord;
 
@@ -53,5 +54,6 @@ void main()
 	
 	diffuseColor = directLight * color * sDotN;
 	fragTexCoord = texCoord;
+	fragmentPosition = position;
 	gl_Position = mvp * vec4(position,  1.0);
 }

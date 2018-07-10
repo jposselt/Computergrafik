@@ -12,6 +12,7 @@ uniform mat3 nm;    // normal matrix
 out vec3 outColor;
 smooth out vec3 n;
 smooth out vec3 surfacePos;
+out vec3 fragmentPosition;
 out vec2 fragTexCoord;
 
 void main()
@@ -20,5 +21,6 @@ void main()
 	surfacePos = vec3(model * vec4(position, 1));
 	outColor = color;
 	fragTexCoord = texCoord;
+	fragmentPosition = position;
 	gl_Position   = mvp * vec4(position,  1.0);
 }
